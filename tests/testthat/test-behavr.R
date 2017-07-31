@@ -10,11 +10,11 @@ test_that("[] works", {
   expect_identical(d[], d)
   expect_identical(attr(d[], "metadata"), met)
 
-  expect_identical(d[t<50]@.Data, data[t<50]@.Data)
+  expect_identical(d[t<50], behavr(data[t<50],met))
   expect_identical(attr(d[t<50], "metadata"), met)
 
   d[, t:=t+1]
-  expect_identical(d@.Data, data@.Data) # we modified the reference, so data is changed too
+  expect_identical(d$t, data$t) # we modified the reference, so data is changed too
   expect_identical(d$t,rep(t,5) + 1)
   expect_identical(attr(d, "metadata"), met)
 
