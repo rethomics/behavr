@@ -78,15 +78,36 @@ behavr <- function(x, metadata){
 #' # meta(d)[, treatment := interaction(condition,sex)]
 #' @seealso [behavr] to generate a `behavr` object, [xmd] to map metadata variables to data
 #' @export
+#' @name meta
 meta <- function(x){
   attr(x,"metadata")
 }
+#' @param new a new metadata table
+#' @rdname meta
+#' @export
+setmeta <- function(x,new){
+  check_conform(x, new)
+  data.table::setattr(x,"metadata",new)
+}
+
 
 #' @export
 #' @noRd
-"[.behavr" <- function(x, ...){
+"[.behavr" <- function(x, ..., meta=FALSE){
 
- out <- NextMethod()
+  if(meta==TRUE){
+    m <- data.table::copy(meta(x))
+    old_key <- data.table::key(m)
+    out <- m[...]
+    if(!identical(old_key, data.table::key(out)))
+       stop("You are trying to modify metadata in a way that removes its key. This is not allowed!")
+    data.table::setattr(x,"metadata",m)
+    return(out)
+  }
+
+  else{
+    out <- NextMethod()
+  }
 
  # coerce to DT if not conform
  if(!identical(data.table::key(out),data.table::key(x))){
@@ -99,4 +120,11 @@ meta <- function(x){
   #check_conform(out)
  }
 }
-
+# d[id==1,meta=T]
+# meta(d)
+# d[, test:=NULL,meta=T]
+# d[, x :=2,meta=T]
+# d[sex=="M",meta=T]
+#
+# chec
+# setmeta(d,meta(d))

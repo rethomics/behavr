@@ -2,12 +2,17 @@
 % Please edit documentation in R/behavr.R
 \name{meta}
 \alias{meta}
+\alias{setmeta}
 \title{Retreive metadata}
 \usage{
 meta(x)
+
+setmeta(x, new)
 }
 \arguments{
 \item{x}{a \link{behavr} object}
+
+\item{new}{a new metadata table}
 }
 \value{
 a \link{data.table} representing the metadata in \code{x}

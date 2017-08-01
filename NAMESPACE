@@ -3,6 +3,7 @@
 S3method("[",behavr)
 export(behavr)
 export(meta)
+export(setmeta)
 export(xmd)
 importFrom(data.table,data.table)
 importFrom(methods,setOldClass)

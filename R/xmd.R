@@ -36,12 +36,13 @@
 #' print(dt)
 #' @export
 xmd <- function(var){
+  #todo stop when called not from DT[<here>]
   d <- get("x",envir=parent.frame(n=3))
   #check_consistency(d)
   var <- deparse(substitute(var))
   md <- meta(d)
   col <- md[,c(data.table::key(md),var), with=F]
-  join <- d[,data.table::key(md),with=F][col]
+  join <- col[d[,data.table::key(md),with=F]]
   join[[var]]
 }
 
