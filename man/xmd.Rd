@@ -31,11 +31,12 @@ data <- data.table(
                    x = rnorm(36), key="id"
                    )
 
-metadata = data.table(id=c("A","B"), treatment=c("w","z"), lifespan=c(19,32), ref_x=c(1,0))
+metadata = data.table(id=c("A","B"), treatment=c("w","z"), lifespan=c(19,32), ref_x=c(1,0),key="id")
 dt <- behavr(data,metadata)
 summary(dt)
 
 #### subseting using metadata
+dt[xmd(treatment) == "w"]
 dt[xmd(treatment) == "w"]
 dt[xmd(lifespan) < 30]
 

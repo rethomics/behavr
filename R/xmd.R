@@ -18,11 +18,12 @@
 #'                    x = rnorm(36), key="id"
 #'                    )
 #'
-#' metadata = data.table(id=c("A","B"), treatment=c("w","z"), lifespan=c(19,32), ref_x=c(1,0))
+#' metadata = data.table(id=c("A","B"), treatment=c("w","z"), lifespan=c(19,32), ref_x=c(1,0),key="id")
 #' dt <- behavr(data,metadata)
 #' summary(dt)
 #'
 #' #### subseting using metadata
+#' dt[xmd(treatment) == "w"]
 #' dt[xmd(treatment) == "w"]
 #' dt[xmd(lifespan) < 30]
 #'
@@ -35,11 +36,12 @@
 #' print(dt)
 #' @export
 xmd <- function(var){
-  mc <- match.call(envir = parent.frame(n=2))
-  # todo check we call from within a [] env
   d <- get("x",envir=parent.frame(n=3))
+  #check_consistency(d)
   var <- deparse(substitute(var))
   md <- meta(d)
-  col <- md[,c("id",var), with=F]
-  d[,.(id)][col][, var, with=F][[1]]
+  col <- md[,c(data.table::key(md),var), with=F]
+  join <- d[,data.table::key(md),with=F][col]
+  join[[var]]
 }
+
