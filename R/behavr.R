@@ -85,10 +85,18 @@ meta <- function(x){
 #' @export
 #' @noRd
 "[.behavr" <- function(x, ...){
-  check_conform(x)
+
  out <- NextMethod()
- # todo. here coerce to DT if not conform
- data.table::setattr(out,"metadata",meta(x))
- data.table::setattr(out,"class",c("behavr","data.table","data.frame"))
+
+ # coerce to DT if not conform
+ if(!identical(data.table::key(out),data.table::key(x))){
+   data.table::setattr(out,"metadata",NULL)
+   data.table::setattr(out,"class",c("data.table","data.frame"))
+ }
+ else{
+  data.table::setattr(out,"metadata",meta(x))
+  data.table::setattr(out,"class",c("behavr","data.table","data.frame"))
+  #check_conform(out)
+ }
 }
 
