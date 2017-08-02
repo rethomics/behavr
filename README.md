@@ -172,7 +172,7 @@ print(dt[xmd(sex) == "M"])
     ## 299:  3  99  0.9047050  0.65505200   TRUE  1.5597570
     ## 300:  3 100 -0.7630863 -0.30450884  FALSE -1.0675951
 
-This also works if we need to compute a data variable according to metadata. This is often the case when we need to standardise the positions or time compared to a reference which is in the metadata. In this example, we want to express t relative to `t` to `t0` (`t = t-t0`). So we expand `t0`, with `xmd()`:
+This also works if we need to compute a data variable according to metadata. This is often the case when we need to standardise the positions or time compared to a reference, which is in the metadata. In this example, we want to express `t` relatively `t0` (`t = t-t0`). So we expand `t0`, with `xmd()`:
 
 ``` r
 dt[, t := t - xmd(t0)]
