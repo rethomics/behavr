@@ -1,22 +1,19 @@
 
-behavr [![Travis-CI Build Status](https://travis-ci.org/rethomics/behavr.svg?branch=master)](https://travis-ci.org/rethomics/behavr)
-====================================================================================================================================
+`behavr` [![Travis-CI Build Status](https://travis-ci.org/rethomics/behavr.svg?branch=master)](https://travis-ci.org/rethomics/behavr)
+======================================================================================================================================
 
 <!-- [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/hms?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/hms)  -->
 <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/hms/master.svg)](https://codecov.io/github/tidyverse/hms?branch=master) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hms)](https://cran.r-project.org/package=hms) -->
-Behavr
-======
+Data structure for high-throughput biological experiments
+---------------------------------------------------------
 
-Data structure for high-throughput biological experiments.
-----------------------------------------------------------
+As behavioural biologists, we are often interested in recording behaviour of multiple animals. In our context, the *data* is a collection of recordings (i.e. time series) with often several variables (e.g. time, position, activity, ...). In addition to these recorded data, each animal may have different -- sometimes many -- experimental condition (e.g. age, sex, genotype, treatment, ...). These are also known as *metadata*.
 
-As behavioural biologists, we are often interested in recording behaviour of multiple animals. In our context, the *data* is a collection of recordings (i.e. time series) with often several variables (e.g. time, position, activity, ...). In addition to these recorded data, each animal may have different -- sometimes many -- experimental condition (e.g. age, sex, genetype, treatment, ...). These are also known as *metadata*.
+During analysis of behaviour, it is very convenient to be able to **use both data and metadata together** in order to subset the data, alter or create new variables, and compute summary statistics. A natural approach would be to store data as a `data.frame` with one row per measurement and one column per variable, repeat the metadata as many time as there are reads, and put all the animals in the same data structure. Even though this is very convenient, in practice, it takes a lot of memory (because of the redundant metadata)!
 
-During analysis of behaviour, it is very convenient to be able to **use both data and metadata together** in order to subset the data, alter or create new variables, and compute summary statistics. A natural apporach would be to store data as a `data.frame` with one row per measurment and one column per variable, repeat the metadata as many time as there are reads, and put all the animals in the same data structure. Even though this is very convenient, in practice, it takes a lot of memory (because of the redundant metadata)!
+Alternatively, one could keep data and metadata separated, and perform joins manually every time. However, this quickly becomes error prone, as metadata and data are not in the same structure. In addition, the cognitive burden is quite large too.
 
-Alternatively, one could keep data and metadata separated, and perform joins manually everytime. However, this quickly becomes error prones, as metadata and data are not in the same structure. In addition, the cognitive burden is quite large too.
-
-This package tries to solve this issue by offering a new data structure deries from `data.table`.
+This package tries to solve this issue by offering a new data structure derives from `data.table`.
 
 Instalation
 -----------
@@ -29,7 +26,7 @@ install_github("rethomics/behavr")
 First steps
 -----------
 
-Lets create some toy data. Five animals, 100 reads (`t`, `x` ,`y` ,`eating`) per animal. **Both metadata and data must have the same key** (here, the column `id`).
+Let us create some toy data. Five animals, 100 reads (`t`, `x` ,`y` ,`eating`) per animal. **Both metadata and data must have the same key** (here, the column `id`).
 
 ``` r
 library(data.table)
@@ -103,12 +100,12 @@ summary(dt)
     ##                 
     ## 
 
-Examples of what we can do with behavr
---------------------------------------
+Examples of what we can do with `behavr`
+----------------------------------------
 
 ### Adding new variables
 
-This works just like in `data.table`
+This works just like in `data.table`:
 
 ``` r
 dt[, z := x+y]
@@ -130,7 +127,7 @@ print(dt)
 
 ### Filtering using variable
 
-Again like in `data.table`
+Again like in `data.table`:
 
 ``` r
 print(dt[t < 50])
@@ -148,6 +145,11 @@ print(dt[t < 50])
     ## 243:  5 47  0.7420818 -0.90399345  FALSE -0.1619117
     ## 244:  5 48  0.1475734 -0.39041842   TRUE -0.2428450
     ## 245:  5 49  0.4853886  0.81406342   TRUE  1.2994520
+
+``` r
+# if we wanted to reasign:
+# dt <- dt[t<50]
+```
 
 ### Using metadata **in** data
 
@@ -173,17 +175,6 @@ print(dt[xmd(sex) == "M"])
 This also works if we need to compute a data variable according to metadata. This is often the case when we need to standardise the positions or time compared to a reference which is in the metadata. In this example, we want to express t relative to `t` to `t0` (`t = t-t0`). So we expand `t0`, with `xmd()`:
 
 ``` r
-dt[meta=T]
-```
-
-    ##    id condition sex  t0
-    ## 1:  1         a   M 100
-    ## 2:  2         b   M   2
-    ## 3:  3         c   M -50
-    ## 4:  4         d   F 300
-    ## 5:  5         e   F  21
-
-``` r
 dt[, t := t - xmd(t0)]
 print(dt)
 ```
@@ -203,7 +194,7 @@ print(dt)
 
 ### Accessing the metadata
 
-Metadata is another `data.table` "inside" `dt`. To perform opperations on the metadata, one can use `meta=TRUE` within the `[]` operator of `dt`: So, to see the metadata:
+Metadata is another `data.table` "inside" `dt`. To perform operations on the metadata, one can use `meta=TRUE` within the `[]` operator of `dt`. So, to see the metadata:
 
 ``` r
 dt[meta=T]
@@ -227,9 +218,9 @@ dt[id>2 ,meta=T]
     ## 2:  4         d   F 300
     ## 3:  5         e   F  21
 
-Note that this does not alter the metadata, it shows a filtered copy.
+Note that this does not alter the metadata, it only shows a filtered copy.
 
-Most importantly, we can alter the metadata inline, for instance compute new columns (meta-variables). Here, we combine `sex` and `condition` as a `treatment`:
+More importantly, we can alter the metadata inline, for instance compute new columns (i.e. meta-variables). Here, we combine `sex` and `condition` as a `treatment`:
 
 ``` r
 dt[, treatment:=interaction(condition,sex), meta=T]
@@ -263,7 +254,7 @@ print(summary_dt)
     ## 4:  4  0.11016320        0.46
     ## 5:  5  0.03277037        0.52
 
-Now, we can **rejoin** the metadata. That is we can reunite the metadata to summary data:
+Now, we can **rejoin** the metadata. That is, we can reunite the metadata to summary data:
 
 ``` r
 summary_all <- rejoin(summary_dt)
