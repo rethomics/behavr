@@ -151,7 +151,7 @@ print(dt[t < 50])
 # dt <- dt[t<50]
 ```
 
-### Using metadata **in** data
+### Using meta variable
 
 Say you want to get the **data** for all males only. If `sex` was a column of `dt`, we could just do `dt[sex=="M"]` Instead, `sex` is in metadata, so we need to **expand** it, using `xmd()`
 
