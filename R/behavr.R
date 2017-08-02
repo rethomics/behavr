@@ -1,7 +1,3 @@
-# @importFrom methods setOldClass
-#setOldClass(c("hms", "difftime"))
-
-#library(data.table)
 #' @importFrom data.table data.table
 #' @importFrom methods setOldClass
 setOldClass(c("behavr", "data.table"))
@@ -17,9 +13,8 @@ setOldClass(c("behavr", "data.table"))
 #'                               condition=letters[1:5],
 #'                               sex=c("M","M","M","F", "F"),
 #'                               key="id")
-#' t <- hms::as.hms(1L:100L)
 #' data <- met[  ,
-#'               list(t=t,
+#'               list(t=1L:100L,
 #'                   x=rnorm(100),
 #'                   y=rnorm(100),
 #'                   eating=runif(100) > .5 ),
@@ -46,48 +41,6 @@ behavr <- function(x, metadata){
   data.table::setattr(out,"metadata",m)
   data.table::setattr(out,"class",c("behavr","data.table","data.frame"))
   return(out)
-}
-
-#' Retreive metadata
-#'
-#' This function returns the meta data from a [behavr] object
-#' @param x a [behavr] object
-#' @return a [data.table] representing the metadata in `x`
-#' @examples
-#' set.seed(1)
-#' met <- data.table::data.table(id = 1:5,
-#'                               condition=letters[1:5],
-#'                               sex=c("M","M","M","F", "F"),
-#'                               key="id")
-#' t <- hms::as.hms(1L:100L)
-#' data <- met[  ,
-#'               list(t=t,
-#'                   x=rnorm(100),
-#'                   y=rnorm(100),
-#'                   eating=runif(100) > .5 ),
-#'               by="id"]
-#'
-#' d <- behavr(data,met)
-#' ##### Show metadata
-#' meta(d)
-#' class(d)
-#' d2 <- d[id==1]
-#' meta(d2)
-#'
-#' ##### Alter metadata
-#' # meta(d)[, treatment := interaction(condition,sex)]
-#' @seealso [behavr] to generate a `behavr` object, [xmd] to map metadata variables to data
-#' @export
-#' @name meta
-meta <- function(x){
-  attr(x,"metadata")
-}
-#' @param new a new metadata table
-#' @rdname meta
-#' @export
-setmeta <- function(x,new){
-  check_conform(x, new)
-  data.table::setattr(x,"metadata",new)
 }
 
 
@@ -120,11 +73,3 @@ setmeta <- function(x,new){
   #check_conform(out)
  }
 }
-# d[id==1,meta=T]
-# meta(d)
-# d[, test:=NULL,meta=T]
-# d[, x :=2,meta=T]
-# d[sex=="M",meta=T]
-#
-# chec
-# setmeta(d,meta(d))

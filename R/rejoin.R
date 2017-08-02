@@ -1,0 +1,27 @@
+#' Join data and metadata
+#'
+#' This function joins the data of a [behavr] object to its metadata
+#'
+#' @param x a [behavr] object
+#' @return a [data.table]
+#' @examples
+#' set.seed(1)
+#' met <- data.table::data.table(id = 1:5,
+#'                               condition=letters[1:5],
+#'                               sex=c("M","M","M","F", "F"),
+#'                               key="id")
+#' data <- met[  ,
+#'               list(t=1L:100L,
+#'                   x=rnorm(100),
+#'                   y=rnorm(100),
+#'                   eating=runif(100) > .5 ),
+#'               by="id"]
+#'
+#' d <- behavr(data,met)
+#' summary_d <- d[, .(test=mean(x)), by=id]
+#' rejoin(summary_d)
+#' @seealso [behavr] to generate a `behavr` object
+#' @export
+rejoin <- function(x){
+ data.table::as.data.table(meta(x)[x])
+}

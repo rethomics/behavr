@@ -14,7 +14,7 @@
 #' set.seed(1)
 #' data <- data.table(
 #'                    id = rep(c("A","B"), times=c(10,26)),
-#'                    t = hms::hms(c(1:10,5:30)),
+#'                    t = c(1:10,5:30),
 #'                    x = rnorm(36), key="id"
 #'                    )
 #'
