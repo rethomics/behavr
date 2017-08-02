@@ -26,7 +26,7 @@ However, this quickly becomes error prone, as metadata and data are not in the s
 In addition, the cognitive burden is quite large too.
 
 
-This package tries to solve this issue by offering a new data structure derives from `data.table`.
+This package tries to solve this issue by offering a new data structure derived from `data.table`.
 
 
 ## Instalation

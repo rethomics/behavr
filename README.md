@@ -13,7 +13,7 @@ During analysis of behaviour, it is very convenient to be able to **use both dat
 
 Alternatively, one could keep data and metadata separated, and perform joins manually every time. However, this quickly becomes error prone, as metadata and data are not in the same structure. In addition, the cognitive burden is quite large too.
 
-This package tries to solve this issue by offering a new data structure derives from `data.table`.
+This package tries to solve this issue by offering a new data structure derived from `data.table`.
 
 Instalation
 -----------
