@@ -270,6 +270,30 @@ print(summary_all)
     ## 4:  4         d   F 300       d.F  0.11016320        0.46
     ## 5:  5         e   F  21       e.F  0.03277037        0.52
 
+Toy data
+--------
+
+`behavr` comes with functions to simulate toy data. See `?toy_activity_data`.
+
+This is useful if you want quick way to generate a lot of data, say for prototyping functions. For instance, imagine you want to build a package to compute circadian rythm variables. You could generate 40 animals (two conditions) DAM like data using `toy_dam_data()`:
+
+``` r
+query<- data.frame(experiment_id="toy_experiment",
+                    region_id=1:40, # 40 animals
+                    condition=c("A","B"), # conditions A,B,A,B ...
+                    # drift is a coeficient to drift the time so that we make 
+                    # to slightly different periods see below
+                    drift=c(1.001,1.000)
+                    )
+dt <- toy_activity_data(query,duration=days(10))
+print(dt)
+```
+
+One could, for instance, *artificially* drift the time to make it look like *the two conditions have different circadian periods*:
+
+    dt[, t:=t*xmd(drift)]
+    dt
+
 Going further
 -------------
 
