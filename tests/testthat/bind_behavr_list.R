@@ -14,7 +14,7 @@ test_that("all_identical utility", {
 
 
 
-test_that("rbindlist works", {
+test_that("bind_behavr_list works", {
   set.seed(1)
   met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
   t <- 1L:100L
@@ -27,20 +27,20 @@ test_that("rbindlist works", {
   d2 <- behavr(data,met)
 
   ok_list <- list(d, d2)
-  d_all <- rbindlist.behavr(ok_list)
+  d_all <- bind_behavr_list(ok_list)
   expect_equal(nrow(d_all[meta=TRUE]), 10)
 
 
   d3 <- behavr(data,met)
   d3[, w :=2]
   not_ok_list <- list(d, d3)
-  expect_error(rbindlist.behavr(not_ok_list), regex="data.*same columns")
+  expect_error(bind_behavr_list(not_ok_list), regex="data.*same columns")
   d3[, w :=NULL]
 
   m <- d3[meta=TRUE]
   setmeta(d3,m[, test:="A"])
   not_ok_list <- list(d, d3)
-  expect_error(rbindlist.behavr(not_ok_list), regex="metadata.*same columns")
+  expect_error(bind_behavr_list(not_ok_list), regex="metadata.*same columns")
 
   m[, test:=NULL]
 
@@ -50,7 +50,7 @@ test_that("rbindlist works", {
   data.table::setkeyv(d3,"id2")
   setmeta(d3,m)
   not_ok_list <- list(d, d3)
-  expect_error(rbindlist.behavr(not_ok_list), regex="metadata.*same key")
+  expect_error(bind_behavr_list(not_ok_list), regex="metadata.*same key")
 
   # we create an intentional duplicate
   # id=5 is in both datasets
@@ -61,5 +61,5 @@ test_that("rbindlist works", {
   d3 <- behavr(data,met)
 
   not_ok_list <- list(d, d3)
-  expect_error(rbindlist.behavr(not_ok_list), regex="[Dd]uplicated key")
+  expect_error(bind_behavr_list(not_ok_list), regex="[Dd]uplicated key")
 })

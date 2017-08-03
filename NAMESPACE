@@ -2,8 +2,8 @@
 
 S3method("[",behavr)
 export(behavr)
+export(bind_behavr_list)
 export(meta)
-export(rbindlist.behavr)
 export(rejoin)
 export(setmeta)
 export(xmd)
