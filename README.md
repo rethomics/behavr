@@ -4,6 +4,8 @@
 
 <!-- [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/hms?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/hms)  -->
 <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/hms/master.svg)](https://codecov.io/github/tidyverse/hms?branch=master) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hms)](https://cran.r-project.org/package=hms) -->
+`behavr` is part of the [rethomics framework](todo.html). This README is a short explanation of the basics of `behavr`. A [comprehensive documentation](todo.html) of rethomics is also available.
+
 Data structure for high-throughput biological experiments
 ---------------------------------------------------------
 
@@ -15,8 +17,8 @@ Alternatively, one could keep data and metadata separated, and perform joins man
 
 This package tries to solve this issue by offering a new data structure derived from `data.table`.
 
-Instalation
------------
+Installation
+------------
 
 ``` r
 library(devtools)
@@ -268,4 +270,10 @@ print(summary_all)
     ## 4:  4         d   F 300       d.F  0.11016320        0.46
     ## 5:  5         e   F  21       e.F  0.03277037        0.52
 
-This new summary is suitable for regular statistics and visualisation.
+Going further
+-------------
+
+-   [damr](https://github.com/rethomics/behavr) -- to load data from the DAM2 system
+-   [scopr](https://github.com/rethomics/sleepr) -- to load data from the [ethoscope](http://gilestrolab.github.io/ethoscope/) system
+-   [ggetho](https://github.com/rethomics/ggetho) -- to plot visualise the data
+-   [sleepr](https://github.com/rethomics/sleepr) -- to perform sleep and circadian rythm analysis

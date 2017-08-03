@@ -28,6 +28,9 @@
 #' print(d_all)
 #' @export
 bind_behavr_list <- function(l){
+  if(!is.list(l))
+    stop("l should be a list (of behavr tables)!")
+
   all_md <- lapply(l, behavr::meta)
   meta_key <- lapply(all_md, data.table::key)
   if(!all_identical(meta_key))
