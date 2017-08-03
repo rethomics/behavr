@@ -273,7 +273,8 @@ print(summary_all)
 Going further
 -------------
 
--   [damr](https://github.com/rethomics/behavr) -- to load data from the DAM2 system
--   [scopr](https://github.com/rethomics/sleepr) -- to load data from the [ethoscope](http://gilestrolab.github.io/ethoscope/) system
+<!-- * [behavr](https://github.com/rethomics/behavr) -- to manipulate the data (create new variable/meta-variables) -->
+-   [damr](https://github.com/rethomics/damr) -- to load data from the DAM2 system
+-   [scopr](https://github.com/rethomics/scopr) -- to load data from the [ethoscope](http://gilestrolab.github.io/ethoscope/) system
 -   [ggetho](https://github.com/rethomics/ggetho) -- to plot visualise the data
 -   [sleepr](https://github.com/rethomics/sleepr) -- to perform sleep and circadian rythm analysis
