@@ -60,6 +60,8 @@ behavr <- function(x, metadata){
 
   else{
     out <- NextMethod()
+    if(is.vector(out))
+      return(out)
   }
 
  # coerce to DT if not conform
