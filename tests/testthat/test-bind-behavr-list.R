@@ -28,6 +28,7 @@ test_that("bind_behavr_list works", {
 
   ok_list <- list(d, d2)
   d_all <- bind_behavr_list(ok_list)
+  behavr:::check_conform(d_all)
   expect_equal(nrow(d_all[meta=TRUE]), 10)
 
 

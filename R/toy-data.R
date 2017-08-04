@@ -18,6 +18,10 @@
 #' * `toy_dam_data` will have `activity` (1/60s)
 #' * `toy_ethoscope_data`  `xy_dist_log10x1000` `has_interacted`   `x` (2/1s)
 #' @examples
+#' # just one animal, no query needed
+#' dt <- toy_ethoscope_data(duration=days(3))
+#'
+#' # advanced, using a query
 #' query<- data.frame(experiment_id="toy_experiment",
 #'                    region_id=1:10,
 #'                    condition=c("A","B"))
@@ -42,9 +46,13 @@ toy_activity_data <- function(query=NULL,
                             sampling_period=10,
                             ...){
   set.seed(seed)
-  query <- data.table::as.data.table(query)
+
+
   if(is.null(query))
-    query<- data.table(experiment_id="toy_experiment", region_id=1)
+    query<- data.frame(experiment_id="toy_experiment", region_id=1)
+
+  query <- data.table::as.data.table(query)
+
   if(sum(c("experiment_id", "region_id") %in%  colnames(query))!=2)
     stop("The provided toy query must have, at least, columns `experiment_id' and `region_id'")
 
@@ -76,13 +84,15 @@ toy_ethoscope_data <- function(...){
 toy_dam_data <- function(...){
   activity_dt <- toy_activity_data(...)
   out <- activity_dt[,velocityFromMovement(.SD),by="id"]
-  out[, t_round := floor(t/mins(1)) * mins(1)]
-  out[,beam_cross := abs(c(0,diff(sign(.5 - x)))), by="id"]
-  out[,beam_cross := as.logical(beam_cross)]
-  out <- out[,list(activity = sum(beam_cross)), by=c("id","t_round")]
 
-  data.table::setnames(out, c("t_round"), c("t"))
-  out
+  out[,activity := abs(c(0,diff(sign(.5 - x)))), by="id"]
+  out[,activity := as.logical(activity)]
+  bin_apply_all(out, activity, x_bin_length = 60)
+  # out[, t_round := floor(t/mins(1)) * mins(1)]
+  # out <- out[,list(activity = sum(beam_cross)), by=c("id","t_round")]
+  #
+  # data.table::setnames(out, c("t_round"), c("t"))
+  # out
 }
 
 simulateAnimalActivity <- function(max_t=days(5), sampling_period=10, method=activityPropensity,...){
