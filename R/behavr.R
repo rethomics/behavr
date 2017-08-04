@@ -75,3 +75,11 @@ behavr <- function(x, metadata){
   #check_conform(out)
  }
 }
+
+
+#' @rdname behavr
+#' @export
+is.behavr <- function(x){
+  data.table::is.data.table(x) & "behavr" %in% class(x)
+}
+

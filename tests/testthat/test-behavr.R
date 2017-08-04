@@ -97,3 +97,16 @@ test_that("[,a] returns a vector", {
   expect_equal(d[,mean(x)], mean(met[data]$x))
 
 })
+
+
+test_that("is.behavr wroks", {
+  set.seed(1)
+
+  met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
+  data <- met[,list(t=1L:100L, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
+  d <- behavr(data,met)
+  expect_false(is.behavr(met))
+  expect_false(is.behavr(data))
+  expect_true(is.behavr(d))
+
+})
