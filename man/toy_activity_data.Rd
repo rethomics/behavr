@@ -43,6 +43,10 @@ This function generates random data that emulates some of the features of fruit 
 This is designed \strong{exclusively to provide material for examples and tests} since it generates  "realistic" datasets of arbitrary length.
 }
 \examples{
+# just one animal, no query needed
+dt <- toy_ethoscope_data(duration=days(3))
+
+# advanced, using a query
 query<- data.frame(experiment_id="toy_experiment",
                    region_id=1:10,
                    condition=c("A","B"))

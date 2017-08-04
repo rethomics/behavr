@@ -1,4 +1,4 @@
-#' Extract a variable from metadata and map it agains the data
+#' Extract a metavariable and map it agains the data
 #'
 #' This function eXtract the MetaData from a parent [behavr] object.
 #' That is it expands a variable from the metadata to match data *by id*.
@@ -37,12 +37,28 @@
 #' @export
 xmd <- function(var){
   #todo stop when called not from DT[<here>]
+  if(!within_data_table())
+    stop("xmd can only be called from inside the `[]` of a behavr object")
+
   d <- get("x",envir=parent.frame(n=3))
-  #check_consistency(d)
+  check_conform(d)
   var <- deparse(substitute(var))
   md <- meta(d)
+  cols <- colnames(md)
+  if(!var %in% cols){
+    #fixme. does not paste here?!
+    columns <- paste(cols, collapse=", ")
+    msg <- sprintf("No metavariable named %s.
+                   Available metavariables are: '%s'",
+                   var,
+                   columns)
+    stop(msg)
+  }
   col <- md[,c(data.table::key(md),var), with=F]
   join <- col[d[,data.table::key(md),with=F]]
   join[[var]]
 }
 
+within_data_table <- function(){
+  all(c("x","j","i") %in% ls(envir=parent.frame(n=4)))
+}

@@ -3,9 +3,12 @@
 \name{behavr}
 \alias{behavr}
 \alias{behavr}
+\alias{is.behavr}
 \title{todo}
 \usage{
 behavr(x, metadata)
+
+is.behavr(x)
 }
 \arguments{
 \item{x}{\link{data.table} containing all measurments}

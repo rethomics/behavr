@@ -2,9 +2,12 @@
 
 S3method("[",behavr)
 export(behavr)
+export(bin_apply)
+export(bin_apply_all)
 export(bind_behavr_list)
 export(days)
 export(hours)
+export(is.behavr)
 export(meta)
 export(mins)
 export(rejoin)

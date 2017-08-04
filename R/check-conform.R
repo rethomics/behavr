@@ -5,8 +5,15 @@ check_conform <- function(x, metadata=NULL){
   if(!data.table::is.data.table(x))
     stop("x is not a data.table!")
 
-  if(is.null(metadata))
+  if(is.null(metadata)){
+    if(!is.behavr(x))
+      stop("x is not a behavr object.
+           When metadata is not provided, x should be a behavr!")
     metadata <- meta(x)
+  }
+  if(is.null(metadata))
+    stop("no metadata!")
+
 
   if(!data.table::is.data.table(metadata))
     stop("metadata is not a data.table!")

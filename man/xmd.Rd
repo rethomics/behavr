@@ -2,7 +2,7 @@
 % Please edit documentation in R/xmd.R
 \name{xmd}
 \alias{xmd}
-\title{Extract a variable from metadata and map it agains the data}
+\title{Extract a metavariable and map it agains the data}
 \usage{
 xmd(var)
 }

@@ -21,3 +21,27 @@ test_that("metadata can be mapped", {
   d[, condition:= xmd(condition)]
   expect_identical(ifelse(data[met][,sex] == "M", data[met][,condition], NA), d$condition)
 })
+
+
+test_that("xmd cannot be called from outside of `[]`, and only on `behavr` tables", {
+  met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
+
+  expect_error(xmd(1), "only be called from inside the `\\[\\]`")
+  expect_error(xmd(), "only be called from inside the `\\[\\]`")
+  expect_error(xmd(letters), "only be called from inside the `\\[\\]`")
+
+
+  expect_error(met[xmd(1)], "not a behavr object")
+
+})
+
+
+test_that("missing variables", {
+  met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
+  t <- 1L:100L
+  data <- met[,list(t=t, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
+  d <- behavr(data,met)
+  expect_error(d[xmd(w)], "No metavariable named")
+
+})
+
