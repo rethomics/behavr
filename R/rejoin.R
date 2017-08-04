@@ -23,5 +23,8 @@
 #' @seealso [behavr] to generate a `behavr` object
 #' @export
 rejoin <- function(x){
+ if(!is.behavr(x))
+   stop("x is not a behavr table")
+ check_conform(x)
  data.table::as.data.table(meta(x)[x])
 }
