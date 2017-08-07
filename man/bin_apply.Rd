@@ -5,7 +5,8 @@
 \alias{bin_apply_all}
 \title{Bin a variable (typically time) and compute an aggregate for each bin}
 \usage{
-bin_apply(data, y, x = t, x_bin_length = mins(30), FUN = mean, ...)
+bin_apply(data, y, x = t, x_bin_length = mins(30), wrap_x_by = NULL,
+  FUN = mean, string_xy = FALSE, ...)
 
 bin_apply_all(data, ...)
 }
@@ -14,22 +15,28 @@ bin_apply_all(data, ...)
 
 \item{y}{variable to be aggregated}
 
-\item{x}{the variable to be binned}
+\item{x}{variable to be binned}
 
-\item{x_bin_length}{the length of the bins (same using as `x``)}
+\item{x_bin_length}{length of the bins (same using as `x``)}
+
+\item{wrap_x_by}{numeric value defining wrapping period. \code{NULL} means no wrapping}
 
 \item{FUN}{function used to aggregate (e.g. \link{mean}, \link{median}, \link{sum} and so on)}
+
+\item{string_xy}{logical whether the names of the variables are quoted}
 
 \item{...}{additional arguments to be passed to \code{FUN}}
 }
 \description{
 This function is typically used to summarise (i.e. computing an aggreate of) a variable (\code{y})
 for bins of a another variable \code{x} (typically time).
-.
 }
 \details{
 \code{bin_apply} expects data from a single individal.
 \code{bin_apply_all} works on multiple individuals identifies by a unique key.
+\code{wrapping} is typically used to compute averages accros several periods.
+For instance,\code{wrap_x_by = days(1)}, means bins will aggreate values accross sevral days.
+The resulting x can be interpreted as "time relative to the onset of the day" (i.e. ZT).
 }
 \examples{
 query <- data.frame(experiment_id="toy_experiment",
@@ -44,11 +51,18 @@ dt_binned <- dt[, bin_apply(.SD, moving),by="id"]
 # More advanced usage
 dt <- toy_dam_data(query, duration=days(4))
 
-# nsum activity ber 60minutes
+# nsum activity per 60minutes
 dt_binned <- bin_apply_all(dt,
                            activity,
                            x=t,
                            x_bin_length = mins(60),
                            FUN=sum)
 
+
+#' # average activity. time in ZT
+dt_binned <- bin_apply_all(dt,
+                           activity,
+                           x=t,
+                           wrap_x_by=days(1)
+                           )
 }

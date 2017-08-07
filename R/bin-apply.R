@@ -2,14 +2,15 @@
 #'
 #' This function is typically used to summarise (i.e. computing an aggreate of) a variable (`y`)
 #' for bins of a another variable `x` (typically time).
-#' .
+#'
 #'
 #' @param data [data.table] or [behavr] table (see details)
 #' @param y variable to be aggregated
 #' @param x variable to be binned
 #' @param x_bin_length length of the bins (same using as `x``)
-#' @param wrap_x_by numeric value defining wrapping period. `NULL` means no wrapping.
+#' @param wrap_x_by numeric value defining wrapping period. `NULL` means no wrapping
 #' @param FUN  function used to aggregate (e.g. [mean], [median], [sum] and so on)
+#' @param string_xy logical whether the names of the variables are quoted
 #' @param ... additional arguments to be passed to `FUN`
 #' @details
 #' `bin_apply` expects data from a single individal.
@@ -45,9 +46,19 @@
 #'                            wrap_x_by=days(1)
 #'                            )
 #' @export
-bin_apply <- function(data, y, x=t, x_bin_length = mins(30), wrap_x_by=NULL, FUN=mean, ...){
-  var_name <- deparse(substitute(y))
-  b_name <- deparse(substitute(x))
+bin_apply <- function(data, y, x=t, x_bin_length = mins(30),
+                      wrap_x_by=NULL, FUN=mean, string_xy=FALSE, ...){
+
+  if(!string_xy){
+    var_name <- deparse(substitute(y))
+    b_name <- deparse(substitute(x))
+  }
+  else{
+    var_name <- y
+    b_name <- x
+  }
+
+  #todo check variables!
   data.table::setnames(data, c(var_name, b_name), c("..var..", "..b.."))
   tryCatch({
     out <- data[,.(..var.. = ..var..,
@@ -76,5 +87,6 @@ bin_var <- function(t, bin_length, wrap=NULL){
     t <- t %% wrap
   floor(t /bin_length) * bin_length
 }
+
 
 
