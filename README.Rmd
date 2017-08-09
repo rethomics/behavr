@@ -39,7 +39,7 @@ install_github("rethomics/behavr")
 ## First steps
 
 Let us create some toy data.
-Five animals, 100 reads (`t`, `x` ,`y` ,`eating`) per animal.
+Five animals and 100 reads of four variables (`t`, `x` ,`y` ,`eating`) per animal.
 **Both metadata and data must have the same key** (here, the column `id`).
 ```{r}
 library(data.table)

@@ -30,7 +30,7 @@ NULL
 #' @rdname behavr
 #' @param x [data.table] containing all measurments
 #' @param metadata [data.table] containing the metadata
-# @param deep_copy logical defining whether the data is to be deep copied (the default). Otherwise, `x` and `metadata` are liked by reference.
+#  @param deep_copy logical defining whether the data is to be deep copied (the default). Otherwise, `x` and `metadata` are liked by reference.
 #' @details Both `x` and `metadata` should have a **column as a key** with **the same name** (typically named `id`).
 # #metadata is generally small, so it is always deep copied.
 #' @export
@@ -83,12 +83,40 @@ is.behavr <- function(x){
   data.table::is.data.table(x) & "behavr" %in% class(x)
 }
 
-#' @rdname behavr
-#' @param ... arguments passed on to print
+#' Print and summarise a [behavr] table
+#'
+#' @name print.behavr
+#' @param x,object [behavr] table
+#' @param ... arguments passed on to further method
+#' @seealso [behavr], [print.default], [summary.default]
 #' @export
 print.behavr <- function(x,...){
     cat("\n ==== METADATA ====\n\n")
     print(x[meta=TRUE],class=TRUE,...)
     cat("\n ====== DATA ======\n\n")
     NextMethod(x, class=TRUE,...)
+}
+
+#' @rdname print.behavr
+#' @export 
+summary.behavr <- function(object, ...){
+    
+    met <- object[meta=TRUE]
+    n_key <- length(data.table::key(met))
+    n_mvar <- ncol(met) -  n_key
+    n_var <- ncol(object) -  n_key
+    
+   cat("behavr table with:\n")
+    cat(sprintf(" %i\tindividuals\n", nrow(met)))
+    cat(sprintf(" %i\tmetavariables\n", n_mvar))
+    cat(sprintf(" %i\tvariables\n", n_var))
+    cat(sprintf(" %i\tkey (%s)\n", n_key, paste(data.table::key(met),collapse=", ")))
+
+    cat("\n Summary of each individual (one per row):\n")
+    if(!"t" %in% colnames(object))
+        sum_dt <- object[, .(data_points =.N),by=id]
+    else
+        sum_dt <- object[, .(data_points =.N,
+                             time_range = sprintf("[%s -> %s (%s)]",min(t), max(t),  max(t) -min(t))),by=id]
+    print(rejoin(sum_dt))
 }

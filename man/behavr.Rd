@@ -4,21 +4,16 @@
 \alias{behavr}
 \alias{behavr}
 \alias{is.behavr}
-\alias{print.behavr}
 \title{todo}
 \usage{
 behavr(x, metadata)
 
 is.behavr(x)
-
-\method{print}{behavr}(x, ...)
 }
 \arguments{
 \item{x}{\link{data.table} containing all measurments}
 
 \item{metadata}{\link{data.table} containing the metadata}
-
-\item{...}{arguments passed on to print}
 }
 \description{
 todo

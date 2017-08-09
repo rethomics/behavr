@@ -2,6 +2,7 @@
 
 S3method("[",behavr)
 S3method(print,behavr)
+S3method(summary,behavr)
 export(behavr)
 export(bin_apply)
 export(bin_apply_all)
