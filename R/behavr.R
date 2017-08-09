@@ -83,3 +83,12 @@ is.behavr <- function(x){
   data.table::is.data.table(x) & "behavr" %in% class(x)
 }
 
+#' @rdname behavr
+#' @param ... arguments passed on to print
+#' @export
+print.behavr <- function(x,...){
+    cat("\n ==== METADATA ====\n\n")
+    print(x[meta=TRUE],class=TRUE,...)
+    cat("\n ====== DATA ======\n\n")
+    NextMethod(x, class=TRUE,...)
+}
