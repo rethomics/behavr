@@ -1,8 +1,7 @@
-# `behavr` [![Travis-CI Build Status](https://travis-ci.org/rethomics/behavr.svg?branch=master)](https://travis-ci.org/rethomics/behavr)
+# `behavr` [![Travis-CI Build Status](https://travis-ci.org/rethomics/behavr.svg?branch=master)](https://travis-ci.org/rethomics/behavr) [![Coverage Status](https://img.shields.io/codecov/c/github/rethomics/behavr/master.svg)](https://codecov.io/github/rethomics/behavr?branch=master)
 
 <!-- [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/hms?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/hms)  -->
 
-[![Coverage Status](https://img.shields.io/codecov/c/github/rethomics/behavr/master.svg)](https://codecov.io/github/rethomics/behavr?branch=master)
 <!--[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hms)](https://cran.r-project.org/package=hms) -->
 
 `behavr` is part of the [rethomics framework](https://rethomics.github.io).
@@ -295,18 +294,17 @@ summary_dt <- dt[,
                  .(median_x = median(x),
                    prop_eating= mean(eating)),
                 by=id]
-```
 
-```
-## Error in gmedian(x): negative length vectors are not allowed
-```
-
-```r
 print(summary_dt)
 ```
 
 ```
-## Error in print(summary_dt): object 'summary_dt' not found
+##    id    median_x prop_eating
+## 1:  1  0.11390916        0.47
+## 2:  2  0.13533478        0.46
+## 3:  3 -0.05678109        0.44
+## 4:  4  0.11016320        0.46
+## 5:  5  0.03277037        0.52
 ```
 
 Now, we can **rejoin** the metadata. 
@@ -315,18 +313,16 @@ That is, we can reunite the metadata to summary data:
 
 ```r
 summary_all <- rejoin(summary_dt)
-```
-
-```
-## Error in data.table::is.data.table(x): object 'summary_dt' not found
-```
-
-```r
 print(summary_all)
 ```
 
 ```
-## Error in print(summary_all): object 'summary_all' not found
+##    id condition sex  t0 treatment    median_x prop_eating
+## 1:  1         a   M 100       a.M  0.11390916        0.47
+## 2:  2         b   M   2       b.M  0.13533478        0.46
+## 3:  3         c   M -50       c.M -0.05678109        0.44
+## 4:  4         d   F 300       d.F  0.11016320        0.46
+## 5:  5         e   F  21       e.F  0.03277037        0.52
 ```
 
 ## Toy data
