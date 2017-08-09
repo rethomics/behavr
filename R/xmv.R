@@ -1,14 +1,14 @@
-#' Extract a metavariable and map it agains the data
+#' Extract a metavariable and map it against the data
 #'
-#' This function eXtract the MetaData from a parent [behavr] object.
-#' That is it expands a variable from the metadata to match data *by id*.
+#' This function eXpands a MetaVariable from a parent [behavr] object.
+#' That is it matches this variable (from metadata) to the data *by id*.
 #'
 #' @param var the variable to be extracted
-#' @return a vecor of the dame type as `var`, but of the same length as the number of row in the parent data.
+#' @return a vector of the same type as `var`, but of the same length as the number of row in the parent data.
 #' As each row of data is matched against metadata for this specific variable.
 #' @details This function *can only be called within between the `[]` of a parent* [behavr] object.
 #' It is intended to facilitate operations between data and metadata.
-#' For instance, if one want to modify a column of the data according the metadata.
+#' For instance, when one wants to modify a column of the data according a metavariable.
 #' @examples
 #' library(data.table)
 #' set.seed(1)
@@ -22,23 +22,23 @@
 #' dt <- behavr(data,metadata)
 #' summary(dt)
 #'
-#' #### subseting using metadata
-#' dt[xmd(treatment) == "w"]
-#' dt[xmd(treatment) == "w"]
-#' dt[xmd(lifespan) < 30]
+#' #### Subsetting using metadata
+#' dt[xmv(treatment) == "w"]
+#' dt[xmv(treatment) == "w"]
+#' dt[xmv(lifespan) < 30]
 #'
-#' #### Allocating new columns using metadata
+#' #### Allocating new columns using metavariable
 #' # Just joining lifespan (not necessary)
-#' dt[, lif := xmd(lifespan)]
+#' dt[, lif := xmv(lifespan)]
 #' print(dt)
 #' # Anonymously (more useful)
-#' dt[, x2 := x-xmd(ref_x)]
+#' dt[, x2 := x-xmv(ref_x)]
 #' print(dt)
 #' @export
-xmd <- function(var){
+xmv <- function(var){
   #todo stop when called not from DT[<here>]
   if(!within_data_table())
-    stop("xmd can only be called from inside the `[]` of a behavr object")
+    stop("xmv can only be called from inside the `[]` of a behavr object")
 
   d <- get("x",envir=parent.frame(n=3))
   check_conform(d)

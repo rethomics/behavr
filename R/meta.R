@@ -26,7 +26,7 @@
 #' # only id > 2 is kept
 #' setmeta(d, m[id < 3])
 #' meta(d)
-#' @seealso [behavr] to generate a `behavr` object, [xmd] to map metadata variables to data
+#' @seealso [behavr] to generate a `behavr` object, [xmv] to map metavariables to data
 #' @export
 #' @name meta
 meta <- function(x){
