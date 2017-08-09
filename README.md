@@ -119,20 +119,19 @@ summary(dt)
 ```
 
 ```
-##        id          t                x                  y          
-##  Min.   :1   Min.   :  1.00   Min.   :-2.59611   Min.   :-3.2132  
-##  1st Qu.:2   1st Qu.: 25.75   1st Qu.:-0.61433   1st Qu.:-0.7217  
-##  Median :3   Median : 50.50   Median : 0.05844   Median :-0.1508  
-##  Mean   :3   Mean   : 50.50   Mean   : 0.03275   Mean   :-0.0808  
-##  3rd Qu.:4   3rd Qu.: 75.25   3rd Qu.: 0.76319   3rd Qu.: 0.6376  
-##  Max.   :5   Max.   :100.00   Max.   : 3.05574   Max.   : 2.6757  
-##    eating       
-##  Mode :logical  
-##  FALSE:265      
-##  TRUE :235      
-##  NA's :0        
-##                 
+## behavr table with:
+##  5	individuals
+##  3	metavariables
+##  4	variables
+##  1	key (id)
 ## 
+##  Summary of each individual (one per row):
+##    id condition sex  t0 data_points      time_range
+## 1:  1         a   M 100         100 [1 -> 100 (99)]
+## 2:  2         b   M   2         100 [1 -> 100 (99)]
+## 3:  3         c   M -50         100 [1 -> 100 (99)]
+## 4:  4         d   F 300         100 [1 -> 100 (99)]
+## 5:  5         e   F  21         100 [1 -> 100 (99)]
 ```
 
 ## Examples of what we can do with `behavr`
@@ -174,45 +173,13 @@ dt[, z := x + y]
 ## 500:     5   100  0.3820076 -0.64140116  FALSE -0.2593936
 ```
 
-```r
-print(dt)
-```
-
-```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0
-##    <int>    <char> <char> <num>
-## 1:     1         a      M   100
-## 2:     2         b      M     2
-## 3:     3         c      M   -50
-## 4:     4         d      F   300
-## 5:     5         e      F    21
-## 
-##  ====== DATA ======
-## 
-##         id     t          x           y eating          z
-##      <int> <int>      <num>       <num> <lgcl>      <num>
-##   1:     1     1 -0.6264538 -0.62036668   TRUE -1.2468205
-##   2:     1     2  0.1836433  0.04211587  FALSE  0.2257592
-##   3:     1     3 -0.8356286 -0.91092165   TRUE -1.7465503
-##   4:     1     4  1.5952808  0.15802877   TRUE  1.7533096
-##  ---                                                     
-## 496:     5    96 -2.0908461 -0.30824994   TRUE -2.3990960
-## 497:     5    97  1.6973939  0.01551524  FALSE  1.7129091
-## 498:     5    98  1.0638812 -0.44231772   TRUE  0.6215634
-## 499:     5    99 -0.7666166 -1.63800773  FALSE -2.4046244
-## 500:     5   100  0.3820076 -0.64140116  FALSE -0.2593936
-```
-
 ### Filtering using variable
 
 Again, just like in `data.table`:
 
 
 ```r
-print(dt[t < 50])
+dt[t < 50]
 ```
 
 ```
@@ -257,7 +224,7 @@ Instead, `sex` is a metavariable, so we need to **expand** it, using `xmv()`
 
 
 ```r
-print(dt[xmv(sex) == "M"])
+dt[xmv(sex) == "M"]
 ```
 
 ```
@@ -296,38 +263,6 @@ So we expand `t0`, with `xmv()`:
 
 ```r
 dt[, t := t - xmv(t0)]
-```
-
-```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0
-##    <int>    <char> <char> <num>
-## 1:     1         a      M   100
-## 2:     2         b      M     2
-## 3:     3         c      M   -50
-## 4:     4         d      F   300
-## 5:     5         e      F    21
-## 
-##  ====== DATA ======
-## 
-##         id     t          x           y eating          z
-##      <int> <num>      <num>       <num> <lgcl>      <num>
-##   1:     1   -99 -0.6264538 -0.62036668   TRUE -1.2468205
-##   2:     1   -98  0.1836433  0.04211587  FALSE  0.2257592
-##   3:     1   -97 -0.8356286 -0.91092165   TRUE -1.7465503
-##   4:     1   -96  1.5952808  0.15802877   TRUE  1.7533096
-##  ---                                                     
-## 496:     5    75 -2.0908461 -0.30824994   TRUE -2.3990960
-## 497:     5    76  1.6973939  0.01551524  FALSE  1.7129091
-## 498:     5    77  1.0638812 -0.44231772   TRUE  0.6215634
-## 499:     5    78 -0.7666166 -1.63800773  FALSE -2.4046244
-## 500:     5    79  0.3820076 -0.64140116  FALSE -0.2593936
-```
-
-```r
-print(dt)
 ```
 
 ```
@@ -418,21 +353,34 @@ For example, here, we compute the median `x` position, and the proportion of `ea
 
 ```r
 summary_dt <- dt[,
-                 .(median_x = median(x),
+                 .(mean_x = mean(x),
                    prop_eating= mean(eating)),
                 by=id]
-```
 
-```
-## Error in gmedian(x): negative length vectors are not allowed
-```
-
-```r
 print(summary_dt)
 ```
 
 ```
-## Error in print(summary_dt): object 'summary_dt' not found
+## 
+##  ==== METADATA ====
+## 
+##       id condition    sex    t0 treatment
+##    <int>    <char> <char> <num>    <fctr>
+## 1:     1         a      M   100       a.M
+## 2:     2         b      M     2       b.M
+## 3:     3         c      M   -50       c.M
+## 4:     4         d      F   300       d.F
+## 5:     5         e      F    21       e.F
+## 
+##  ====== DATA ======
+## 
+##       id       mean_x prop_eating
+##    <int>        <num>       <num>
+## 1:     1  0.108887367        0.47
+## 2:     2  0.100063642        0.46
+## 3:     3 -0.044519357        0.44
+## 4:     4  0.009621134        0.46
+## 5:     5 -0.010316973        0.52
 ```
 
 Now, we can **rejoin** the metadata. 
@@ -441,18 +389,16 @@ That is, we can reunite the metadata to summary data:
 
 ```r
 summary_all <- rejoin(summary_dt)
-```
-
-```
-## Error in data.table::is.data.table(x): object 'summary_dt' not found
-```
-
-```r
 print(summary_all)
 ```
 
 ```
-## Error in print(summary_all): object 'summary_all' not found
+##    id condition sex  t0 treatment       mean_x prop_eating
+## 1:  1         a   M 100       a.M  0.108887367        0.47
+## 2:  2         b   M   2       b.M  0.100063642        0.46
+## 3:  3         c   M -50       c.M -0.044519357        0.44
+## 4:  4         d   F 300       d.F  0.009621134        0.46
+## 5:  5         e   F  21       e.F -0.010316973        0.52
 ```
 
 ## Toy data
@@ -488,6 +434,7 @@ dt
 ## Going further
 
 <!-- * [behavr](https://github.com/rethomics/behavr) -- to manipulate the data (create new variable/meta-variables) -->
+* [pdf documentation](https://github.com/rethomics/behavr/raw/master/behavr.pdf)
 * [damr](https://github.com/rethomics/damr) -- to load data from the DAM2 system
 * [scopr](https://github.com/rethomics/scopr) -- to load data from the [ethoscope](http://gilestrolab.github.io/ethoscope/) system
 * [ggetho](https://github.com/rethomics/ggetho) -- to plot visualise the data

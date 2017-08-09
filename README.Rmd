@@ -77,7 +77,6 @@ This works just like in `data.table`:
 
 ```{r}
 dt[, z := x + y]
-print(dt)
 ```
 
 ### Filtering using variable
@@ -85,7 +84,7 @@ print(dt)
 Again, just like in `data.table`:
 
 ```{r}
-print(dt[t < 50])
+dt[t < 50]
 
 # we could also wanted to reassign:
 # dt <- dt[t < 50]
@@ -99,7 +98,7 @@ If `sex` was a column of `dt`, we could just do `dt[sex=="M"]`
 Instead, `sex` is a metavariable, so we need to **expand** it, using `xmv()`
 
 ```{r}
-print(dt[xmv(sex) == "M"])
+dt[xmv(sex) == "M"]
 ```
 
 This also works if we need to compute a variable according to a metavariable.
@@ -109,7 +108,6 @@ So we expand `t0`, with `xmv()`:
 
 ```{r}
 dt[, t := t - xmv(t0)]
-print(dt)
 ```
 
 ### Accessing the metadata
@@ -143,7 +141,7 @@ For example, here, we compute the median `x` position, and the proportion of `ea
 
 ```{r}
 summary_dt <- dt[,
-                 .(median_x = median(x),
+                 .(mean_x = mean(x),
                    prop_eating= mean(eating)),
                 by=id]
 
@@ -191,6 +189,7 @@ dt
 ## Going further
 
 <!-- * [behavr](https://github.com/rethomics/behavr) -- to manipulate the data (create new variable/meta-variables) -->
+* [pdf documentation](https://github.com/rethomics/behavr/raw/master/behavr.pdf)
 * [damr](https://github.com/rethomics/damr) -- to load data from the DAM2 system
 * [scopr](https://github.com/rethomics/scopr) -- to load data from the [ethoscope](http://gilestrolab.github.io/ethoscope/) system
 * [ggetho](https://github.com/rethomics/ggetho) -- to plot visualise the data

@@ -5,7 +5,7 @@ R_SOURCES := $(shell ls $(R_DIR)/R/*.R )
 N = $(shell cat $(R_DIR)/DESCRIPTION |grep ^Package | cut --fields=2 --delimiter=: |sed s/\ //g)
 V := $(shell cat $(R_DIR)/DESCRIPTION |grep ^Version  | cut --fields=2 --delimiter=: |sed s/\ //g)
 R_TGZ := $(N)_$(V).tar.gz
-R_PDF := $(N)_$(V).pdf
+R_PDF := $(N).pdf
 vpath %.R  $(R_DIR)
 
 
