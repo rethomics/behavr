@@ -2,11 +2,22 @@
 #' @importFrom methods setOldClass
 setOldClass(c("behavr", "data.table"))
 
-#' todo
+#' An S3 class, based on [data.table], to store ethomics data
 #'
-#' todo
+#' In the context of analysis of animal behaviour,
+#' it is common to record long time series of several behavoural variables (e.g. position) on multiple individuals.
+#' In addition to large multivariate time series, each individual is associated with a set of
+#' metavariables (i.e. metadata: sex, genotype, treatment and so on).
+#' Metavariables are crucial in so far as they generally "contain" the biological question.
+#' During analysis, it is therefore important to be able to access, alter and compute interactions between both variables and metavariables.
+#' `behavr` is a class that facilitates manipulation and storage of metadata and data in the same object.
+#' It is designed to be both memory efficient and user friendly. 
+#' For instance, it abstracts joins of metavariables.
 #'
 #' @name behavr
+#' @seealso:
+#' * the `behavr` [webpage](https://github.com/rethomics/behavr)
+#' * [xmv] to join metavariables
 #' @examples
 #' set.seed(1)
 #' met <- data.table::data.table(id = 1:5,

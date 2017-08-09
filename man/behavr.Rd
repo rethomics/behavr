@@ -4,7 +4,7 @@
 \alias{behavr}
 \alias{behavr}
 \alias{is.behavr}
-\title{todo}
+\title{An S3 class, based on \link{data.table}, to store ethomics data}
 \usage{
 behavr(x, metadata)
 
@@ -16,7 +16,15 @@ is.behavr(x)
 \item{metadata}{\link{data.table} containing the metadata}
 }
 \description{
-todo
+In the context of analysis of animal behaviour,
+it is common to record long time series of several behavoural variables (e.g. position) on multiple individuals.
+In addition to large multivariate time series, each individual is associated with a set of
+metavariables (i.e. metadata: sex, genotype, treatment and so on).
+Metavariables are crucial in so far as they generally "contain" the biological question.
+During analysis, it is therefore important to be able to access, alter and compute interactions between both variables and metavariables.
+\code{behavr} is a class that facilitates manipulation and storage of metadata and data in the same object.
+It is designed to be both memory efficient and user friendly.
+For instance, it abstracts joins of metavariables.
 }
 \details{
 Both \code{x} and \code{metadata} should have a \strong{column as a key} with \strong{the same name} (typically named \code{id}).
@@ -37,4 +45,11 @@ data <- met[  ,
 d <- behavr(data,met)
 print(d)
 summary(d)
+}
+\seealso{
+:
+\itemize{
+\item the \code{behavr} \href{https://github.com/rethomics/behavr}{webpage}
+\item \link{xmv} to join metavariables
+}
 }
