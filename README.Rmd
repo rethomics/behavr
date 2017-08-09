@@ -10,27 +10,29 @@ output:
 
 <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/hms/master.svg)](https://codecov.io/github/tidyverse/hms?branch=master) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hms)](https://cran.r-project.org/package=hms) -->
 
-`behavr` is part of the [rethomics framework](todo.html).
+`behavr` is part of the [rethomics framework](https://rethomics.github.io).
 This README is a short explanation of the basics of `behavr`.
-A [comprehensive documentation](todo.html) of rethomics is also available.
+A [comprehensive documentation](https/rethomics.github.io/doc) of rethomics is also available.
 
 ## Data structure for high-throughput biological experiments
 
 As behavioural biologists, we are often interested in recording behaviour of multiple animals.
-In our context, the *data* is a collection of recordings (i.e. time series) with often several variables (e.g. time, position, activity, ...).
-In addition to these recorded data, each animal may have different -- sometimes many -- experimental condition (e.g. age, sex, genotype, treatment, ...). These are also known as *metadata*.
+In our context, the *data* is a collection of recordings (i.e. time series) with, often, several variables (e.g. time, position, activity, ...).
+In addition to these recorded data, each animal may have different -- sometimes many -- experimental condition (e.g. age, sex, genotype, treatment and so on).
+These latter variables are also known as *metavariable*. Together, they form the *metadata*.
 
 During analysis of behaviour, it is very convenient to be able to **use both data and metadata together** in order to subset the data, alter or create new variables, and compute summary statistics.
-A natural approach would be to store data as a `data.frame` with one row per measurement and one column per variable, repeat the metadata as many time as there are reads, and put all the animals in the same data structure. 
+A natural approach would be to store data as a `data.frame` with one row per measurement and one column per variable and metavariable.
+In other words, we would repeat the metadata as many time as there are reads, and put all the animals in the same data structure. 
 Even though this is very convenient, in practice, it takes a lot of memory (because of the redundant metadata)!
 
-Alternatively, one could keep data and metadata separated, and perform joins manually every time.
+Alternatively, one could keep data and metadata separated (in two tables), and perform joins manually every time.
 However, this quickly becomes error prone, as metadata and data are not in the same structure.
-In addition, the cognitive burden is quite large too.
+In addition, the "cognitive burden" is rather large.
 
-
-This package tries to solve this issue by offering a new data structure derived from `data.table`.
-
+This package addresses this issue by offering a new data structure derived from `data.table`.
+At this stage, if you don't know much about `data.table`,
+I suggest to [learn about it first](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).
 
 ## Installation
 
@@ -50,22 +52,22 @@ library(data.table)
 library(behavr)
 set.seed(1)
 met <- data.table::data.table(id = 1:5,
-                             condition=letters[1:5],
-                             sex=c("M","M","M","F", "F"),
+                             condition = letters[1:5],
+                             sex = c("M","M","M","F", "F"),
                              t0 = c(100,2,-50,300,21),
-                             key="id")
+                             key = "id")
 
 data <- met[  ,
-             list(t=1L:100L,
-                 x=rnorm(100),
-                 y=rnorm(100),
-                 eating=runif(100) > .5 ),
-             by="id"]
+             list(t = 1L:100L,
+                 x = rnorm(100),
+                 y = rnorm(100),
+                 eating = runif(100) > .5 ),
+             by = "id"]
 
 print(data)
 ```
 
-Puting data and metadata together.
+Putting data and metadata together.
 
 ```{r}
 dt <- behavr(data, met)
@@ -80,37 +82,39 @@ summary(dt)
 This works just like in `data.table`:
 
 ```{r}
-dt[, z := x+y]
+dt[, z := x + y]
 print(dt)
 ```
 
 ### Filtering using variable
 
-Again like in `data.table`:
+Again, just like in `data.table`:
 
 ```{r}
 print(dt[t < 50])
-# if we wanted to reasign:
-# dt <- dt[t<50]
+
+# we could also wanted to reassign:
+# dt <- dt[t < 50]
 ```
 
 
-### Using meta variable
+### Using meta variables
 
-Say you want to get the **data** for all males only.
+Say you want to get the **data** for male animals only.
 If `sex` was a column of `dt`, we could just do `dt[sex=="M"]`
-Instead, `sex` is in metadata, so we need to **expand** it, using `xmd()`
+Instead, `sex` is a metavariable, so we need to **expand** it, using `xmv()`
 
 ```{r}
-print(dt[xmd(sex) == "M"])
+print(dt[xmv(sex) == "M"])
 ```
 
-This also works if we need to compute a data variable according to metadata.
+This also works if we need to compute a variable according to a metavariable.
 This is often the case when we need to standardise the positions or time compared to a reference, which is in the metadata.
-In this example, we want to express `t` relatively `t0` (`t = t-t0`). So we expand `t0`, with `xmd()`:
+For example, we could express `t` relatively `t0` (`t = t-t0`). 
+So we expand `t0`, with `xmv()`:
 
 ```{r}
-dt[, t := t - xmd(t0)]
+dt[, t := t - xmv(t0)]
 print(dt)
 ```
 
@@ -120,21 +124,21 @@ Metadata is another `data.table` "inside" `dt`.
 To perform operations on the metadata, one can use `meta=TRUE` within the `[]` operator of `dt`.
 So, to see the metadata:
 ```{r}
-dt[meta=T]
+dt[meta = T]
 ```
 
 Then, we can also use the same principle to filter:
 ```{r}
-dt[id>2 ,meta=T]
+dt[id > 2, meta = T]
 ```
-Note that this does not alter the metadata, it only shows a filtered copy.
+Note that this does not alter the metadata, but merely shows a filtered copy.
 
-More importantly, we can alter the metadata inline, for instance compute new columns (i.e. meta-variables).
+More importantly, we can alter the metadata inline, for instance compute new columns (i.e. metavariables).
 Here, we combine `sex` and `condition` as a `treatment`:
 
 ```{r}
-dt[, treatment:=interaction(condition,sex), meta=T]
-dt[meta=T]
+dt[, treatment := interaction(condition, sex), meta = T]
+dt[meta = T]
 ```
 
 
@@ -152,7 +156,9 @@ summary_dt <- dt[,
 print(summary_dt)
 ```
 
-Now, we can **rejoin** the metadata. That is, we can reunite the metadata to summary data:
+Now, we can **rejoin** the metadata. 
+That is, we can reunite the metadata to summary data:
+
 ```{r}
 summary_all <- rejoin(summary_dt)
 print(summary_all)
@@ -167,21 +173,21 @@ For instance, imagine you want to build a package to compute circadian rythm var
 You could generate 40 animals (two conditions) DAM like data using `toy_dam_data()`:
 
 ```r
-query<- data.frame(experiment_id="toy_experiment",
-                    region_id=1:40, # 40 animals
-                    condition=c("A","B"), # conditions A,B,A,B ...
+query <- data.frame(experiment_id = "toy_experiment",
+                    region_id = 1:40, # 40 animals
+                    condition = c("A","B"), # conditions A,B,A,B ...
                     # drift is a coeficient to drift the time so that we make 
                     # to slightly different periods see below
-                    drift=c(1.001,1.000)
+                    drift = c(1.001,1.000)
                     )
-dt <- toy_activity_data(query,duration=days(10))
+dt <- toy_activity_data(query, duration = days(10))
 print(dt)
 ```
 
 One could, for instance, *artificially* drift the time to make it look like *the two conditions have different circadian periods*:
 
 ```
-dt[, t:=t*xmd(drift)]
+dt[, t:=t*xmv(drift)]
 dt
 ```
 

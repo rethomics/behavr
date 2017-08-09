@@ -45,5 +45,5 @@ setmeta(d, m[id < 3])
 meta(d)
 }
 \seealso{
-\link{behavr} to generate a \code{behavr} object, \link{xmd} to map metadata variables to data
+\link{behavr} to generate a \code{behavr} object, \link{xmv} to map metavariables to data
 }
