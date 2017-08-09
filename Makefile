@@ -37,7 +37,7 @@ $(R_TGZ) : $(R_SOURCES)
 	@R CMD build $(R_DIR)
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 README.md: README.Rmd R
-	@etho "library(knitr); knit('README.Rmd')" | R --vanilla
+	@echo "library(knitr); knit('README.Rmd')" | R --vanilla
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 check: R
 	R -e "devtools::check()"
