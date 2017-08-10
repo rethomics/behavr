@@ -18,49 +18,49 @@ toy_dam_data(...)
 Typically queries have, at least, the columns \code{experiment_id} and \code{region_id}.
 The default value (\code{NULL}), will generate data for a single animal.}
 
-\item{seed}{Random seed used.}
+\item{seed}{random seed used (see \link{set.seed})}
 
 \item{rate_range}{a parameter defining the boundaries of rate at which animals wake up.
 It will be uniformely distributed between animals, but fixed for each animal.}
 
-\item{duration}{Length (in second) of the data to generate.}
+\item{duration}{length (in seconds) of the data to generate}
 
-\item{sampling_period}{sampling period (in second) of the resulting data.}
+\item{sampling_period}{sampling period (in seconds) of the resulting data}
 
-\item{...}{Additional arguments to be passed to \code{simulateAnimalActivity}}
+\item{...}{additional arguments to be passed to \code{simulate_animal_activity}}
 }
 \value{
-A \link{behavr} table with the query columns as meta variables.
-In addition to \code{id} and \code{t} columns different method will output different variables:
+A \link{behavr} table with the query columns as metavariables.
+In addition to \code{id} and \code{t} columns different methods will output different variables:
 \itemize{
 \item \code{toy_activity_data} will have \code{asleep} and \code{moving} (1/10s)
 \item \code{toy_dam_data} will have \code{activity} (1/60s)
-\item \code{toy_ethoscope_data}  \code{xy_dist_log10x1000} \code{has_interacted}   \code{x} (2/1s)
+\item \code{toy_ethoscope_data} will have \code{xy_dist_log10x1000}, \code{has_interacted} and \code{x} (2/1s)
 }
 }
 \description{
 This function generates random data that emulates some of the features of fruit fly activity and sleep.
-This is designed \strong{exclusively to provide material for examples and tests} since it generates  "realistic" datasets of arbitrary length.
+This is designed \strong{exclusively to provide material for examples and tests} as it generates "realistic" datasets of arbitrary length.
 }
 \examples{
 # just one animal, no query needed
-dt <- toy_ethoscope_data(duration=days(3))
+dt <- toy_ethoscope_data(duration = days(3))
 
 # advanced, using a query
-query<- data.frame(experiment_id="toy_experiment",
-                   region_id=1:10,
-                   condition=c("A","B"))
+query<- data.frame(experiment_id = "toy_experiment",
+                   region_id = 1:10,
+                   condition = c("A", "B"))
 
 
 # Data that could come from loadEthoscopeData:
-dt <- toy_ethoscope_data(query,duration=days(1))
+dt <- toy_ethoscope_data(query, duration = days(1))
 print(dt)
 
 # Some DAM-like data
-dt <- toy_dam_data(query,seed=2,duration=days(3))
+dt <- toy_dam_data(query, seed = 2, duration = days(3))
 print(dt)
 
-# some data that would come from `sleepAnnotation` or `sleepDAMAnnotation`
-dt <- toy_activity_data(query,3)
+# data where behaviour is annotated e.g. by a classifier
+dt <- toy_activity_data(query, 3)
 print(dt)
 }

@@ -1,6 +1,6 @@
 #' A helper function that ensures data and metadata are compatible (same key)
 #' @noRd
-check_conform <- function(x, metadata=NULL){
+check_conform <- function(x, metadata = NULL){
 
   if(!data.table::is.data.table(x))
     stop("x is not a data.table!")
@@ -28,5 +28,4 @@ check_conform <- function(x, metadata=NULL){
 
   if(!identical(k_x, k_m))
     stop("x and metadata have different keys. The keys mus be columns with the same name!")
-
 }

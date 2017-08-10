@@ -4,34 +4,37 @@ setOldClass(c("behavr", "data.table"))
 
 #' An S3 class, based on [data.table], to store ethomics data
 #'
-#' In the context of analysis of animal behaviour,
-#' it is common to record long time series of several behavoural variables (e.g. position) on multiple individuals.
+#' In modern behavioural biology,
+#' it is common to record long time series of several *variables* (such as position, angle, fluorescence and so on) on multiple individuals.
 #' In addition to large multivariate time series, each individual is associated with a set of
-#' metavariables (i.e. metadata: sex, genotype, treatment and so on).
+#' *metavariables* (i.e. sex, genotype, treatment and lifespan ), which, together, form the *metadata*.
 #' Metavariables are crucial in so far as they generally "contain" the biological question.
 #' During analysis, it is therefore important to be able to access, alter and compute interactions between both variables and metavariables.
 #' `behavr` is a class that facilitates manipulation and storage of metadata and data in the same object.
-#' It is designed to be both memory efficient and user friendly. 
-#' For instance, it abstracts joins of metavariables.
+#' It is designed to be both memory-efficient and user-friendly. 
+#' For instance, it abstracts joins between data and metavariables.
 #'
 #' @name behavr
-#' @seealso:
+#' @seealso
 #' * the `behavr` [webpage](https://github.com/rethomics/behavr)
-#' * [xmv] to join metavariables
+#' * [data.table] -- on which `behavr` is based
+#' * [xmv] -- to join metavariables
+#' * [rejoin] -- to join all metadata
+#' * [bind_behavr_list] -- to merge several `behavr` tables
 #' @examples
 #' set.seed(1)
 #' met <- data.table::data.table(id = 1:5,
-#'                               condition=letters[1:5],
-#'                               sex=c("M","M","M","F", "F"),
-#'                               key="id")
+#'                               condition = letters[1:5],
+#'                               sex = c("M", "M", "M", "F", "F"),
+#'                               key = "id")
 #' data <- met[  ,
-#'               list(t=1L:100L,
-#'                   x=rnorm(100),
-#'                   y=rnorm(100),
-#'                   eating=runif(100) > .5 ),
-#'               by="id"]
+#'               list(t = 1L:100L,
+#'                   x = rnorm(100),
+#'                   y = rnorm(100),
+#'                   eating = runif(100) > .5 ),
+#'               by = "id"]
 #'
-#' d <- behavr(data,met)
+#' d <- behavr(data, met)
 #' print(d)
 #' summary(d)
 NULL
@@ -41,9 +44,7 @@ NULL
 #' @rdname behavr
 #' @param x [data.table] containing all measurments
 #' @param metadata [data.table] containing the metadata
-#  @param deep_copy logical defining whether the data is to be deep copied (the default). Otherwise, `x` and `metadata` are liked by reference.
-#' @details Both `x` and `metadata` should have a **column as a key** with **the same name** (typically named `id`).
-# #metadata is generally small, so it is always deep copied.
+#' @details Both `x` and `metadata` should have a **column set as key** with **the same name** (typically named `id`).
 #' @export
 behavr <- function(x, metadata){
   check_conform(x, metadata)
@@ -54,9 +55,8 @@ behavr <- function(x, metadata){
   return(out)
 }
 
-
-#' @export
 #' @noRd
+#' @export
 "[.behavr" <- function(x, ..., meta=FALSE){
 
   if(meta==TRUE){
@@ -92,6 +92,7 @@ behavr <- function(x, metadata){
 #' @export
 is.behavr <- function(x){
   data.table::is.data.table(x) & "behavr" %in% class(x)
+ # check conform here?
 }
 
 #' Print and summarise a [behavr] table
@@ -99,7 +100,10 @@ is.behavr <- function(x){
 #' @name print.behavr
 #' @param x,object [behavr] table
 #' @param ... arguments passed on to further method
-#' @seealso [behavr], [print.default], [summary.default]
+#' @seealso
+#' * [behavr] -- to generate x
+#' * [print.default]
+#' * [summary.default]
 #' @export
 print.behavr <- function(x,...){
     cat("\n ==== METADATA ====\n\n")

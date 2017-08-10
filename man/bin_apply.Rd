@@ -17,9 +17,9 @@ bin_apply_all(data, ...)
 
 \item{x}{variable to be binned}
 
-\item{x_bin_length}{length of the bins (same using as `x``)}
+\item{x_bin_length}{length of the bins (same unit as `x``)}
 
-\item{wrap_x_by}{numeric value defining wrapping period. \code{NULL} means no wrapping}
+\item{wrap_x_by}{numeric value defining wrapping period. \code{NULL}, the defsult, means no wrapping.}
 
 \item{FUN}{function used to aggregate (e.g. \link{mean}, \link{median}, \link{sum} and so on)}
 
@@ -33,36 +33,36 @@ for bins of a another variable \code{x} (typically time).
 }
 \details{
 \code{bin_apply} expects data from a single individal.
-\code{bin_apply_all} works on multiple individuals identifies by a unique key.
-\code{wrapping} is typically used to compute averages accros several periods.
-For instance,\code{wrap_x_by = days(1)}, means bins will aggreate values accross sevral days.
-The resulting x can be interpreted as "time relative to the onset of the day" (i.e. ZT).
+\code{bin_apply_all} works on multiple individuals identified by a unique key.
+\code{wrapping} is typically used to compute averages accross several periods.
+For instance,\code{wrap_x_by = days(1)}, means bins will aggreate values accross several days.
+In this case, the resulting x can be interpreted as "time relative to the onset of the day" (i.e. ZT).
 }
 \examples{
-query <- data.frame(experiment_id="toy_experiment",
-                      region_id=1:5)
-dt <- toy_activity_data(query, duration=days(4))
+query <- data.frame(experiment_id = "toy_experiment",
+                      region_id = 1:5)
+dt <- toy_activity_data(query, duration = days(4))
 
 # average by 30min time bins, default
-dt_binned <- bin_apply_all(dt,moving)
+dt_binned <- bin_apply_all(dt, moving)
 # equivalent to
-dt_binned <- dt[, bin_apply(.SD, moving),by="id"]
+dt_binned <- dt[, bin_apply(.SD, moving), by = "id"]
 
 # More advanced usage
-dt <- toy_dam_data(query, duration=days(4))
+dt <- toy_dam_data(query, duration = days(4))
 
-# nsum activity per 60minutes
+# nsum activity per 60 minutes
 dt_binned <- bin_apply_all(dt,
                            activity,
-                           x=t,
+                           x = t,
                            x_bin_length = mins(60),
-                           FUN=sum)
+                           FUN = sum)
 
 
-#' # average activity. time in ZT
+# average activity. time in ZT
 dt_binned <- bin_apply_all(dt,
                            activity,
-                           x=t,
-                           wrap_x_by=days(1)
+                           x = t,
+                           wrap_x_by = days(1)
                            )
 }

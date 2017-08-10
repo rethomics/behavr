@@ -7,47 +7,47 @@
 #' @param data [data.table] or [behavr] table (see details)
 #' @param y variable to be aggregated
 #' @param x variable to be binned
-#' @param x_bin_length length of the bins (same using as `x``)
-#' @param wrap_x_by numeric value defining wrapping period. `NULL` means no wrapping
+#' @param x_bin_length length of the bins (same unit as `x``)
+#' @param wrap_x_by numeric value defining wrapping period. `NULL`, the defsult, means no wrapping.
 #' @param FUN  function used to aggregate (e.g. [mean], [median], [sum] and so on)
 #' @param string_xy logical whether the names of the variables are quoted
 #' @param ... additional arguments to be passed to `FUN`
 #' @details
 #' `bin_apply` expects data from a single individal.
-#' `bin_apply_all` works on multiple individuals identifies by a unique key.
-#' `wrapping` is typically used to compute averages accros several periods.
-#' For instance,`wrap_x_by = days(1)`, means bins will aggreate values accross sevral days.
-#' The resulting x can be interpreted as "time relative to the onset of the day" (i.e. ZT).
+#' `bin_apply_all` works on multiple individuals identified by a unique key.
+#' `wrapping` is typically used to compute averages accross several periods.
+#' For instance,`wrap_x_by = days(1)`, means bins will aggreate values accross several days.
+#' In this case, the resulting x can be interpreted as "time relative to the onset of the day" (i.e. ZT).
 #' @examples
-#' query <- data.frame(experiment_id="toy_experiment",
-#'                       region_id=1:5)
-#' dt <- toy_activity_data(query, duration=days(4))
+#' query <- data.frame(experiment_id = "toy_experiment",
+#'                       region_id = 1:5)
+#' dt <- toy_activity_data(query, duration = days(4))
 #'
 #' # average by 30min time bins, default
-#' dt_binned <- bin_apply_all(dt,moving)
+#' dt_binned <- bin_apply_all(dt, moving)
 #' # equivalent to
-#' dt_binned <- dt[, bin_apply(.SD, moving),by="id"]
+#' dt_binned <- dt[, bin_apply(.SD, moving), by = "id"]
 #'
 #' # More advanced usage
-#' dt <- toy_dam_data(query, duration=days(4))
+#' dt <- toy_dam_data(query, duration = days(4))
 #'
-#' # nsum activity per 60minutes
+#' # nsum activity per 60 minutes
 #' dt_binned <- bin_apply_all(dt,
 #'                            activity,
-#'                            x=t,
+#'                            x = t,
 #'                            x_bin_length = mins(60),
-#'                            FUN=sum)
+#'                            FUN = sum)
 #'
 #'
-#'#' # average activity. time in ZT
+#' # average activity. time in ZT
 #' dt_binned <- bin_apply_all(dt,
 #'                            activity,
-#'                            x=t,
-#'                            wrap_x_by=days(1)
+#'                            x = t,
+#'                            wrap_x_by = days(1)
 #'                            )
 #' @export
-bin_apply <- function(data, y, x=t, x_bin_length = mins(30),
-                      wrap_x_by=NULL, FUN=mean, string_xy=FALSE, ...){
+bin_apply <- function(data, y, x = t, x_bin_length = mins(30),
+                      wrap_x_by = NULL, FUN = mean, string_xy = FALSE, ...){
 
   if(!string_xy){
     var_name <- deparse(substitute(y))
@@ -79,10 +79,10 @@ bin_apply <- function(data, y, x=t, x_bin_length = mins(30),
 #' @rdname bin_apply
 #' @export
 bin_apply_all <- function(data, ...){
-  data[, bin_apply(data=.SD, ...),by=eval(data.table::key(data))]
+  data[, bin_apply(data=.SD, ...), by = eval(data.table::key(data))]
 }
 
-bin_var <- function(t, bin_length, wrap=NULL){
+bin_var <- function(t, bin_length, wrap = NULL){
   if(!is.null(wrap))
     t <- t %% wrap
   floor(t /bin_length) * bin_length

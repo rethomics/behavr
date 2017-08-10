@@ -1,49 +1,49 @@
 #' Generate toy activity and sleep data mimiking Drosophila behaviour in tubes
 #'
 #' This function generates random data that emulates some of the features of fruit fly activity and sleep.
-#' This is designed **exclusively to provide material for examples and tests** since it generates  "realistic" datasets of arbitrary length.
+#' This is designed **exclusively to provide material for examples and tests** as it generates "realistic" datasets of arbitrary length.
 #'
 #' @param query query (i.e. a dataframe where every row defines an animal).
 #' Typically queries have, at least, the columns `experiment_id` and `region_id`.
 #' The default value (`NULL`), will generate data for a single animal.
-#' @param seed Random seed used.
+#' @param seed random seed used (see [set.seed])
 #' @param rate_range a parameter defining the boundaries of rate at which animals wake up.
 #' It will be uniformely distributed between animals, but fixed for each animal.
-#' @param duration Length (in second) of the data to generate.
-#' @param sampling_period sampling period (in second) of the resulting data.
-#' @param ... Additional arguments to be passed to `simulateAnimalActivity`
-#' @return A [behavr] table with the query columns as meta variables.
-#' In addition to `id` and `t` columns different method will output different variables:
+#' @param duration length (in seconds) of the data to generate
+#' @param sampling_period sampling period (in seconds) of the resulting data
+#' @param ... additional arguments to be passed to `simulate_animal_activity`
+#' @return A [behavr] table with the query columns as metavariables.
+#' In addition to `id` and `t` columns different methods will output different variables:
 #' * `toy_activity_data` will have `asleep` and `moving` (1/10s)
 #' * `toy_dam_data` will have `activity` (1/60s)
-#' * `toy_ethoscope_data`  `xy_dist_log10x1000` `has_interacted`   `x` (2/1s)
+#' * `toy_ethoscope_data` will have `xy_dist_log10x1000`, `has_interacted` and `x` (2/1s)
 #' @examples
 #' # just one animal, no query needed
-#' dt <- toy_ethoscope_data(duration=days(3))
+#' dt <- toy_ethoscope_data(duration = days(3))
 #'
 #' # advanced, using a query
-#' query<- data.frame(experiment_id="toy_experiment",
-#'                    region_id=1:10,
-#'                    condition=c("A","B"))
+#' query<- data.frame(experiment_id = "toy_experiment",
+#'                    region_id = 1:10,
+#'                    condition = c("A", "B"))
 #'
 #'
 #' # Data that could come from loadEthoscopeData:
-#' dt <- toy_ethoscope_data(query,duration=days(1))
+#' dt <- toy_ethoscope_data(query, duration = days(1))
 #' print(dt)
 #'
 #' # Some DAM-like data
-#' dt <- toy_dam_data(query,seed=2,duration=days(3))
+#' dt <- toy_dam_data(query, seed = 2, duration = days(3))
 #' print(dt)
 #'
-#' # some data that would come from `sleepAnnotation` or `sleepDAMAnnotation`
-#' dt <- toy_activity_data(query,3)
+#' # data where behaviour is annotated e.g. by a classifier
+#' dt <- toy_activity_data(query, 3)
 #' print(dt)
 #' @export
-toy_activity_data <- function(query=NULL,
-                            seed=1,
-                            rate_range=1/c(60,10),
-                            duration=days(5),
-                            sampling_period=10,
+toy_activity_data <- function(query = NULL,
+                            seed = 1,
+                            rate_range = 1/c(60,10),
+                            duration = days(5),
+                            sampling_period = 10,
                             ...){
   set.seed(seed)
 
@@ -61,7 +61,7 @@ toy_activity_data <- function(query=NULL,
   q <- query[, .(id)]
   #runif(1,rate_range[1], rate_range[2])
 
-  out <- q[,simulateAnimalActivity(duration,
+  out <- q[,simulate_animal_activity(duration,
                                        sampling_period,
                                        rate=runif(.N,rate_range[1], rate_range[2]),...),
                keyby="id"]
@@ -95,7 +95,7 @@ toy_dam_data <- function(...){
   # out
 }
 
-simulateAnimalActivity <- function(max_t=days(5), sampling_period=10, method=activityPropensity,...){
+simulate_animal_activity <- function(max_t=days(5), sampling_period=10, method=activityPropensity,...){
   t <- seq(from=0, to = max_t, by=sampling_period)
   propensity <- method(t,...)
   moving <- propensity > runif(length(t))

@@ -18,5 +18,9 @@
 Print and summarise a \link{behavr} table
 }
 \seealso{
-\link{behavr}, \link{print.default}, \link{summary.default}
+\itemize{
+\item \link{behavr} -- to generate x
+\item \link{print.default}
+\item \link{summary.default}
+}
 }

@@ -16,40 +16,42 @@ is.behavr(x)
 \item{metadata}{\link{data.table} containing the metadata}
 }
 \description{
-In the context of analysis of animal behaviour,
-it is common to record long time series of several behavoural variables (e.g. position) on multiple individuals.
+In modern behavioural biology,
+it is common to record long time series of several \emph{variables} (such as position, angle, fluorescence and so on) on multiple individuals.
 In addition to large multivariate time series, each individual is associated with a set of
-metavariables (i.e. metadata: sex, genotype, treatment and so on).
+\emph{metavariables} (i.e. sex, genotype, treatment and lifespan ), which, together, form the \emph{metadata}.
 Metavariables are crucial in so far as they generally "contain" the biological question.
 During analysis, it is therefore important to be able to access, alter and compute interactions between both variables and metavariables.
 \code{behavr} is a class that facilitates manipulation and storage of metadata and data in the same object.
-It is designed to be both memory efficient and user friendly.
-For instance, it abstracts joins of metavariables.
+It is designed to be both memory-efficient and user-friendly.
+For instance, it abstracts joins between data and metavariables.
 }
 \details{
-Both \code{x} and \code{metadata} should have a \strong{column as a key} with \strong{the same name} (typically named \code{id}).
+Both \code{x} and \code{metadata} should have a \strong{column set as key} with \strong{the same name} (typically named \code{id}).
 }
 \examples{
 set.seed(1)
 met <- data.table::data.table(id = 1:5,
-                              condition=letters[1:5],
-                              sex=c("M","M","M","F", "F"),
-                              key="id")
+                              condition = letters[1:5],
+                              sex = c("M", "M", "M", "F", "F"),
+                              key = "id")
 data <- met[  ,
-              list(t=1L:100L,
-                  x=rnorm(100),
-                  y=rnorm(100),
-                  eating=runif(100) > .5 ),
-              by="id"]
+              list(t = 1L:100L,
+                  x = rnorm(100),
+                  y = rnorm(100),
+                  eating = runif(100) > .5 ),
+              by = "id"]
 
-d <- behavr(data,met)
+d <- behavr(data, met)
 print(d)
 summary(d)
 }
 \seealso{
-:
 \itemize{
 \item the \code{behavr} \href{https://github.com/rethomics/behavr}{webpage}
-\item \link{xmv} to join metavariables
+\item \link{data.table} -- on which \code{behavr} is based
+\item \link{xmv} -- to join metavariables
+\item \link{rejoin} -- to join all metadata
+\item \link{bind_behavr_list} -- to merge several \code{behavr} tables
 }
 }
