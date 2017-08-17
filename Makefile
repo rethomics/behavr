@@ -1,4 +1,4 @@
-PACKAGE_NAME := behavr
+PACKAGE_NAME := $(grep -Po "Package:\s*\K.*" DESCRIPTION)
 
 R_DIR = $(shell pwd)
 R_SOURCES := $(shell ls $(R_DIR)/R/*.R )

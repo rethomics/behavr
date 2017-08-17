@@ -13,6 +13,12 @@ r_packages: covr
 after_success:
   - Rscript -e 'covr::codecov()'
 
+script:
+    - R CMD build .
+    - R CMD check *tar.gz
+    - make README.md
+  
+  
 notifications:
   email:
     on_success: change
