@@ -1,4 +1,4 @@
-#' Extract a metavariable and map it against the data
+#' Expand a metavariable and map it against the data
 #'
 #' This function eXpands a MetaVariable from a parent [behavr] object.
 #' That is, it matches this variable (from metadata) to the data *by id*.
@@ -11,7 +11,7 @@
 #' For instance, when one wants to modify a column of the data according a metavariable.
 #' @examples
 #' #### First, we create some data
-#' 
+#'
 #' library(data.table)
 #' set.seed(1)
 #' data <- data.table(
@@ -29,7 +29,7 @@
 #' summary(dt)
 #'
 #' #### Subsetting using metadata
-#' 
+#'
 #' dt[xmv(treatment) == "w"]
 #' dt[xmv(treatment) == "w"]
 #' dt[xmv(lifespan) < 30]
