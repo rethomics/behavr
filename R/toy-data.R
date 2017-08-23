@@ -56,15 +56,18 @@ toy_activity_data <- function(query = NULL,
   if(sum(c("experiment_id", "region_id") %in%  colnames(query))!=2)
     stop("The provided toy query must have, at least, columns `experiment_id' and `region_id'")
 
-  query[,id:=sprintf("%02d|%s", region_id,experiment_id)]
+  query[,id:= as.factor(sprintf("%02d|%s", region_id,experiment_id))]
+  data.table::setcolorder(query, c("id", setdiff(colnames(query), "id") ))
   data.table::setkeyv(query, "id")
+
   q <- query[, .(id)]
   #runif(1,rate_range[1], rate_range[2])
-
+  q[, id := id]
   out <- q[,simulate_animal_activity(duration,
                                        sampling_period,
                                        rate=runif(.N,rate_range[1], rate_range[2]),...),
                keyby="id"]
+
   behavr(out,query)
 }
 
@@ -87,12 +90,7 @@ toy_dam_data <- function(...){
 
   out[,activity := abs(c(0,diff(sign(.5 - x)))), by="id"]
   out[,activity := as.logical(activity)]
-  bin_apply_all(out, activity, x_bin_length = 60)
-  # out[, t_round := floor(t/mins(1)) * mins(1)]
-  # out <- out[,list(activity = sum(beam_cross)), by=c("id","t_round")]
-  #
-  # data.table::setnames(out, c("t_round"), c("t"))
-  # out
+  bin_apply_all(out, activity, x_bin_length = 60, FUN=sum)
 }
 
 simulate_animal_activity <- function(max_t=days(5), sampling_period=10, method=activityPropensity,...){
@@ -100,7 +98,7 @@ simulate_animal_activity <- function(max_t=days(5), sampling_period=10, method=a
   propensity <- method(t,...)
   moving <- propensity > runif(length(t))
   asleep <- sleepContiguous(moving, 1/sampling_period)
-  dt <-data.table(t=t, moving=moving, asleep=asleep)
+  dt <-data.table(t = t, moving=moving, asleep=asleep)
   dt
 }
 
