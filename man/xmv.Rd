@@ -2,7 +2,7 @@
 % Please edit documentation in R/xmv.R
 \name{xmv}
 \alias{xmv}
-\title{Extract a metavariable and map it against the data}
+\title{Expand a metavariable and map it against the data}
 \usage{
 xmv(var)
 }
