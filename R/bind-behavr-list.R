@@ -26,13 +26,15 @@
 #'
 #' d_all <- bind_behavr_list(list(d1, d2))
 #' print(d_all)
-#' @seealso 
+#' @seealso
 #' * [behavr] -- the documentation of the `behavr` object
 #' @export
 bind_behavr_list <- function(l){
   if(!is.list(l))
     stop("l should be a list (of behavr tables)!")
-
+  l <- l[!sapply(l,is.null)]
+  if(length(l) == 0)
+    return(NULL)
   all_md <- lapply(l, behavr::meta)
   meta_key <- lapply(all_md, data.table::key)
   if(!all_identical(meta_key))
