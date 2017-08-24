@@ -7,7 +7,7 @@
 rejoin(x)
 }
 \arguments{
-\item{x}{a \link{behavr} object}
+\item{x}{\link{behavr} object}
 }
 \value{
 a \link{data.table}

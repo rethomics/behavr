@@ -11,7 +11,7 @@ setOldClass(c("behavr", "data.table"))
 #' Metavariables are crucial in so far as they generally "contain" the biological question.
 #' During analysis, it is therefore important to be able to access, alter and compute interactions between both variables and metavariables.
 #' `behavr` is a class that facilitates manipulation and storage of metadata and data in the same object.
-#' It is designed to be both memory-efficient and user-friendly. 
+#' It is designed to be both memory-efficient and user-friendly.
 #' For instance, it abstracts joins between data and metavariables.
 #'
 #' @name behavr
@@ -37,6 +37,10 @@ setOldClass(c("behavr", "data.table"))
 #' d <- behavr(data, met)
 #' print(d)
 #' summary(d)
+#' setbehavr(data, met)
+#' print(data)
+#' summary(data)
+
 NULL
 
 # Construction ------------------------------------------------------------
@@ -45,23 +49,37 @@ NULL
 #' @param x [data.table] containing all measurments
 #' @param metadata [data.table] containing the metadata
 #' @details Both `x` and `metadata` should have a **column set as key** with **the same name** (typically named `id`).
+#' `behavr()` copies `x`, whilst `setbehavr()` uses reference. `metadata` is always copied.
 #' @export
 behavr <- function(x, metadata){
   check_conform(x, metadata)
-  m <- data.table::copy(metadata)
   out <- data.table::copy(x)
-  data.table::setattr(out,"metadata",m)
-  data.table::setattr(out,"class",c("behavr","data.table","data.frame"))
+  setbehavr(out, metadata)
   return(out)
 }
+
+#' @rdname behavr
+#' @export
+setbehavr <- function(x, metadata){
+  check_conform(x, metadata)
+  m <- data.table::copy(metadata)
+  data.table::setattr(x,"metadata",m)
+  data.table::setattr(x,"class",c("behavr","data.table","data.frame"))
+}
+
 
 #' @noRd
 #' @export
 "[.behavr" <- function(x, ..., meta=FALSE){
 
+
+  m <- data.table::copy(meta(x))
+  old_key <- data.table::key(m)
+  if(!identical(old_key, data.table::key(m)))
+    stop("Something is wrong with this table.
+         Keys in metadata and data are different!")
   if(meta==TRUE){
-    m <- data.table::copy(meta(x))
-    old_key <- data.table::key(m)
+
     out <- m[...]
     if(!identical(old_key, data.table::key(out)))
        stop("You are trying to modify metadata in a way that removes its key. This is not allowed!")
@@ -76,7 +94,8 @@ behavr <- function(x, metadata){
   }
 
  # coerce to DT if not conform
- if(!identical(data.table::key(out),data.table::key(x))){
+
+ if(!identical(data.table::key(out), old_key)){
    data.table::setattr(out,"metadata",NULL)
    data.table::setattr(out,"class",c("data.table","data.frame"))
  }
@@ -86,6 +105,10 @@ behavr <- function(x, metadata){
   #check_conform(out)
  }
 }
+
+
+
+
 
 
 #' @rdname behavr
@@ -113,14 +136,14 @@ print.behavr <- function(x,...){
 }
 
 #' @rdname print.behavr
-#' @export 
+#' @export
 summary.behavr <- function(object, ...){
-    
+
     met <- object[meta=TRUE]
     n_key <- length(data.table::key(met))
     n_mvar <- ncol(met) -  n_key
     n_var <- ncol(object) -  n_key
-    
+
    cat("behavr table with:\n")
     cat(sprintf(" %i\tindividuals\n", nrow(met)))
     cat(sprintf(" %i\tmetavariables\n", n_mvar))

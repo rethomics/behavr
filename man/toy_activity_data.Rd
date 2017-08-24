@@ -30,7 +30,7 @@ It will be uniformely distributed between animals, but fixed for each animal.}
 \item{...}{additional arguments to be passed to \code{simulate_animal_activity}}
 }
 \value{
-A \link{behavr} table with the query columns as metavariables.
+a \link{behavr} table with the query columns as metavariables.
 In addition to \code{id} and \code{t} columns different methods will output different variables:
 \itemize{
 \item \code{toy_activity_data} will have \code{asleep} and \code{moving} (1/10s)

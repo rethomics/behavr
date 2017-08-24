@@ -1,10 +1,10 @@
 #' Join data and metadata
 #'
 #' This function joins the data of a [behavr] object to its metadata.
-#' When dealing with large data sets, it is preferable to keep metadata and data separate 
-#' until a summary of data is computed. Indeed, joining many metavariables to 
+#' When dealing with large data sets, it is preferable to keep metadata and data separate
+#' until a summary of data is computed. Indeed, joining many metavariables to
 #' very long time series may result in unnecessary large memory usage.
-#' @param x a [behavr] object
+#' @inheritParams meta
 #' @return a [data.table]
 #' @examples
 #' set.seed(1)

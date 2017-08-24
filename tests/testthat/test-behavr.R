@@ -62,15 +62,19 @@ test_that("coercion to data.table when key is dropped", {
   met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
   data <- met[,list(t=1L:100L, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
   d <- behavr(data,met)
-
+  d[id==1]
   # drop class when id is  lost
   expect_identical(class(d[,.(x)]), class(data))
   expect_identical(class(d[,.(x,y)]), class(data))
+
 
   #if id is kep, no coercion
   expect_identical(class(d[,.(id,x,y)]), class(d))
   expect_identical(class(d[,.(id)]), class(d))
   expect_identical(class(d[,.(id)]), class(d))
+  #library(data.table)
+  d[, id := NULL]
+  expect_identical(class(d), class(data))
 })
 
 

@@ -12,7 +12,7 @@
 #' @param duration length (in seconds) of the data to generate
 #' @param sampling_period sampling period (in seconds) of the resulting data
 #' @param ... additional arguments to be passed to `simulate_animal_activity`
-#' @return A [behavr] table with the query columns as metavariables.
+#' @return a [behavr] table with the query columns as metavariables.
 #' In addition to `id` and `t` columns different methods will output different variables:
 #' * `toy_activity_data` will have `asleep` and `moving` (1/10s)
 #' * `toy_dam_data` will have `activity` (1/60s)

@@ -3,10 +3,13 @@
 \name{behavr}
 \alias{behavr}
 \alias{behavr}
+\alias{setbehavr}
 \alias{is.behavr}
 \title{An S3 class, based on \link{data.table}, to store ethomics data}
 \usage{
 behavr(x, metadata)
+
+setbehavr(x, metadata)
 
 is.behavr(x)
 }
@@ -28,6 +31,7 @@ For instance, it abstracts joins between data and metavariables.
 }
 \details{
 Both \code{x} and \code{metadata} should have a \strong{column set as key} with \strong{the same name} (typically named \code{id}).
+\code{behavr()} copies \code{x}, whilst \code{setbehavr()} uses reference. \code{metadata} is always copied.
 }
 \examples{
 set.seed(1)
@@ -45,6 +49,9 @@ data <- met[  ,
 d <- behavr(data, met)
 print(d)
 summary(d)
+setbehavr(data, met)
+print(data)
+summary(data)
 }
 \seealso{
 \itemize{

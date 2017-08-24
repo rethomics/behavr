@@ -10,7 +10,7 @@ meta(x)
 setmeta(x, new)
 }
 \arguments{
-\item{x}{a \link{behavr} object}
+\item{x}{\link{behavr} object}
 
 \item{new}{a new metadata table}
 }

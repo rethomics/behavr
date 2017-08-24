@@ -1,7 +1,7 @@
 #' Retreive and set metadata
 #'
 #' This function returns the meta data from a [behavr] object
-#' @param x a [behavr] object
+#' @param x [behavr] object
 #' @return a [data.table] representing the metadata in `x`
 #' @examples
 #' set.seed(1)
