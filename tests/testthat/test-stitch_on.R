@@ -20,7 +20,7 @@ test_that("stitch works", {
   data <- met[,list(t=t, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
 
   d <- behavr(data,met)
-  d2 <- stitch(d, on ="uid")
+  d2 <- stitch_on(d, on ="uid")
 
 
   expect_equal(nrow(unique(d2, by =data.table::key(d2))), 5)
@@ -41,7 +41,7 @@ test_that("stitch works", {
   data <- met[,list(t=t, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
 
   d <- behavr(data,met)
-  d2 <- stitch(d, on ="uid")
+  d2 <- stitch_on(d, on ="uid")
 
   expect_equal(nrow(unique(d2, by =data.table::key(d2))), 5)
   expect_identical(d2[t > 100 & id == 6, x],  d[ id == 1, x])
@@ -71,7 +71,7 @@ test_that("stitch fails when overlap", {
   data <- met[,list(t=t, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
 
   d <- behavr(data,met)
-  expect_error(stitch(d, on ="uid"), "overlap")
+  expect_error(stitch_on(d, on ="uid"), "overlap")
 
 })
 

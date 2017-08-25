@@ -1,5 +1,6 @@
 
 #' Sticth behavioural data by puting together individuals belonging to different experiments
+#' on the basis of a user defined id
 #'
 #' This functions can merge rows of data from the same individual, that was recorded over multiple experiments.
 #' A common scenario is when an experiment is interrupted (the individuals could be, for instcane, shuffled), and a new recording is started.
@@ -35,12 +36,12 @@
 #' data <- met[,list(t=t, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
 #' d <- behavr(data,met)
 #' summary(d)
-#' d2 <- stitch(d, on ="uid")
+#' d2 <- stitch_on(d, on ="uid")
 #' summary(d2)
 #'
 #' @seealso [behavr] to generate a `behavr` object
 #' @export
-stitch <- function(x,
+stitch_on <- function(x,
                    on,
                    time_ref = "date",
                    time_variable = "t"){
