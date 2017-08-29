@@ -5,7 +5,7 @@
 \title{Sticth behavioural data by puting together individuals belonging to different experiments
 on the basis of a user defined id}
 \usage{
-stitch_on(x, on, time_ref = "date", time_variable = "t")
+stitch_on(x, on, time_ref = "datetime", use_time = F, time_variable = "t")
 }
 \arguments{
 \item{x}{\link{behavr} object}
@@ -13,6 +13,8 @@ stitch_on(x, on, time_ref = "date", time_variable = "t")
 \item{on}{name of a metavariable serving as a unique id (per individual)}
 
 \item{time_ref}{name of a metavariable used to align time (e.g. \code{"date"}, or \code{"datetime"})}
+
+\item{use_time}{whether to use time as well as date}
 
 \item{time_variable}{name of the variable describing time}
 }
@@ -26,9 +28,10 @@ Stitching assumes the users has defined a \emph{unique id} in the metadata that 
 Then, if any data that comes form the same unique id, it is merged.
 }
 \details{
-When several id match a unique id (several experiments), the first (in time) experiment is used to generate the new id.
+When several ids match a unique id (several experiments), the first (in time) experiment is used to generate the new id.
 The data from the following one(s) will be added with a time lag equls to the difference between the \code{time_ref}.
-When data is aligned to a circadian time already, it makes sense to use \code{"date"} as time ref. Otherwise, \code{"datetime"} makes more sense.
+When data is not aligned to circadian time, it makes sense to set \code{use_time} to \code{TRUE}.
+Otherwise, the assuption is that the time is already aligned to a circadian reference, so only the date is used.
 }
 \examples{
 set.seed(1)
@@ -40,8 +43,8 @@ met2 <- data.table::data.table(uid = 1:4,id = 6:9,
                                condition = letters[1:4],
                                sex=c("M","M","M","F"),
                                key="id")
-met1[, date := as.POSIXct("2015-01-02")]
-met2[, date := as.POSIXct("2015-01-03")]
+met1[, datetime := as.POSIXct("2015-01-02")]
+met2[, datetime := as.POSIXct("2015-01-03")]
 met <- rbind(met1, met2)
 data.table::setkeyv(met, "id")
 t <- 1L:100L

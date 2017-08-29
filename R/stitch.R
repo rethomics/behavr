@@ -1,4 +1,3 @@
-
 #' Sticth behavioural data by puting together individuals belonging to different experiments
 #' on the basis of a user defined id
 #'
@@ -10,12 +9,14 @@
 #' @inheritParams meta
 #' @param on name of a metavariable serving as a unique id (per individual)
 #' @param time_ref name of a metavariable used to align time (e.g. `"date"`, or `"datetime"`)
+#' @param use_time whether to use time as well as date
 #' @param time_variable name of the variable describing time
 #' @return a [behavr] table
 #' @details
-#' When several id match a unique id (several experiments), the first (in time) experiment is used to generate the new id.
+#' When several ids match a unique id (several experiments), the first (in time) experiment is used to generate the new id.
 #' The data from the following one(s) will be added with a time lag equls to the difference between the `time_ref`.
-#' When data is aligned to a circadian time already, it makes sense to use `"date"` as time ref. Otherwise, `"datetime"` makes more sense.
+#' When data is not aligned to circadian time, it makes sense to set `use_time` to `TRUE`.
+#' Otherwise, the assuption is that the time is already aligned to a circadian reference, so only the date is used.
 #' @examples
 #' set.seed(1)
 #' met1 <- data.table::data.table(uid = 1:5,id = 1:5,
@@ -28,8 +29,8 @@
 #'                                sex=c("M","M","M","F"),
 #'                                key="id")
 
-#' met1[, date := as.POSIXct("2015-01-02")]
-#' met2[, date := as.POSIXct("2015-01-03")]
+#' met1[, datetime := as.POSIXct("2015-01-02")]
+#' met2[, datetime := as.POSIXct("2015-01-03")]
 #' met <- rbind(met1, met2)
 #' data.table::setkeyv(met, "id")
 #' t <- 1L:100L
@@ -43,7 +44,8 @@
 #' @export
 stitch_on <- function(x,
                    on,
-                   time_ref = "date",
+                   time_ref = "datetime",
+                   use_time = F,
                    time_variable = "t"){
 
   check_conform(x)
@@ -66,11 +68,22 @@ stitch_on <- function(x,
   data.table::setnames(md, time_ref, "time_ref__")
   md <- md[order(time_ref__)]
 
-  md[,
-     lag := as.numeric(time_ref__ - min(time_ref__)),
-     by = on]
+  # todo check timeref is posix, or date
 
-  x2 <- x[md[, c(on, k, "lag"), with=F], on = k]
+  if(!use_time){
+    md[,
+       lag := as.numeric(as.Date(time_ref__) - as.Date(min(time_ref__)), units="secs"),
+       by = on]
+  }
+
+  else{
+    md[,
+       lag := as.numeric(time_ref__ - min(time_ref__), units="secs"),
+       by = on]
+  }
+
+
+  x2 <- x[md[, c(on, k, "lag"), with=F], on = k, all=FALSE]
 
   data.table::setnames(x2, time_variable, "t__")
   x2[, t__ := t__ + lag]
@@ -94,7 +107,7 @@ stitch_on <- function(x,
   back_in_time <- back_in_time[bit == TRUE]
   if(nrow(back_in_time) > 0){
     msg <- sprintf("Stitching would result in overlapping points!
-                    Issue for on = paste(back_in_time", colapse = ",")
+                    Issue for %s = %s", on, paste(back_in_time[, on,with=FALSE], colapse = ","))
     stop(msg)
   }
   x2[, c(on) := NULL]

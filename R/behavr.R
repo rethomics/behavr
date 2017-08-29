@@ -65,12 +65,13 @@ setbehavr <- function(x, metadata){
   m <- data.table::copy(metadata)
   data.table::setattr(x,"metadata",m)
   data.table::setattr(x,"class",c("behavr","data.table","data.frame"))
+
 }
 
 
 #' @noRd
 #' @export
-"[.behavr" <- function(x, ..., meta=FALSE){
+"[.behavr" <- function(x, ..., meta=FALSE,verbose=FALSE){
 
 
   m <- data.table::copy(meta(x))
@@ -87,23 +88,41 @@ setbehavr <- function(x, metadata){
     return(out)
   }
 
-  else{
-    out <- NextMethod()
-    if(is.vector(out))
-      return(out)
-  }
+
+  out <- NextMethod()
+  if(is.vector(out))
+    return(out)
+
+  # if we modified inline (addresses are the same)
+  inline <- ifelse(data.table::address(out) == data.table::address(x), TRUE, FALSE)
 
  # coerce to DT if not conform
-
  if(!identical(data.table::key(out), old_key)){
    data.table::setattr(out,"metadata",NULL)
    data.table::setattr(out,"class",c("data.table","data.frame"))
  }
- else{
-  data.table::setattr(out,"metadata",meta(x))
-  data.table::setattr(out,"class",c("behavr","data.table","data.frame"))
+# the result is another behavr table
+  else{
+
   #check_conform(out)
+
+  # this means we return a subset (copy) of x (different address)
+  # therefore, we want to from metadata, the id that are not in data
+  md <- meta(x)
+  if(!inline){
+    unique_ids <- unique(out[, data.table::key(out), with=FALSE])
+    mismatches <- md[!unique_ids]
+    if(nrow(mismatches) > 0 & verbose ==TRUE){
+      message(sprintf("Implicitly removing %i individuals from metadata (as they are absent from it)", nrow(mismatches)))
+      md <- md[unique_ids]
+    }
+  }
+  data.table::setattr(out,"metadata",md)
+  data.table::setattr(out,"class",c("behavr","data.table","data.frame"))
  }
+  if(inline)
+    invisible(out)
+  return(out)
 }
 
 

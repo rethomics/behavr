@@ -12,8 +12,8 @@ test_that("stitch works", {
                                 sex=c("M","M","M","F"),
                                 key="id")
 
-  met1[, date := as.POSIXct("2015-01-02")]
-  met2[, date := as.POSIXct("2015-01-03")]
+  met1[, datetime := as.POSIXct("2015-01-02")]
+  met2[, datetime := as.POSIXct("2015-01-03")]
   met <- rbind(met1, met2)
   data.table::setkeyv(met, "id")
   t <- 1L:100L
@@ -28,13 +28,13 @@ test_that("stitch works", {
   expect_identical(d2[t > 100 & id == 1, t],  d[ id == 6, t] + days(1))
   expect_equal(nrow(d2[t > 100 & id == 5]), 0)
 
-  expect_identical(meta(d2), unique(met[order(date)], by="uid"))
+  expect_identical(meta(d2), unique(met[order(datetime)], by="uid"))
 
 
   ## now, last part of the query is BEFORE the first part
 
-  met1[, date := as.POSIXct("2015-01-02")]
-  met2[, date := as.POSIXct("2015-01-01")]
+  met1[, datetime := as.POSIXct("2015-01-02")]
+  met2[, datetime := as.POSIXct("2015-01-01")]
   met <- rbind(met1, met2)
   data.table::setkeyv(met, "id")
   t <- 1L:100L
@@ -63,8 +63,8 @@ test_that("stitch fails when overlap", {
                                  sex=c("M","M","M","F"),
                                  key="id")
 
-  met[, date := as.POSIXct("2015-01-02")]
-  met2[, date := as.POSIXct("2015-01-02")]
+  met[, datetime := as.POSIXct("2015-01-02")]
+  met2[, datetime := as.POSIXct("2015-01-02")]
   met <- rbind(met, met2)
   data.table::setkeyv(met, "id")
   t <- 1L:100L

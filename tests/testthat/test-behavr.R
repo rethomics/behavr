@@ -103,7 +103,7 @@ test_that("[,a] returns a vector", {
 })
 
 
-test_that("is.behavr wroks", {
+test_that("is.behavr works", {
   set.seed(1)
 
   met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
@@ -114,3 +114,41 @@ test_that("is.behavr wroks", {
   expect_true(is.behavr(d))
 
 })
+
+
+
+test_that("filtering data updates metadata", {
+  set.seed(1)
+  met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
+  data <- met[,list(t=1L:100L, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
+  # we update time in id=1, so we can exclude by time
+  data[id == 1, t:= t+100L]
+  d <- behavr(data,met)
+
+  expect_message(d_small <- d[ t <=100, verbose=T], "removing 1 individual")
+  expect_equal(nrow(d_small[, meta=T]), nrow(unique(data[t <= 100,data.table::key(data), with=FALSE])))
+
+  expect_message(d_small <- d[ t > 100, verbose=T], "removing 4 individual")
+  expect_equal(nrow(d_small[, meta=T]), nrow(unique(data[t > 100,data.table::key(data), with=FALSE])))
+
+  # nothing to do
+  d_small <- d[ t > 50, verbose=T]
+  expect_equal(nrow(d_small[, meta=T]), nrow(unique(data[t > 50,data.table::key(data), with=FALSE])))
+
+})
+
+
+
+#test_that("filtering metadata updates data", {
+  # set.seed(1)
+  # met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
+  # data <- met[,list(t=1L:100L, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
+  # # we update time in id=1, so we can exclude by time
+  # data[id == 1, t:= t+100L]
+  # d <- behavr(data,met)
+  #
+  # setmeta(d, meta(d)[id==1])
+  # d
+  # expect_message(setmeta(d, meta(d)[id==1]),"")
+
+#})
