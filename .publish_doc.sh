@@ -6,8 +6,11 @@ echo "Working on branch $TRAVIS_BRANCH"
 echo "R version: $TRAVIS_R_VERSION"
 
 [ -z "${GITHUB_PAT}" ] && exit 0
+echo "GITHUB_PAT: OK"
 [ "${TRAVIS_BRANCH}" != "master" ] && exit 0
-[ "${TRAVIS_R_VERSION}" != "release" ] && exit 0
+echo "BRANCH: master"
+[ "${TRAVIS_R_VERSION}" != "devel" ] && exit 0
+echo "R: devel"
 
 git config user.name "rapporter-travis"
 git config user.email "travis"
