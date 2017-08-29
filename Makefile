@@ -29,7 +29,7 @@ R : tarball
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 $(R_PDF) : R $(R_SOURCES)
-	R CMD Rd2pdf --force  -o $(R_PDF) .
+	R CMD Rd2pdf --force --batch --no-preview -o $(R_PDF) .
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $(R_TGZ) : $(R_SOURCES)
 	@echo "Roxygenising:"
