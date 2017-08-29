@@ -13,6 +13,8 @@ vpath %.R  $(R_DIR)
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 all : check $(R_PDF)
 
+pdf: $(R_PDF)
+
 clean:
 	rm -fr  *.tar.gz *.out *.pdf  *.log  $(R_dir)/man $(R_dir)/NAMESPACE
 	$(MAKE) -C ./tutorial clean
