@@ -17,8 +17,7 @@ pdf: $(R_PDF)
 
 clean:
 	rm -fr  *.tar.gz *.out *.pdf  *.log  $(R_dir)/man $(R_dir)/NAMESPACE README.md
-	$(MAKE) -C ./tutorial clean
-
+	
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 tarball : $(R_TGZ)
