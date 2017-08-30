@@ -179,12 +179,12 @@ summary.behavr <- function(object, detailed = F, ...){
     if(!"t" %in% colnames(object))
         sum_dt <- object[,
                          .(data_points =.N),
-                         by = data.table::key(object)]
+                         by = c(data.table::key(object))]
     else
         sum_dt <- object[,
                          .(data_points =.N,
                              time_range = sprintf("[%s -> %s (%s)]",min(t), max(t),  max(t) -min(t))),
-                         by = data.table::key(object)]
+                         by = c(data.table::key(object))]
     print(rejoin(sum_dt))
   }
 }
