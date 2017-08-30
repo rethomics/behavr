@@ -28,7 +28,7 @@ R : tarball
 	R CMD INSTALL --no-multiarch --with-keep.source  $(R_DIR)
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-$(R_PDF) : R $(R_SOURCES)
+$(R_PDF) : $(R_SOURCES)
 	R CMD Rd2pdf --force --batch --no-preview -o $(R_PDF) .
 #I~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $(R_TGZ) : $(R_SOURCES)
