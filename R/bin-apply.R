@@ -49,6 +49,10 @@
 bin_apply <- function(data, y, x = t, x_bin_length = mins(30),
                       wrap_x_by = NULL, FUN = mean, string_xy = FALSE, ...){
 
+
+  # trick to avoid NOTES from R CMD check:
+  var__ = b__ = .SD =  . = NULL
+
   if(!string_xy){
     var_name <- deparse(substitute(y))
     b_name <- deparse(substitute(x))
@@ -59,18 +63,18 @@ bin_apply <- function(data, y, x = t, x_bin_length = mins(30),
   }
 
   #todo check variables!
-  data.table::setnames(data, c(var_name, b_name), c("..var..", "..b.."))
+  data.table::setnames(data, c(var_name, b_name), c("var__", "b__"))
   tryCatch({
-    out <- data[,.(..var.. = ..var..,
-                ..b.. = bin_var( ..b.., x_bin_length, wrap=wrap_x_by))]
+    out <- data[,.(var__ = var__,
+                b__ = bin_var( b__, x_bin_length, wrap=wrap_x_by))]
     out <- out[,
-                    .(..var..=FUN(..var..,...)),
-                    by=..b..]
+                    .(var__=FUN(var__,...)),
+                    by=b__]
 
-    data.table::setnames(out, c("..var..", "..b.."), c(var_name, b_name))
+    data.table::setnames(out, c("var__", "b__"), c(var_name, b_name))
     return(out)
   },
-   finally={data.table::setnames(data, c("..var..", "..b.."), c(var_name, b_name))}
+   finally={data.table::setnames(data, c("var__", "b__"), c(var_name, b_name))}
   )
 
 }
@@ -79,6 +83,9 @@ bin_apply <- function(data, y, x = t, x_bin_length = mins(30),
 #' @rdname bin_apply
 #' @export
 bin_apply_all <- function(data, ...){
+  # trick to avoid NOTES from R CMD check:
+  .SD =  NULL
+
   data[, bin_apply(data=.SD, ...), by = eval(data.table::key(data))]
 }
 

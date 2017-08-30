@@ -7,12 +7,14 @@
 \usage{
 \method{print}{behavr}(x, ...)
 
-\method{summary}{behavr}(object, ...)
+\method{summary}{behavr}(object, detailed = F, ...)
 }
 \arguments{
 \item{x, object}{\link{behavr} table}
 
 \item{...}{arguments passed on to further method}
+
+\item{detailed}{whether summary should be consise}
 }
 \description{
 Print and summarise a \link{behavr} table

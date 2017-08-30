@@ -1,4 +1,5 @@
 #' @importFrom data.table data.table
+#' @importFrom data.table ":="
 #' @importFrom methods setOldClass
 setOldClass(c("behavr", "data.table"))
 
@@ -141,6 +142,7 @@ is.behavr <- function(x){
 #'
 #' @name print.behavr
 #' @param x,object [behavr] table
+#' @param detailed whether summary should be consise
 #' @param ... arguments passed on to further method
 #' @seealso
 #' * [behavr] -- to generate x
@@ -156,24 +158,33 @@ print.behavr <- function(x,...){
 
 #' @rdname print.behavr
 #' @export
-summary.behavr <- function(object, ...){
+summary.behavr <- function(object, detailed = F, ...){
+  # trick to avoid NOTES from R CMD check:
+  . = .SD = .N =  NULL
 
-    met <- object[meta=TRUE]
-    n_key <- length(data.table::key(met))
-    n_mvar <- ncol(met) -  n_key
-    n_var <- ncol(object) -  n_key
+  met <- object[meta=TRUE]
+  n_key <- length(data.table::key(met))
+  n_mvar <- ncol(met) -  n_key
+  n_var <- ncol(object) -  n_key
 
-   cat("behavr table with:\n")
+  if(!detailed){
+    cat("behavr table with:\n")
     cat(sprintf(" %i\tindividuals\n", nrow(met)))
     cat(sprintf(" %i\tmetavariables\n", n_mvar))
     cat(sprintf(" %i\tvariables\n", n_var))
     cat(sprintf(" %i\tkey (%s)\n", n_key, paste(data.table::key(met),collapse=", ")))
-
+  }
+  else{
     cat("\n Summary of each individual (one per row):\n")
     if(!"t" %in% colnames(object))
-        sum_dt <- object[, .(data_points =.N),by=id]
+        sum_dt <- object[,
+                         .(data_points =.N),
+                         by = data.table::key(object)]
     else
-        sum_dt <- object[, .(data_points =.N,
-                             time_range = sprintf("[%s -> %s (%s)]",min(t), max(t),  max(t) -min(t))),by=id]
+        sum_dt <- object[,
+                         .(data_points =.N,
+                             time_range = sprintf("[%s -> %s (%s)]",min(t), max(t),  max(t) -min(t))),
+                         by = data.table::key(object)]
     print(rejoin(sum_dt))
+  }
 }

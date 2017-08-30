@@ -2,7 +2,7 @@
 % Please edit documentation in R/stitch.R
 \name{stitch_on}
 \alias{stitch_on}
-\title{Sticth behavioural data by puting together individuals belonging to different experiments
+\title{Sticth behavioural data by putting together individuals belonging to different experiments
 on the basis of a user defined id}
 \usage{
 stitch_on(x, on, time_ref = "datetime", use_time = F, time_variable = "t")
@@ -23,7 +23,7 @@ a \link{behavr} table
 }
 \description{
 This functions can merge rows of data from the same individual, that was recorded over multiple experiments.
-A common scenario is when an experiment is interrupted (the individuals could be, for instcane, shuffled), and a new recording is started.
+A common scenario is when an experiment is interrupted (the individuals could be, for instance, shuffled), and a new recording is started.
 Stitching assumes the users has defined a \emph{unique id} in the metadata that referes to a spefific individual.
 Then, if any data that comes form the same unique id, it is merged.
 }

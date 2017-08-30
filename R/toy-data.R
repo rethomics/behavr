@@ -45,6 +45,10 @@ toy_activity_data <- function(query = NULL,
                             duration = days(5),
                             sampling_period = 10,
                             ...){
+
+  # trick to avoid NOTES from R CMD check:
+  id = region_id = experiment_id =   . = .N = NULL
+
   set.seed(seed)
 
 
@@ -65,7 +69,7 @@ toy_activity_data <- function(query = NULL,
   q[, id := id]
   out <- q[,simulate_animal_activity(duration,
                                        sampling_period,
-                                       rate=runif(.N,rate_range[1], rate_range[2]),...),
+                                       rate=stats::runif(.N,rate_range[1], rate_range[2]),...),
                keyby="id"]
 
   behavr(out,query)
@@ -77,6 +81,8 @@ toy_activity_data <- function(query = NULL,
 #' @rdname toy_activity_data
 #' @export
 toy_ethoscope_data <- function(...){
+  # trick to avoid NOTES from R CMD check:
+  .SD = NULL
   activity_dt <- toy_activity_data(...)
   out <- activity_dt[,velocityFromMovement(.SD),by="id"]
   out
@@ -85,6 +91,9 @@ toy_ethoscope_data <- function(...){
 #' @rdname toy_activity_data
 #' @export
 toy_dam_data <- function(...){
+  # trick to avoid NOTES from R CMD check:
+  x = activity = .N = .SD = NULL
+
   activity_dt <- toy_activity_data(...)
   out <- activity_dt[,velocityFromMovement(.SD),by="id"]
 
@@ -96,7 +105,7 @@ toy_dam_data <- function(...){
 simulate_animal_activity <- function(max_t=days(5), sampling_period=10, method=activityPropensity,...){
   t <- seq(from=0, to = max_t, by=sampling_period)
   propensity <- method(t,...)
-  moving <- propensity > runif(length(t))
+  moving <- propensity > stats::runif(length(t))
   asleep <- sleepContiguous(moving, 1/sampling_period)
   dt <-data.table(t = t, moving=moving, asleep=asleep)
   dt
@@ -114,6 +123,10 @@ activityPropensity <- function(t, scale=1, rate=mins(1)){
 
 velocityFromMovement <- function(data,
                                  fs=2){
+  # trick to avoid NOTES from R CMD check:
+  dt =  velocity_corrected =moving =  velocity = dist =
+    xy_dist_log10x1000 = has_interacted = x =  asleep = NULL
+
   velocity_correction_coef=3e-3
   exp_rate_immobile = 12
   norm_sd_moving =.75
@@ -121,8 +134,8 @@ velocityFromMovement <- function(data,
   new_dt <- data.table(t=new_t, key="t")
   out <- data[new_dt, on="t", roll=T]
   out[,dt := c(t[2]-t[1],diff(t))]
-  immo_data <- rexp(nrow(out),exp_rate_immobile)
-  moving_data <- rnorm(nrow(out),3,norm_sd_moving)
+  immo_data <- stats::rexp(nrow(out),exp_rate_immobile)
+  moving_data <- stats::rnorm(nrow(out),3,norm_sd_moving)
 
   out[, velocity_corrected := ifelse(moving,moving_data,immo_data)]
   out[, velocity := velocity_corrected * velocity_correction_coef/dt]
