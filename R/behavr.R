@@ -19,11 +19,11 @@ setOldClass(c("behavr", "data.table"))
 #' @details
 #' A `behavr` table is a [data.table].
 #' Therefore, it can be used by any function that would work on a [data.frame] or a [data.table].
-#' Most of the operation such as variable creation, subseting and joins are inherited from the [data.table]
+#' Most of the operation such as variable creation, subsetting and joins are inherited from the [data.table]
 #' `[]` operator, following the convention `DT[i,j,by]` (see data table package for detail).
 #' These operations are applied on the data.
 #' Metadata can be accessed using `meta=TRUE`: `DT[i,j,by, meta=TRUE]`,
-#' which allows to etract subset of metadata, create metavariables etc.
+#' which allows extraction of subsets, creation of metavariables, etc.
 #' @name behavr
 #' @seealso
 #' * [data.table] -- on which `behavr` is based
@@ -73,7 +73,7 @@ NULL
 # Construction ------------------------------------------------------------
 
 #' @rdname behavr
-#' @param x [data.table] containing all measurments
+#' @param x [data.table] containing all measurements
 #' @param metadata [data.table] containing the metadata
 #' @details Both `x` and `metadata` should have a **column set as key** with **the same name** (typically named `id`).
 #' `behavr()` copies `x`, whilst `setbehavr()` uses reference. `metadata` is always copied.

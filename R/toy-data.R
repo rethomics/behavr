@@ -1,4 +1,4 @@
-#' Generate toy activity and sleep data mimiking Drosophila behaviour in tubes
+#' Generate toy activity and sleep data mimicking Drosophila behaviour in tubes
 #'
 #' This function generates random data that emulates some of the features of fruit fly activity and sleep.
 #' This is designed **exclusively to provide material for examples and tests** as
@@ -9,7 +9,7 @@
 #' The default value (`NULL`), will generate data for a single animal.
 #' @param seed random seed used (see [set.seed])
 #' @param rate_range parameter defining the boundaries of the rate at which animals wake up.
-#' It will be uniformely distributed between animals, but fixed within each animal.
+#' It will be uniformly distributed between animals, but fixed within each animal.
 #' @param duration length (in seconds) of the data to generate
 #' @param sampling_period sampling period (in seconds) of the resulting data
 #' @param ... additional arguments to be passed to `simulate_animal_activity`
@@ -43,11 +43,11 @@
 #' * [behavr] -- to formally create a behavr object
 #' @export
 toy_activity_data <- function(query = NULL,
-                            seed = 1,
-                            rate_range = 1/c(60,10),
-                            duration = days(5),
-                            sampling_period = 10,
-                            ...){
+                              seed = 1,
+                              rate_range = 1/c(60,10),
+                              duration = days(5),
+                              sampling_period = 10,
+                              ...){
 
   # trick to avoid NOTES from R CMD check:
   id = region_id = experiment_id =   . = .N = NULL
@@ -71,9 +71,9 @@ toy_activity_data <- function(query = NULL,
   #runif(1,rate_range[1], rate_range[2])
   q[, id := id]
   out <- q[,simulate_animal_activity(duration,
-                                       sampling_period,
-                                       rate=stats::runif(.N,rate_range[1], rate_range[2]),...),
-               keyby="id"]
+                                     sampling_period,
+                                     rate=stats::runif(.N,rate_range[1], rate_range[2]),...),
+           keyby="id"]
 
   behavr(out,query)
 }
@@ -166,3 +166,6 @@ sleepContiguous <- function(moving,fs,min_valid_time=5*60){
   r_sleep$values <- valid_runs & r_sleep$value
   inverse.rle(r_sleep)
 }
+
+
+

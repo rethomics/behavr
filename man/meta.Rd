@@ -3,7 +3,7 @@
 \name{meta}
 \alias{meta}
 \alias{setmeta}
-\title{Retreive and set metadata}
+\title{Retrieve and set metadata}
 \usage{
 meta(x)
 

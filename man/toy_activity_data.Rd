@@ -4,7 +4,7 @@
 \alias{toy_activity_data}
 \alias{toy_ethoscope_data}
 \alias{toy_dam_data}
-\title{Generate toy activity and sleep data mimiking Drosophila behaviour in tubes}
+\title{Generate toy activity and sleep data mimicking Drosophila behaviour in tubes}
 \usage{
 toy_activity_data(query = NULL, seed = 1, rate_range = 1/c(60, 10),
   duration = days(5), sampling_period = 10, ...)
@@ -21,7 +21,7 @@ The default value (\code{NULL}), will generate data for a single animal.}
 \item{seed}{random seed used (see \link{set.seed})}
 
 \item{rate_range}{parameter defining the boundaries of the rate at which animals wake up.
-It will be uniformely distributed between animals, but fixed within each animal.}
+It will be uniformly distributed between animals, but fixed within each animal.}
 
 \item{duration}{length (in seconds) of the data to generate}
 

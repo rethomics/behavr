@@ -1,4 +1,4 @@
-#' Retreive and set metadata
+#' Retrieve and set metadata
 #'
 #' This function returns the metadata from a [behavr] table.
 #' @param x [behavr] object

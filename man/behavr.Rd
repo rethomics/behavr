@@ -14,7 +14,7 @@ setbehavr(x, metadata)
 is.behavr(x)
 }
 \arguments{
-\item{x}{\link{data.table} containing all measurments}
+\item{x}{\link{data.table} containing all measurements}
 
 \item{metadata}{\link{data.table} containing the metadata}
 }
@@ -34,11 +34,11 @@ For instance, it abstracts joins between data and metavariables.
 \details{
 A \code{behavr} table is a \link{data.table}.
 Therefore, it can be used by any function that would work on a \link{data.frame} or a \link{data.table}.
-Most of the operation such as variable creation, subseting and joins are inherited from the \link{data.table}
+Most of the operation such as variable creation, subsetting and joins are inherited from the \link{data.table}
 \code{[]} operator, following the convention \code{DT[i,j,by]} (see data table package for detail).
 These operations are applied on the data.
 Metadata can be accessed using \code{meta=TRUE}: \code{DT[i,j,by, meta=TRUE]},
-which allows to etract subset of metadata, create metavariables etc.
+which allows extraction of subsets, creation of metavariables, etc.
 
 Both \code{x} and \code{metadata} should have a \strong{column set as key} with \strong{the same name} (typically named \code{id}).
 \code{behavr()} copies \code{x}, whilst \code{setbehavr()} uses reference. \code{metadata} is always copied.

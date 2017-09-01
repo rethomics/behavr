@@ -8,7 +8,7 @@
 #' As each row of data is matched against metadata for this specific variable.
 #' @details This function *can only be called within between the `[]` of a parent* [behavr] object.
 #' It is intended to facilitate operations between data and metadata.
-#' For instance, when one wants to modify a column of the data according a metavariable.
+#' For instance, when one wants to modify a column of the data according to a metavariable.
 #' @examples
 #' #### First, we create some data
 #'

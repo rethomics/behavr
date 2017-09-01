@@ -28,14 +28,14 @@ bin_apply_all(data, ...)
 \item{...}{additional arguments to be passed to \code{FUN}}
 }
 \description{
-This function is typically used to summarise (i.e. computing an aggreate of) a variable (\code{y})
+This function is typically used to summarise (i.e. computing an aggregate of) a variable (\code{y})
 for bins of a another variable \code{x} (typically time).
 }
 \details{
-\code{bin_apply} expects data from a single individal, whilst
+\code{bin_apply} expects data from a single individual, whilst
 \code{bin_apply_all} works on multiple individuals identified by a unique key.
-\code{wrapping} is typically used to compute averages accross several periods.
-For instance,\code{wrap_x_by = days(1)}, means bins will aggreate values accross several days.
+\code{wrapping} is typically used to compute averages across several periods.
+For instance,\code{wrap_x_by = days(1)}, means bins will aggregate values across several days.
 In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 }
 \examples{

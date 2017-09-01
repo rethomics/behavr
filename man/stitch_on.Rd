@@ -2,7 +2,7 @@
 % Please edit documentation in R/stitch.R
 \name{stitch_on}
 \alias{stitch_on}
-\title{Sticth behavioural data by putting together the same individuals recorded over to different experiments
+\title{Stitch behavioural data by putting together the same individuals recorded over different experiments
 on the basis of a user defined identifier}
 \usage{
 stitch_on(x, on, time_ref = "datetime", use_time = F, time_variable = "t")
@@ -23,10 +23,10 @@ a \link{behavr} table
 }
 \description{
 This function can merge rows of data from the same individual that was recorded over multiple experiments.
-A usual scenario in which \code{stitch_on} can be used is when an experiment is interrupted and a new recoding is started
-on the same biogical subjects.
-Stitching assumes the users has defined a \emph{unique id} in the metadata that referes to a spefific individual.
-Then, if any data that comes form the same unique id, it is merged.
+A usual scenario in which \code{stitch_on} can be used is when an experiment is interrupted and a new recording is started
+on the same biological subjects.
+Stitching assumes the users has defined a \emph{unique id} in the metadata that refers to a specific individual.
+Then, if any data that comes from the same unique id, it is merged.
 }
 \details{
 When several rows of the metadata match a unique id (several experiments),
@@ -34,7 +34,7 @@ the first (in time) experiment is used as the reference id.
 The data from the following one(s) will be added with a time lag equals to the difference between
 the values of \code{time_ref}.
 When data is not aligned to circadian time, it makes sense to set \code{use_time = TRUE}.
-Otherwise, the assuption is that the time is already aligned to a circadian reference,
+Otherwise, the assumption is that the time is already aligned to a circadian reference,
 so only the date is used.
 }
 \examples{

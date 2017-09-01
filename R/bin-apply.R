@@ -1,6 +1,6 @@
 #' Bin a variable (typically time) and compute an aggregate for each bin
 #'
-#' This function is typically used to summarise (i.e. computing an aggreate of) a variable (`y`)
+#' This function is typically used to summarise (i.e. computing an aggregate of) a variable (`y`)
 #' for bins of a another variable `x` (typically time).
 #'
 #'
@@ -13,10 +13,10 @@
 #' @param string_xy logical, whether the names of the variables are quoted
 #' @param ... additional arguments to be passed to `FUN`
 #' @details
-#' `bin_apply` expects data from a single individal, whilst
+#' `bin_apply` expects data from a single individual, whilst
 #' `bin_apply_all` works on multiple individuals identified by a unique key.
-#' `wrapping` is typically used to compute averages accross several periods.
-#' For instance,`wrap_x_by = days(1)`, means bins will aggreate values accross several days.
+#' `wrapping` is typically used to compute averages across several periods.
+#' For instance,`wrap_x_by = days(1)`, means bins will aggregate values across several days.
 #' In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 #' @examples
 #' query <- data.frame(experiment_id = "toy_experiment",

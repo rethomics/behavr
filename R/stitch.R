@@ -1,11 +1,11 @@
-#' Sticth behavioural data by putting together the same individuals recorded over to different experiments
+#' Stitch behavioural data by putting together the same individuals recorded over different experiments
 #' on the basis of a user defined identifier
 #'
 #' This function can merge rows of data from the same individual that was recorded over multiple experiments.
-#' A usual scenario in which `stitch_on` can be used is when an experiment is interrupted and a new recoding is started
-#' on the same biogical subjects.
-#' Stitching assumes the users has defined a *unique id* in the metadata that referes to a spefific individual.
-#' Then, if any data that comes form the same unique id, it is merged.
+#' A usual scenario in which `stitch_on` can be used is when an experiment is interrupted and a new recording is started
+#' on the same biological subjects.
+#' Stitching assumes the users has defined a *unique id* in the metadata that refers to a specific individual.
+#' Then, if any data that comes from the same unique id, it is merged.
 #'
 #' @inheritParams meta
 #' @param on name of a metavariable serving as a unique id (per individual)
@@ -19,7 +19,7 @@
 #' The data from the following one(s) will be added with a time lag equals to the difference between
 #' the values of `time_ref`.
 #' When data is not aligned to circadian time, it makes sense to set `use_time = TRUE`.
-#' Otherwise, the assuption is that the time is already aligned to a circadian reference,
+#' Otherwise, the assumption is that the time is already aligned to a circadian reference,
 #' so only the date is used.
 #' @examples
 #' set.seed(1)
@@ -49,10 +49,10 @@
 #' @export
 #' @export
 stitch_on <- function(x,
-                   on,
-                   time_ref = "datetime",
-                   use_time = F,
-                   time_variable = "t"){
+                      on,
+                      time_ref = "datetime",
+                      use_time = F,
+                      time_variable = "t"){
   # trick to avoid NOTES from R CMD check:
   time_ref__ = lag = t__ = bit = . = NULL
   check_conform(x)
@@ -67,7 +67,7 @@ stitch_on <- function(x,
     stop(sprintf("No time variable named %s in data", time_variable))
 
 
-  #check for unique excpet date/path/...? no prob not
+  #check for unique except date/path/...? no prob not
 
   md <- data.table::copy(meta(x))
   k <- data.table::key(md)
@@ -130,3 +130,6 @@ stitch_on <- function(x,
   setbehavr(x2,md)
   x2
 }
+
+
+

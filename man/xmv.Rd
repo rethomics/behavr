@@ -20,7 +20,7 @@ That is, it matches this variable (from metadata) to the data \emph{by id}.
 \details{
 This function \emph{can only be called within between the \code{[]} of a parent} \link{behavr} object.
 It is intended to facilitate operations between data and metadata.
-For instance, when one wants to modify a column of the data according a metavariable.
+For instance, when one wants to modify a column of the data according to a metavariable.
 }
 \examples{
 #### First, we create some data

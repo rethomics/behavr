@@ -14,15 +14,15 @@ hours(x)
 mins(x)
 }
 \arguments{
-\item{x}{a numerical vector to be converted in second}
+\item{x}{numeric vector to be converted in second}
 }
 \value{
 number of seconds corresponding to \code{x} (1d = 86400s, 1h = 3600s and 1min = 60s)
 }
 \description{
-Trivial functions to convert time to seconds -- as \code{behavr} uses second as a conventionnal unit of time.
+Trivial functions to convert time to seconds -- as \code{behavr} uses second as a conventional unit of time.
 }
 \details{
-Most fucntions in the \code{rethomics} framewhor will use seconds as a unit of time.
+Most functions in the \code{rethomics} framework will use seconds as a unit of time.
 It is always preferable to call a function like \code{my_function(days(1.5))} rather than \code{my_function(60*60*24*1.5)}.
 }
