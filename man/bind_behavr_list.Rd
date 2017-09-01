@@ -13,9 +13,9 @@ bind_behavr_list(l)
 a single \link{behavr} object
 }
 \description{
-Bind all rows of both data and metadata from a list of \link{behavr} tables into a single \link{behavr} table.
+Bind all rows of both data and metadata from a list of \link{behavr} tables into a single one.
 It checks keys, number and names of columns are the same across all data.
-In addition, it forbids to bind metadata if it would result in duplicates (same id in two different metadata)
+In addition, it forbids to bind metadata if it would result in duplicates (same id in two different metadata).
 }
 \examples{
 met <- data.table::data.table(id = 1:5,
@@ -33,8 +33,8 @@ met[,id := id+5]
 data[,id := id+5]
 data.table::setkeyv(met, "id")
 data.table::setkeyv(data, "id")
-d2 <- behavr(data, met)
 
+d2 <- behavr(data, met)
 d_all <- bind_behavr_list(list(d1, d2))
 print(d_all)
 }

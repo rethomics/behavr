@@ -13,10 +13,11 @@ rejoin(x)
 a \link{data.table}
 }
 \description{
-This function joins the data of a \link{behavr} object to its metadata.
+This function joins the data of a \link{behavr} table to its own metadata.
 When dealing with large data sets, it is preferable to keep metadata and data separate
-until a summary of data is computed. Indeed, joining many metavariables to
-very long time series may result in unnecessary large memory usage.
+until a summary of data is computed.
+Indeed, joining many metavariables to
+very long time series may result in unnecessary -- and prohibitively -- large memory usage.
 }
 \examples{
 set.seed(1)
@@ -36,5 +37,7 @@ summary_d <- d[, .(test = mean(x)), by = id]
 rejoin(summary_d)
 }
 \seealso{
-\link{behavr} to generate a \code{behavr} object
+\itemize{
+\item \link{behavr} -- to formally create a behavr object
+}
 }

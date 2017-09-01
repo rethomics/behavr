@@ -1,8 +1,9 @@
-#' Sticth behavioural data by putting together individuals belonging to different experiments
-#' on the basis of a user defined id
+#' Sticth behavioural data by putting together the same individuals recorded over to different experiments
+#' on the basis of a user defined identifier
 #'
-#' This functions can merge rows of data from the same individual, that was recorded over multiple experiments.
-#' A common scenario is when an experiment is interrupted (the individuals could be, for instance, shuffled), and a new recording is started.
+#' This function can merge rows of data from the same individual that was recorded over multiple experiments.
+#' A usual scenario in which `stitch_on` can be used is when an experiment is interrupted and a new recoding is started
+#' on the same biogical subjects.
 #' Stitching assumes the users has defined a *unique id* in the metadata that referes to a spefific individual.
 #' Then, if any data that comes form the same unique id, it is merged.
 #'
@@ -13,10 +14,13 @@
 #' @param time_variable name of the variable describing time
 #' @return a [behavr] table
 #' @details
-#' When several ids match a unique id (several experiments), the first (in time) experiment is used to generate the new id.
-#' The data from the following one(s) will be added with a time lag equls to the difference between the `time_ref`.
-#' When data is not aligned to circadian time, it makes sense to set `use_time` to `TRUE`.
-#' Otherwise, the assuption is that the time is already aligned to a circadian reference, so only the date is used.
+#' When several rows of the metadata match a unique id (several experiments),
+#' the first (in time) experiment is used as the reference id.
+#' The data from the following one(s) will be added with a time lag equals to the difference between
+#' the values of `time_ref`.
+#' When data is not aligned to circadian time, it makes sense to set `use_time = TRUE`.
+#' Otherwise, the assuption is that the time is already aligned to a circadian reference,
+#' so only the date is used.
 #' @examples
 #' set.seed(1)
 #' met1 <- data.table::data.table(uid = 1:5,id = 1:5,
@@ -40,7 +44,9 @@
 #' d2 <- stitch_on(d, on ="uid")
 #' summary(d2)
 #'
-#' @seealso [behavr] to generate a `behavr` object
+#' @seealso
+#' * [behavr] -- to formally create a behavr object
+#' @export
 #' @export
 stitch_on <- function(x,
                    on,

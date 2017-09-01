@@ -7,17 +7,17 @@
 #' @param data [data.table] or [behavr] table (see details)
 #' @param y variable to be aggregated
 #' @param x variable to be binned
-#' @param x_bin_length length of the bins (same unit as `x``)
-#' @param wrap_x_by numeric value defining wrapping period. `NULL`, the defsult, means no wrapping.
+#' @param x_bin_length length of the bins (same unit as `x`)
+#' @param wrap_x_by numeric value defining wrapping period. `NULL`, the default, means no wrapping.
 #' @param FUN  function used to aggregate (e.g. [mean], [median], [sum] and so on)
-#' @param string_xy logical whether the names of the variables are quoted
+#' @param string_xy logical, whether the names of the variables are quoted
 #' @param ... additional arguments to be passed to `FUN`
 #' @details
-#' `bin_apply` expects data from a single individal.
+#' `bin_apply` expects data from a single individal, whilst
 #' `bin_apply_all` works on multiple individuals identified by a unique key.
 #' `wrapping` is typically used to compute averages accross several periods.
 #' For instance,`wrap_x_by = days(1)`, means bins will aggreate values accross several days.
-#' In this case, the resulting x can be interpreted as "time relative to the onset of the day" (i.e. ZT).
+#' In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 #' @examples
 #' query <- data.frame(experiment_id = "toy_experiment",
 #'                       region_id = 1:5)
@@ -45,6 +45,8 @@
 #'                            x = t,
 #'                            wrap_x_by = days(1)
 #'                            )
+#' @seealso
+#' * [behavr] -- the documentation of the `behavr` object
 #' @export
 bin_apply <- function(data, y, x = t, x_bin_length = mins(30),
                       wrap_x_by = NULL, FUN = mean, string_xy = FALSE, ...){

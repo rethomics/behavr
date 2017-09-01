@@ -20,20 +20,31 @@ is.behavr(x)
 }
 \description{
 In modern behavioural biology,
-it is common to record long time series of several \emph{variables} (such as position, angle, fluorescence and so on) on multiple individuals.
+it is common to record long time series of several \emph{variables} (such as position, angle,
+fluorescence and many others) on multiple individuals.
 In addition to large multivariate time series, each individual is associated with a set of
 \emph{metavariables} (i.e. sex, genotype, treatment and lifespan ), which, together, form the \emph{metadata}.
 Metavariables are crucial in so far as they generally "contain" the biological question.
-During analysis, it is therefore important to be able to access, alter and compute interactions between both variables and metavariables.
+During analysis, it is therefore important to be able to access, alter and compute interactions
+between both variables and metavariables.
 \code{behavr} is a class that facilitates manipulation and storage of metadata and data in the same object.
 It is designed to be both memory-efficient and user-friendly.
 For instance, it abstracts joins between data and metavariables.
 }
 \details{
+A \code{behavr} table is a \link{data.table}.
+Therefore, it can be used by any function that would work on a \link{data.frame} or a \link{data.table}.
+Most of the operation such as variable creation, subseting and joins are inherited from the \link{data.table}
+\code{[]} operator, following the convention \code{DT[i,j,by]} (see data table package for detail).
+These operations are applied on the data.
+Metadata can be accessed using \code{meta=TRUE}: \code{DT[i,j,by, meta=TRUE]},
+which allows to etract subset of metadata, create metavariables etc.
+
 Both \code{x} and \code{metadata} should have a \strong{column set as key} with \strong{the same name} (typically named \code{id}).
 \code{behavr()} copies \code{x}, whilst \code{setbehavr()} uses reference. \code{metadata} is always copied.
 }
 \examples{
+# We generate some metadata and data
 set.seed(1)
 met <- data.table::data.table(id = 1:5,
                               condition = letters[1:5],
@@ -45,17 +56,37 @@ data <- met[  ,
                   y = rnorm(100),
                   eating = runif(100) > .5 ),
               by = "id"]
-
+# we store them together in a behavr object d
+# d is a copy of the data
 d <- behavr(data, met)
 print(d)
 summary(d)
+
+#' # we can also convert data to a behavr table without copy:
 setbehavr(data, met)
 print(data)
 summary(data)
+
+### Operations are just like in data.table
+# row subsetting:
+d[t < 10]
+# column subsetting:
+d[, .(id, t, x)]
+# making new columns inline:
+d[, x2 := 1 - x]
+### Using `meta = TRUE` applies the operation on the metadata
+# making new metavariables:
+d[, treatment := interaction(condition,sex), meta = TRUE]
+d[meta = TRUE]
+
+}
+\references{
+\itemize{
+\item The relevant \href{https://rethomics.github.io/behavr.html#variables-and-metavariables}{rethomic tutorial section} -- about metavariables and variables in this context
+}
 }
 \seealso{
 \itemize{
-\item the \code{behavr} \href{https://github.com/rethomics/behavr}{webpage}
 \item \link{data.table} -- on which \code{behavr} is based
 \item \link{xmv} -- to join metavariables
 \item \link{rejoin} -- to join all metadata

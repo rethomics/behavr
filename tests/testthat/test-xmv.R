@@ -7,6 +7,8 @@ test_that("metadata can be mapped", {
   data <- met[,list(t=t, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
   d <- behavr(data,met)
 
+  d[, .(xmv(sex))]
+
   expect_equivalent(d[xmv(sex) == "M"],
                    data[met[sex=="M"]][,colnames(data),with=F])
 

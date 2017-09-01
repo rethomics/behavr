@@ -14,14 +14,14 @@ toy_ethoscope_data(...)
 toy_dam_data(...)
 }
 \arguments{
-\item{query}{query (i.e. a dataframe where every row defines an animal).
+\item{query}{\link{data.frame} where every row defines an animal.
 Typically queries have, at least, the columns \code{experiment_id} and \code{region_id}.
 The default value (\code{NULL}), will generate data for a single animal.}
 
 \item{seed}{random seed used (see \link{set.seed})}
 
-\item{rate_range}{a parameter defining the boundaries of rate at which animals wake up.
-It will be uniformely distributed between animals, but fixed for each animal.}
+\item{rate_range}{parameter defining the boundaries of the rate at which animals wake up.
+It will be uniformely distributed between animals, but fixed within each animal.}
 
 \item{duration}{length (in seconds) of the data to generate}
 
@@ -40,7 +40,8 @@ In addition to \code{id} and \code{t} columns different methods will output diff
 }
 \description{
 This function generates random data that emulates some of the features of fruit fly activity and sleep.
-This is designed \strong{exclusively to provide material for examples and tests} as it generates "realistic" datasets of arbitrary length.
+This is designed \strong{exclusively to provide material for examples and tests} as
+it generates "realistic" datasets of arbitrary length.
 }
 \examples{
 # just one animal, no query needed
@@ -63,4 +64,9 @@ print(dt)
 # data where behaviour is annotated e.g. by a classifier
 dt <- toy_activity_data(query, 3)
 print(dt)
+}
+\seealso{
+\itemize{
+\item \link{behavr} -- to formally create a behavr object
+}
 }

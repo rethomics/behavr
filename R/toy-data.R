@@ -1,14 +1,15 @@
 #' Generate toy activity and sleep data mimiking Drosophila behaviour in tubes
 #'
 #' This function generates random data that emulates some of the features of fruit fly activity and sleep.
-#' This is designed **exclusively to provide material for examples and tests** as it generates "realistic" datasets of arbitrary length.
+#' This is designed **exclusively to provide material for examples and tests** as
+#' it generates "realistic" datasets of arbitrary length.
 #'
-#' @param query query (i.e. a dataframe where every row defines an animal).
+#' @param query [data.frame] where every row defines an animal.
 #' Typically queries have, at least, the columns `experiment_id` and `region_id`.
 #' The default value (`NULL`), will generate data for a single animal.
 #' @param seed random seed used (see [set.seed])
-#' @param rate_range a parameter defining the boundaries of rate at which animals wake up.
-#' It will be uniformely distributed between animals, but fixed for each animal.
+#' @param rate_range parameter defining the boundaries of the rate at which animals wake up.
+#' It will be uniformely distributed between animals, but fixed within each animal.
 #' @param duration length (in seconds) of the data to generate
 #' @param sampling_period sampling period (in seconds) of the resulting data
 #' @param ... additional arguments to be passed to `simulate_animal_activity`
@@ -38,6 +39,8 @@
 #' # data where behaviour is annotated e.g. by a classifier
 #' dt <- toy_activity_data(query, 3)
 #' print(dt)
+#' @seealso
+#' * [behavr] -- to formally create a behavr object
 #' @export
 toy_activity_data <- function(query = NULL,
                             seed = 1,

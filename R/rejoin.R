@@ -1,9 +1,10 @@
 #' Join data and metadata
 #'
-#' This function joins the data of a [behavr] object to its metadata.
+#' This function joins the data of a [behavr] table to its own metadata.
 #' When dealing with large data sets, it is preferable to keep metadata and data separate
-#' until a summary of data is computed. Indeed, joining many metavariables to
-#' very long time series may result in unnecessary large memory usage.
+#' until a summary of data is computed.
+#' Indeed, joining many metavariables to
+#' very long time series may result in unnecessary -- and prohibitively -- large memory usage.
 #' @inheritParams meta
 #' @return a [data.table]
 #' @examples
@@ -22,7 +23,8 @@
 #' d <- behavr(data, met)
 #' summary_d <- d[, .(test = mean(x)), by = id]
 #' rejoin(summary_d)
-#' @seealso [behavr] to generate a `behavr` object
+#' @seealso
+#' * [behavr] -- to formally create a behavr object
 #' @export
 rejoin <- function(x){
  if(!is.behavr(x))

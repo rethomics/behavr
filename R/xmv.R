@@ -66,6 +66,7 @@ xmv <- function(var){
   col <- md[,c(data.table::key(md),var), with=F]
   join <- col[d[,data.table::key(md),with=F]]
   join[[var]]
+
 }
 
 within_data_table <- function(){

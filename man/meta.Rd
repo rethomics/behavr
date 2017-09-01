@@ -18,7 +18,7 @@ setmeta(x, new)
 a \link{data.table} representing the metadata in \code{x}
 }
 \description{
-This function returns the meta data from a \link{behavr} object
+This function returns the metadata from a \link{behavr} table.
 }
 \examples{
 set.seed(1)
@@ -45,5 +45,8 @@ setmeta(d, m[id < 3])
 meta(d)
 }
 \seealso{
-\link{behavr} to generate a \code{behavr} object, \link{xmv} to map metavariables to data
+\itemize{
+\item \link{behavr} -- the documentation of the \code{behavr} object
+\item \link{xmv} -- to join metavariables
+}
 }

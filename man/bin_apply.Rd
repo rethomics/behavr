@@ -17,13 +17,13 @@ bin_apply_all(data, ...)
 
 \item{x}{variable to be binned}
 
-\item{x_bin_length}{length of the bins (same unit as `x``)}
+\item{x_bin_length}{length of the bins (same unit as \code{x})}
 
-\item{wrap_x_by}{numeric value defining wrapping period. \code{NULL}, the defsult, means no wrapping.}
+\item{wrap_x_by}{numeric value defining wrapping period. \code{NULL}, the default, means no wrapping.}
 
 \item{FUN}{function used to aggregate (e.g. \link{mean}, \link{median}, \link{sum} and so on)}
 
-\item{string_xy}{logical whether the names of the variables are quoted}
+\item{string_xy}{logical, whether the names of the variables are quoted}
 
 \item{...}{additional arguments to be passed to \code{FUN}}
 }
@@ -32,11 +32,11 @@ This function is typically used to summarise (i.e. computing an aggreate of) a v
 for bins of a another variable \code{x} (typically time).
 }
 \details{
-\code{bin_apply} expects data from a single individal.
+\code{bin_apply} expects data from a single individal, whilst
 \code{bin_apply_all} works on multiple individuals identified by a unique key.
 \code{wrapping} is typically used to compute averages accross several periods.
 For instance,\code{wrap_x_by = days(1)}, means bins will aggreate values accross several days.
-In this case, the resulting x can be interpreted as "time relative to the onset of the day" (i.e. ZT).
+In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 }
 \examples{
 query <- data.frame(experiment_id = "toy_experiment",
@@ -65,4 +65,9 @@ dt_binned <- bin_apply_all(dt,
                            x = t,
                            wrap_x_by = days(1)
                            )
+}
+\seealso{
+\itemize{
+\item \link{behavr} -- the documentation of the \code{behavr} object
+}
 }

@@ -1,6 +1,6 @@
 #' Retreive and set metadata
 #'
-#' This function returns the meta data from a [behavr] object
+#' This function returns the metadata from a [behavr] table.
 #' @param x [behavr] object
 #' @return a [data.table] representing the metadata in `x`
 #' @examples
@@ -26,7 +26,9 @@
 #' # only id > 2 is kept
 #' setmeta(d, m[id < 3])
 #' meta(d)
-#' @seealso [behavr] to generate a `behavr` object, [xmv] to map metavariables to data
+#' @seealso
+#' * [behavr] -- the documentation of the `behavr` object
+#' * [xmv] -- to join metavariables
 #' @export
 #' @name meta
 meta <- function(x){

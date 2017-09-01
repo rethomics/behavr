@@ -6,23 +6,34 @@ setOldClass(c("behavr", "data.table"))
 #' An S3 class, based on [data.table], to store ethomics data
 #'
 #' In modern behavioural biology,
-#' it is common to record long time series of several *variables* (such as position, angle, fluorescence and so on) on multiple individuals.
+#' it is common to record long time series of several *variables* (such as position, angle,
+#' fluorescence and many others) on multiple individuals.
 #' In addition to large multivariate time series, each individual is associated with a set of
 #' *metavariables* (i.e. sex, genotype, treatment and lifespan ), which, together, form the *metadata*.
 #' Metavariables are crucial in so far as they generally "contain" the biological question.
-#' During analysis, it is therefore important to be able to access, alter and compute interactions between both variables and metavariables.
+#' During analysis, it is therefore important to be able to access, alter and compute interactions
+#' between both variables and metavariables.
 #' `behavr` is a class that facilitates manipulation and storage of metadata and data in the same object.
 #' It is designed to be both memory-efficient and user-friendly.
 #' For instance, it abstracts joins between data and metavariables.
-#'
+#' @details
+#' A `behavr` table is a [data.table].
+#' Therefore, it can be used by any function that would work on a [data.frame] or a [data.table].
+#' Most of the operation such as variable creation, subseting and joins are inherited from the [data.table]
+#' `[]` operator, following the convention `DT[i,j,by]` (see data table package for detail).
+#' These operations are applied on the data.
+#' Metadata can be accessed using `meta=TRUE`: `DT[i,j,by, meta=TRUE]`,
+#' which allows to etract subset of metadata, create metavariables etc.
 #' @name behavr
 #' @seealso
-#' * the `behavr` [webpage](https://github.com/rethomics/behavr)
 #' * [data.table] -- on which `behavr` is based
 #' * [xmv] -- to join metavariables
 #' * [rejoin] -- to join all metadata
 #' * [bind_behavr_list] -- to merge several `behavr` tables
+#' @references
+#' * The relevant [rethomic tutorial section](https://rethomics.github.io/behavr.html#variables-and-metavariables) -- about metavariables and variables in this context
 #' @examples
+#' # We generate some metadata and data
 #' set.seed(1)
 #' met <- data.table::data.table(id = 1:5,
 #'                               condition = letters[1:5],
@@ -34,14 +45,29 @@ setOldClass(c("behavr", "data.table"))
 #'                   y = rnorm(100),
 #'                   eating = runif(100) > .5 ),
 #'               by = "id"]
-#'
+#' # we store them together in a behavr object d
+#' # d is a copy of the data
 #' d <- behavr(data, met)
 #' print(d)
 #' summary(d)
+#'
+#'#' # we can also convert data to a behavr table without copy:
 #' setbehavr(data, met)
 #' print(data)
 #' summary(data)
-
+#'
+#' ### Operations are just like in data.table
+#' # row subsetting:
+#' d[t < 10]
+#' # column subsetting:
+#' d[, .(id, t, x)]
+#' # making new columns inline:
+#' d[, x2 := 1 - x]
+#' ### Using `meta = TRUE` applies the operation on the metadata
+#' # making new metavariables:
+#' d[, treatment := interaction(condition,sex), meta = TRUE]
+#' d[meta = TRUE]
+#'
 NULL
 
 # Construction ------------------------------------------------------------
@@ -166,12 +192,14 @@ summary.behavr <- function(object, detailed = F, ...){
   n_key <- length(data.table::key(met))
   n_mvar <- ncol(met) -  n_key
   n_var <- ncol(object) -  n_key
+  n_reads <- nrow(object)
 
   if(!detailed){
     cat("behavr table with:\n")
     cat(sprintf(" %i\tindividuals\n", nrow(met)))
     cat(sprintf(" %i\tmetavariables\n", n_mvar))
     cat(sprintf(" %i\tvariables\n", n_var))
+    cat(sprintf(" %s\tmeasurements\n",  format( as.double(n_reads), scientific=TRUE)))
     cat(sprintf(" %i\tkey (%s)\n", n_key, paste(data.table::key(met),collapse=", ")))
   }
   else{
