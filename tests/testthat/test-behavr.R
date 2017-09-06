@@ -13,6 +13,7 @@ test_that("[] works", {
   expect_identical(d[t<50], behavr(data[t<50],met))
   expect_identical(attr(d[t<50], "metadata"), met)
 
+
   d[, t:=t+1]
   expect_identical(d$t, data$t +1) # behavr copy at construction, so no ref
 
@@ -99,6 +100,13 @@ test_that("[,a] returns a vector", {
 
   expect_equal(d[,eating], met[data]$eating)
   expect_equal(d[,mean(x)], mean(met[data]$x))
+
+  # id is now a factor
+  set.seed(1)
+  met <- data.table::data.table(id = as.factor(1:5), condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
+  data <- met[,list(t=1L:100L, x=rnorm(100),y=rnorm(100), eating=runif(100) > .5 ),by="id"]
+  d <- behavr(data,met)
+  d[, id]
 
 })
 

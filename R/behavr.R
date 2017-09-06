@@ -117,7 +117,7 @@ setbehavr <- function(x, metadata){
 
 
   out <- NextMethod()
-  if(is.vector(out))
+  if(!data.table::is.data.table(out))
     return(out)
 
   # if we modified inline (addresses are the same)
