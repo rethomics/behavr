@@ -139,8 +139,10 @@ setbehavr <- function(x, metadata){
   if(!inline){
     unique_ids <- unique(out[, data.table::key(out), with=FALSE])
     mismatches <- md[!unique_ids]
-    if(nrow(mismatches) > 0 & verbose ==TRUE){
-      message(sprintf("Implicitly removing %i individuals from metadata (as they are absent from it)", nrow(mismatches)))
+    if(nrow(mismatches) > 0){
+      if(verbose ==TRUE){
+        message(sprintf("Implicitly removing %i individuals from metadata (as they are absent from it)", nrow(mismatches)))
+      }
       md <- md[unique_ids]
     }
   }

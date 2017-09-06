@@ -131,9 +131,14 @@ test_that("filtering data updates metadata", {
   expect_message(d_small <- d[ t > 100, verbose=T], "removing 4 individual")
   expect_equal(nrow(d_small[, meta=T]), nrow(unique(data[t > 100,data.table::key(data), with=FALSE])))
 
-  expect_message(d_small <- d[ xmv(sex) != "F", verbose=T], "removing 2 individual")
+
+  d_small <- d[ t > 100]
+  expect_equal(nrow(d_small[, meta=T]), nrow(unique(data[t > 100,data.table::key(data), with=FALSE])))
+
 
   # nothing to do
+  d_small <- d[ t > 50]
+  expect_equal(nrow(d_small[, meta=T]), nrow(unique(data[t > 50,data.table::key(data), with=FALSE])))
   d_small <- d[ t > 50, verbose=T]
   expect_equal(nrow(d_small[, meta=T]), nrow(unique(data[t > 50,data.table::key(data), with=FALSE])))
 
