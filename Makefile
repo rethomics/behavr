@@ -43,3 +43,4 @@ README.md: README.Rmd
 check: R
 	R -e "devtools::check()"
 
+
