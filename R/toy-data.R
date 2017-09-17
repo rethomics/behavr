@@ -5,7 +5,7 @@
 #' it generates "realistic" datasets of arbitrary length.
 #'
 #' @param metadata [data.frame] where every row defines an individual.
-#' Typically queries have, at least, the column `id`.
+#' Typically `metadata` has, at least, the column `id`.
 #' The default value (`NULL`), will generate data for a single animal.
 #' @param seed random seed used (see [set.seed])
 #' @param rate_range parameter defining the boundaries of the rate at which animals wake up.
@@ -13,16 +13,16 @@
 #' @param duration length (in seconds) of the data to generate
 #' @param sampling_period sampling period (in seconds) of the resulting data
 #' @param ... additional arguments to be passed to `simulate_animal_activity`
-#' @return a [behavr] table with the query columns as metavariables.
+#' @return a [behavr] table with the metadata columns as metavariables.
 #' In addition to `id` and `t` columns different methods will output different variables:
 #' * `toy_activity_data` will have `asleep` and `moving` (1/10s)
 #' * `toy_dam_data` will have `activity` (1/60s)
 #' * `toy_ethoscope_data` will have `xy_dist_log10x1000`, `has_interacted` and `x` (2/1s)
 #' @examples
-#' # just one animal, no query needed
+#' # just one animal, no metadata needed
 #' dt <- toy_ethoscope_data(duration = days(3))
 #'
-#' # advanced, using a query
+#' # advanced, using a metadata
 #' metadata <- data.frame(id = paste0("toy_experiment|",1:9),
 #'                    condition = c("A", "B", "C"))
 #'
