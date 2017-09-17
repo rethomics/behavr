@@ -7,21 +7,21 @@ latex: true
 dist: trusty 
 
 env:
-  global:
-  - _R_CHECK_FORCE_SUGGESTS_=false
-  - MAKEFLAGS="-j 2"
+    global:
+      - _R_CHECK_FORCE_SUGGESTS_=false
+      - MAKEFLAGS="-j 2"
 
   
 r:
-  - oldrel
-  - release:
-     - env: R_RELEASE=true
-     - r_packages:
-        - covr
-        - knitr
-  - devel:
-    - github_packages:
-       - Rdatatable/data.table
+    - oldrel
+    - release:
+        env: R_RELEASE=true
+        r_packages:
+            covr
+            knitr
+    - devel:
+        - github_packages:
+        - Rdatatable/data.table
 
 script:
     - R CMD build .
@@ -29,10 +29,10 @@ script:
     - if [[ "${R_CODECOV}" ]]; then sh .publish_doc.sh; fi
 
 after_success:
-  - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
+    - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
 
 
 notifications:
-  email:
-    on_success: change
-    on_failure: change
+    email:
+        on_success: change
+        on_failure: change
