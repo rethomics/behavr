@@ -107,7 +107,7 @@ print(dt)
 ##         .Call(C_dt, x, df, log)
 ##     else .Call(C_dnt, x, df, ncp, log)
 ## }
-## <bytecode: 0x25ef5f0>
+## <bytecode: 0x3b69040>
 ## <environment: namespace:stats>
 ```
 
