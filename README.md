@@ -46,6 +46,13 @@ Five animals and 100 reads of four variables (`t`, `x` ,`y` ,`eating`) per anima
 ```r
 library(data.table)
 library(behavr)
+```
+
+```
+## Error in library(behavr): there is no package called 'behavr'
+```
+
+```r
 set.seed(1)
 met <- data.table::data.table(id = 1:5,
                              condition = letters[1:5],
@@ -83,35 +90,25 @@ Putting data and metadata together.
 
 ```r
 dt <- behavr(data, met)
+```
+
+```
+## Error in behavr(data, met): could not find function "behavr"
+```
+
+```r
 print(dt)
 ```
 
 ```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0
-##    <int>    <char> <char> <num>
-## 1:     1         a      M   100
-## 2:     2         b      M     2
-## 3:     3         c      M   -50
-## 4:     4         d      F   300
-## 5:     5         e      F    21
-## 
-##  ====== DATA ======
-## 
-##         id     t          x           y eating
-##      <int> <int>      <num>       <num> <lgcl>
-##   1:     1     1 -0.6264538 -0.62036668   TRUE
-##   2:     1     2  0.1836433  0.04211587  FALSE
-##   3:     1     3 -0.8356286 -0.91092165   TRUE
-##   4:     1     4  1.5952808  0.15802877   TRUE
-##  ---                                          
-## 496:     5    96 -2.0908461 -0.30824994   TRUE
-## 497:     5    97  1.6973939  0.01551524  FALSE
-## 498:     5    98  1.0638812 -0.44231772   TRUE
-## 499:     5    99 -0.7666166 -1.63800773  FALSE
-## 500:     5   100  0.3820076 -0.64140116  FALSE
+## function (x, df, ncp, log = FALSE) 
+## {
+##     if (missing(ncp)) 
+##         .Call(C_dt, x, df, log)
+##     else .Call(C_dnt, x, df, ncp, log)
+## }
+## <bytecode: 0x25ef5f0>
+## <environment: namespace:stats>
 ```
 
 ```r
@@ -119,19 +116,7 @@ summary(dt)
 ```
 
 ```
-## behavr table with:
-##  5	individuals
-##  3	metavariables
-##  4	variables
-##  1	key (id)
-## 
-##  Summary of each individual (one per row):
-##    id condition sex  t0 data_points      time_range
-## 1:  1         a   M 100         100 [1 -> 100 (99)]
-## 2:  2         b   M   2         100 [1 -> 100 (99)]
-## 3:  3         c   M -50         100 [1 -> 100 (99)]
-## 4:  4         d   F 300         100 [1 -> 100 (99)]
-## 5:  5         e   F  21         100 [1 -> 100 (99)]
+## Error in object[[i]]: object of type 'closure' is not subsettable
 ```
 
 ## Examples of what we can do with `behavr`
@@ -146,31 +131,7 @@ dt[, z := x + y]
 ```
 
 ```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0
-##    <int>    <char> <char> <num>
-## 1:     1         a      M   100
-## 2:     2         b      M     2
-## 3:     3         c      M   -50
-## 4:     4         d      F   300
-## 5:     5         e      F    21
-## 
-##  ====== DATA ======
-## 
-##         id     t          x           y eating          z
-##      <int> <int>      <num>       <num> <lgcl>      <num>
-##   1:     1     1 -0.6264538 -0.62036668   TRUE -1.2468205
-##   2:     1     2  0.1836433  0.04211587  FALSE  0.2257592
-##   3:     1     3 -0.8356286 -0.91092165   TRUE -1.7465503
-##   4:     1     4  1.5952808  0.15802877   TRUE  1.7533096
-##  ---                                                     
-## 496:     5    96 -2.0908461 -0.30824994   TRUE -2.3990960
-## 497:     5    97  1.6973939  0.01551524  FALSE  1.7129091
-## 498:     5    98  1.0638812 -0.44231772   TRUE  0.6215634
-## 499:     5    99 -0.7666166 -1.63800773  FALSE -2.4046244
-## 500:     5   100  0.3820076 -0.64140116  FALSE -0.2593936
+## Error in `:=`(z, x + y): Check that is.data.table(DT) == TRUE. Otherwise, := and `:=`(...) are defined for use in j, once only and in particular ways. See help(":=").
 ```
 
 ### Filtering using variable
@@ -183,31 +144,7 @@ dt[t < 50]
 ```
 
 ```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0
-##    <int>    <char> <char> <num>
-## 1:     1         a      M   100
-## 2:     2         b      M     2
-## 3:     3         c      M   -50
-## 4:     4         d      F   300
-## 5:     5         e      F    21
-## 
-##  ====== DATA ======
-## 
-##         id     t          x           y eating          z
-##      <int> <int>      <num>       <num> <lgcl>      <num>
-##   1:     1     1 -0.6264538 -0.62036668   TRUE -1.2468205
-##   2:     1     2  0.1836433  0.04211587  FALSE  0.2257592
-##   3:     1     3 -0.8356286 -0.91092165   TRUE -1.7465503
-##   4:     1     4  1.5952808  0.15802877   TRUE  1.7533096
-##  ---                                                     
-## 241:     5    45  1.9197705  0.79517402   TRUE  2.7149445
-## 242:     5    46  0.8812778 -0.48820251   TRUE  0.3930753
-## 243:     5    47  0.7420818 -0.90399345  FALSE -0.1619117
-## 244:     5    48  0.1475734 -0.39041842   TRUE -0.2428450
-## 245:     5    49  0.4853886  0.81406342   TRUE  1.2994520
+## Error in t < 50: comparison (3) is possible only for atomic and list types
 ```
 
 ```r
@@ -228,31 +165,7 @@ dt[xmv(sex) == "M"]
 ```
 
 ```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0
-##    <int>    <char> <char> <num>
-## 1:     1         a      M   100
-## 2:     2         b      M     2
-## 3:     3         c      M   -50
-## 4:     4         d      F   300
-## 5:     5         e      F    21
-## 
-##  ====== DATA ======
-## 
-##         id     t          x           y eating          z
-##      <int> <int>      <num>       <num> <lgcl>      <num>
-##   1:     1     1 -0.6264538 -0.62036668   TRUE -1.2468205
-##   2:     1     2  0.1836433  0.04211587  FALSE  0.2257592
-##   3:     1     3 -0.8356286 -0.91092165   TRUE -1.7465503
-##   4:     1     4  1.5952808  0.15802877   TRUE  1.7533096
-##  ---                                                     
-## 296:     3    96  0.7682782  0.14510663   TRUE  0.9133848
-## 297:     3    97 -0.8161606 -2.44231132   TRUE -3.2584719
-## 298:     3    98 -0.4361069  0.58031869   TRUE  0.1442118
-## 299:     3    99  0.9047050  0.65505200   TRUE  1.5597570
-## 300:     3   100 -0.7630863 -0.30450884  FALSE -1.0675951
+## Error in xmv(sex): could not find function "xmv"
 ```
 
 This also works if we need to compute a variable according to a metavariable.
@@ -266,31 +179,7 @@ dt[, t := t - xmv(t0)]
 ```
 
 ```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0
-##    <int>    <char> <char> <num>
-## 1:     1         a      M   100
-## 2:     2         b      M     2
-## 3:     3         c      M   -50
-## 4:     4         d      F   300
-## 5:     5         e      F    21
-## 
-##  ====== DATA ======
-## 
-##         id     t          x           y eating          z
-##      <int> <num>      <num>       <num> <lgcl>      <num>
-##   1:     1   -99 -0.6264538 -0.62036668   TRUE -1.2468205
-##   2:     1   -98  0.1836433  0.04211587  FALSE  0.2257592
-##   3:     1   -97 -0.8356286 -0.91092165   TRUE -1.7465503
-##   4:     1   -96  1.5952808  0.15802877   TRUE  1.7533096
-##  ---                                                     
-## 496:     5    75 -2.0908461 -0.30824994   TRUE -2.3990960
-## 497:     5    76  1.6973939  0.01551524  FALSE  1.7129091
-## 498:     5    77  1.0638812 -0.44231772   TRUE  0.6215634
-## 499:     5    78 -0.7666166 -1.63800773  FALSE -2.4046244
-## 500:     5    79  0.3820076 -0.64140116  FALSE -0.2593936
+## Error in `:=`(t, t - xmv(t0)): Check that is.data.table(DT) == TRUE. Otherwise, := and `:=`(...) are defined for use in j, once only and in particular ways. See help(":=").
 ```
 
 ### Accessing the metadata
@@ -304,12 +193,7 @@ dt[meta = T]
 ```
 
 ```
-##    id condition sex  t0
-## 1:  1         a   M 100
-## 2:  2         b   M   2
-## 3:  3         c   M -50
-## 4:  4         d   F 300
-## 5:  5         e   F  21
+## Error in dt[meta = T]: object of type 'closure' is not subsettable
 ```
 
 Then, we can also use the same principle to filter:
@@ -319,10 +203,7 @@ dt[id > 2, meta = T]
 ```
 
 ```
-##    id condition sex  t0
-## 1:  3         c   M -50
-## 2:  4         d   F 300
-## 3:  5         e   F  21
+## Error in eval(expr, envir, enclos): object 'id' not found
 ```
 Note that this does not alter the metadata, but merely shows a filtered copy.
 
@@ -332,16 +213,18 @@ Here, we combine `sex` and `condition` as a `treatment`:
 
 ```r
 dt[, treatment := interaction(condition, sex), meta = T]
+```
+
+```
+## Error in `:=`(treatment, interaction(condition, sex)): Check that is.data.table(DT) == TRUE. Otherwise, := and `:=`(...) are defined for use in j, once only and in particular ways. See help(":=").
+```
+
+```r
 dt[meta = T]
 ```
 
 ```
-##    id condition sex  t0 treatment
-## 1:  1         a   M 100       a.M
-## 2:  2         b   M   2       b.M
-## 3:  3         c   M -50       c.M
-## 4:  4         d   F 300       d.F
-## 5:  5         e   F  21       e.F
+## Error in dt[meta = T]: object of type 'closure' is not subsettable
 ```
 
 
@@ -356,31 +239,18 @@ summary_dt <- dt[,
                  .(mean_x = mean(x),
                    prop_eating= mean(eating)),
                 by=id]
+```
 
+```
+## Error in .(mean_x = mean(x), prop_eating = mean(eating)): could not find function "."
+```
+
+```r
 print(summary_dt)
 ```
 
 ```
-## 
-##  ==== METADATA ====
-## 
-##       id condition    sex    t0 treatment
-##    <int>    <char> <char> <num>    <fctr>
-## 1:     1         a      M   100       a.M
-## 2:     2         b      M     2       b.M
-## 3:     3         c      M   -50       c.M
-## 4:     4         d      F   300       d.F
-## 5:     5         e      F    21       e.F
-## 
-##  ====== DATA ======
-## 
-##       id       mean_x prop_eating
-##    <int>        <num>       <num>
-## 1:     1  0.108887367        0.47
-## 2:     2  0.100063642        0.46
-## 3:     3 -0.044519357        0.44
-## 4:     4  0.009621134        0.46
-## 5:     5 -0.010316973        0.52
+## Error in print(summary_dt): object 'summary_dt' not found
 ```
 
 Now, we can **rejoin** the metadata. 
@@ -389,16 +259,18 @@ That is, we can reunite the metadata to summary data:
 
 ```r
 summary_all <- rejoin(summary_dt)
+```
+
+```
+## Error in rejoin(summary_dt): could not find function "rejoin"
+```
+
+```r
 print(summary_all)
 ```
 
 ```
-##    id condition sex  t0 treatment       mean_x prop_eating
-## 1:  1         a   M 100       a.M  0.108887367        0.47
-## 2:  2         b   M   2       b.M  0.100063642        0.46
-## 3:  3         c   M -50       c.M -0.044519357        0.44
-## 4:  4         d   F 300       d.F  0.009621134        0.46
-## 5:  5         e   F  21       e.F -0.010316973        0.52
+## Error in print(summary_all): object 'summary_all' not found
 ```
 
 ## Toy data
