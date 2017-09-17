@@ -15,21 +15,20 @@ env:
 r:
     - oldrel
     - release:
-        env: R_RELEASE=true
-        r_packages:
-            covr
-            knitr
+      env: R_RELEASE=true  
     - devel:
-        - github_packages:
-        - Rdatatable/data.table
+ 
+    
+#github_packages:
+#    Rdatatable/data.table
 
 script:
     - R CMD build .
     - R CMD check *tar.gz
-    - if [[ "${R_CODECOV}" ]]; then sh .publish_doc.sh; fi
+    - if [[ "${R_RELEASE}" ]]; then sh .publish_doc.sh; fi
 
 after_success:
-    - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
+    - if [[ "${R_RELEASE}" ]]; then R -e 'covr::codecov()'; fi
 
 
 notifications:
