@@ -1,6 +1,3 @@
-#' @importFrom data.table data.table
-#' @importFrom data.table ":="
-#' @importFrom methods setOldClass
 setOldClass(c("behavr", "data.table"))
 
 #' An S3 class, based on [data.table], to store ethomics data

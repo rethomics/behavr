@@ -6,8 +6,10 @@ Authors@R: c(
     person("Quentin", "Geissmann", role = c("aut", "cre"), email = "qgeissmann@gmail.com")
     )
 Description: Implements an S3 class based on data.table to store and process efficiently ethomics (high-throughput behavioural) data.
+Depends:
+    R (>= 3.00),
+    data.table
 Imports:
-    data.table,
     hms,
     methods
 Suggests: testthat

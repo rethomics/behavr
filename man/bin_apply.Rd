@@ -5,25 +5,23 @@
 \alias{bin_apply_all}
 \title{Bin a variable (typically time) and compute an aggregate for each bin}
 \usage{
-bin_apply(data, y, x = t, x_bin_length = mins(30), wrap_x_by = NULL,
-  FUN = mean, string_xy = FALSE, ...)
+bin_apply(data, y, x = "t", x_bin_length = mins(30), wrap_x_by = NULL,
+  FUN = mean, ...)
 
 bin_apply_all(data, ...)
 }
 \arguments{
 \item{data}{\link{data.table} or \link{behavr} table (see details)}
 
-\item{y}{variable to be aggregated}
+\item{y}{variable or expression to be aggregated}
 
-\item{x}{variable to be binned}
+\item{x}{variable or expression to be binned}
 
 \item{x_bin_length}{length of the bins (same unit as \code{x})}
 
 \item{wrap_x_by}{numeric value defining wrapping period. \code{NULL}, the default, means no wrapping.}
 
 \item{FUN}{function used to aggregate (e.g. \link{mean}, \link{median}, \link{sum} and so on)}
-
-\item{string_xy}{logical, whether the names of the variables are quoted}
 
 \item{...}{additional arguments to be passed to \code{FUN}}
 }
@@ -39,17 +37,19 @@ For instance,\code{wrap_x_by = days(1)}, means bins will aggregate values across
 In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 }
 \examples{
-query <- data.frame(experiment_id = "toy_experiment",
-                      region_id = 1:5)
-dt <- toy_activity_data(query, duration = days(4))
+metadata <- data.frame(id = paste0("toy_experiment|",1:5))
+dt <- toy_activity_data(metadata, duration = days(4))
 
 # average by 30min time bins, default
 dt_binned <- bin_apply_all(dt, moving)
 # equivalent to
 dt_binned <- dt[, bin_apply(.SD, moving), by = "id"]
 
+# if w ewant the opposite of moving:
+dt_binned <- bin_apply_all(dt, !moving)
+
 # More advanced usage
-dt <- toy_dam_data(query, duration = days(4))
+dt <- toy_dam_data(metadata, duration = days(4))
 
 # nsum activity per 60 minutes
 dt_binned <- bin_apply_all(dt,

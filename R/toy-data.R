@@ -4,8 +4,8 @@
 #' This is designed **exclusively to provide material for examples and tests** as
 #' it generates "realistic" datasets of arbitrary length.
 #'
-#' @param query [data.frame] where every row defines an animal.
-#' Typically queries have, at least, the columns `experiment_id` and `region_id`.
+#' @param metadata [data.frame] where every row defines an individual.
+#' Typically queries have, at least, the column `id`.
 #' The default value (`NULL`), will generate data for a single animal.
 #' @param seed random seed used (see [set.seed])
 #' @param rate_range parameter defining the boundaries of the rate at which animals wake up.
@@ -23,26 +23,25 @@
 #' dt <- toy_ethoscope_data(duration = days(3))
 #'
 #' # advanced, using a query
-#' query<- data.frame(experiment_id = "toy_experiment",
-#'                    region_id = 1:10,
-#'                    condition = c("A", "B"))
+#' metadata <- data.frame(id = paste0("toy_experiment|",1:9),
+#'                    condition = c("A", "B", "C"))
 #'
-#'
+#' metadata
 #' # Data that could come from loadEthoscopeData:
-#' dt <- toy_ethoscope_data(query, duration = days(1))
+#' dt <- toy_ethoscope_data(metadata, duration = days(1))
 #' print(dt)
 #'
 #' # Some DAM-like data
-#' dt <- toy_dam_data(query, seed = 2, duration = days(3))
+#' dt <- toy_dam_data(metadata, seed = 2, duration = days(3))
 #' print(dt)
 #'
 #' # data where behaviour is annotated e.g. by a classifier
-#' dt <- toy_activity_data(query, 3)
+#' dt <- toy_activity_data(metadata, 3)
 #' print(dt)
 #' @seealso
 #' * [behavr] -- to formally create a behavr object
 #' @export
-toy_activity_data <- function(query = NULL,
+toy_activity_data <- function(metadata = NULL,
                               seed = 1,
                               rate_range = 1/c(60,10),
                               duration = days(5),
@@ -55,15 +54,15 @@ toy_activity_data <- function(query = NULL,
   set.seed(seed)
 
 
-  if(is.null(query))
-    query<- data.frame(experiment_id="toy_experiment", region_id=1)
+  if(is.null(metadata))
+    query <- data.table::data.table(id = "toy_data" )
+  else
+      query <- data.table::as.data.table(metadata)
 
-  query <- data.table::as.data.table(query)
+  if(! "id" %in%  colnames(query))
+    stop("The provided toy query must have, at least, a named column id")
 
-  if(sum(c("experiment_id", "region_id") %in%  colnames(query))!=2)
-    stop("The provided toy query must have, at least, columns `experiment_id' and `region_id'")
 
-  query[,id:= as.factor(sprintf("%02d|%s", region_id,experiment_id))]
   data.table::setcolorder(query, c("id", setdiff(colnames(query), "id") ))
   data.table::setkeyv(query, "id")
 
@@ -75,7 +74,7 @@ toy_activity_data <- function(query = NULL,
                                      rate=stats::runif(.N,rate_range[1], rate_range[2]),...),
            keyby="id"]
 
-  behavr(out,query)
+  setbehavr(out, query)
 }
 
 

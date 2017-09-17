@@ -6,7 +6,7 @@
 \alias{toy_dam_data}
 \title{Generate toy activity and sleep data mimicking Drosophila behaviour in tubes}
 \usage{
-toy_activity_data(query = NULL, seed = 1, rate_range = 1/c(60, 10),
+toy_activity_data(metadata = NULL, seed = 1, rate_range = 1/c(60, 10),
   duration = days(5), sampling_period = 10, ...)
 
 toy_ethoscope_data(...)
@@ -14,8 +14,8 @@ toy_ethoscope_data(...)
 toy_dam_data(...)
 }
 \arguments{
-\item{query}{\link{data.frame} where every row defines an animal.
-Typically queries have, at least, the columns \code{experiment_id} and \code{region_id}.
+\item{metadata}{\link{data.frame} where every row defines an individual.
+Typically queries have, at least, the column \code{id}.
 The default value (\code{NULL}), will generate data for a single animal.}
 
 \item{seed}{random seed used (see \link{set.seed})}
@@ -48,21 +48,20 @@ it generates "realistic" datasets of arbitrary length.
 dt <- toy_ethoscope_data(duration = days(3))
 
 # advanced, using a query
-query<- data.frame(experiment_id = "toy_experiment",
-                   region_id = 1:10,
-                   condition = c("A", "B"))
+metadata <- data.frame(id = paste0("toy_experiment|",1:9),
+                   condition = c("A", "B", "C"))
 
-
+metadata
 # Data that could come from loadEthoscopeData:
-dt <- toy_ethoscope_data(query, duration = days(1))
+dt <- toy_ethoscope_data(metadata, duration = days(1))
 print(dt)
 
 # Some DAM-like data
-dt <- toy_dam_data(query, seed = 2, duration = days(3))
+dt <- toy_dam_data(metadata, seed = 2, duration = days(3))
 print(dt)
 
 # data where behaviour is annotated e.g. by a classifier
-dt <- toy_activity_data(query, 3)
+dt <- toy_activity_data(metadata, 3)
 print(dt)
 }
 \seealso{
