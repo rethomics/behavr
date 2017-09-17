@@ -17,7 +17,8 @@ matrix:
     - r: oldrel
     - r: release
       env: R_RELEASE=true  
-    - devel
+    - r: devel
+      github_packages: Rdatatable/data.table
  
     
 #github_packages:
