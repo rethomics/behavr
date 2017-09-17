@@ -15,7 +15,7 @@ env:
 matrix:
   include:
     - r: oldrel
-    - r: release:
+    - r: release
       env: R_RELEASE=true  
     - devel
  
