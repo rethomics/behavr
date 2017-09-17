@@ -12,11 +12,12 @@ env:
         - MAKEFLAGS="-j 2"
 
   
-r:
-    - oldrel
-    - release:
+matrix:
+  include:
+    - r: oldrel
+    - r: release:
       env: R_RELEASE=true  
-    - devel:
+    - devel
  
     
 #github_packages:
