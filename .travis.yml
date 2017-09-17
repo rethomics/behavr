@@ -3,18 +3,28 @@
 language: R
 sudo: false
 cache: packages
-
 latex: true
+dist: trusty 
 
-r:
-  - oldrel
-  - release
-  - devel
+env:
+  global:
+  - _R_CHECK_FORCE_SUGGESTS_=false
+  - MAKEFLAGS="-j 2"
+
 
 
 r_packages:
   - covr
   - knitr
+  
+r:
+  - oldrel
+  - release
+  - devel:
+    - github_packages:
+       - yihui/knitr
+       - Rdatatable/data.table
+
 
 after_success:
   - Rscript -e 'covr::codecov()'
