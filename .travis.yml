@@ -11,29 +11,25 @@ env:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
 
-
-
-r_packages:
-  - covr
-  - knitr
   
 r:
   - oldrel
-  - release
+  - release:
+     - env: R_RELEASE=true
+     - r_packages:
+        - covr
+        - knitr
   - devel:
     - github_packages:
-       - yihui/knitr
        - Rdatatable/data.table
-
-
-after_success:
-  - Rscript -e 'covr::codecov()'
 
 script:
     - R CMD build .
     - R CMD check *tar.gz
-    - sh .publish_doc.sh
+    - if [[ "${R_CODECOV}" ]]; then sh .publish_doc.sh; fi
 
+after_success:
+  - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
 
 
 notifications:
