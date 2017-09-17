@@ -8,7 +8,6 @@ dist: trusty
 
 env:
     global:
-        - _R_CHECK_FORCE_SUGGESTS_=false
         - MAKEFLAGS="-j 2"
 
   
@@ -18,8 +17,7 @@ matrix:
     - r: release
       env: R_RELEASE=true  
     - r: devel
-      github_packages: Rdatatable/data.table
- 
+
     
 #github_packages:
 #    Rdatatable/data.table
