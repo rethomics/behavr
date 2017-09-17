@@ -8,16 +8,17 @@ dist: trusty
 
 env:
     global:
-        - _R_CHECK_FORCE_SUGGESTS_=false
         - MAKEFLAGS="-j 2"
 
   
-r:
-    - oldrel
-    - release:
+matrix:
+  include:
+    - r: oldrel
+    - r: release
       env: R_RELEASE=true  
-    - devel:
- 
+    - r: devel
+      env: R_DEVEL=true
+
     
 #github_packages:
 #    Rdatatable/data.table
@@ -29,7 +30,7 @@ script:
 
 after_success:
     - if [[ "${R_RELEASE}" ]]; then R -e 'covr::codecov()'; fi
-
+#- if [[ "${R_DEVEL}" ]]; then cat /home/travis/build/rethomics/behavr/behavr.Rcheck/00install.out; fi
 
 notifications:
     email:
