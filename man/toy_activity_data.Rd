@@ -15,7 +15,7 @@ toy_dam_data(...)
 }
 \arguments{
 \item{metadata}{\link{data.frame} where every row defines an individual.
-Typically queries have, at least, the column \code{id}.
+Typically \code{metadata} has, at least, the column \code{id}.
 The default value (\code{NULL}), will generate data for a single animal.}
 
 \item{seed}{random seed used (see \link{set.seed})}
@@ -30,7 +30,7 @@ It will be uniformly distributed between animals, but fixed within each animal.}
 \item{...}{additional arguments to be passed to \code{simulate_animal_activity}}
 }
 \value{
-a \link{behavr} table with the query columns as metavariables.
+a \link{behavr} table with the metadata columns as metavariables.
 In addition to \code{id} and \code{t} columns different methods will output different variables:
 \itemize{
 \item \code{toy_activity_data} will have \code{asleep} and \code{moving} (1/10s)
@@ -44,10 +44,10 @@ This is designed \strong{exclusively to provide material for examples and tests}
 it generates "realistic" datasets of arbitrary length.
 }
 \examples{
-# just one animal, no query needed
+# just one animal, no metadata needed
 dt <- toy_ethoscope_data(duration = days(3))
 
-# advanced, using a query
+# advanced, using a metadata
 metadata <- data.frame(id = paste0("toy_experiment|",1:9),
                    condition = c("A", "B", "C"))
 

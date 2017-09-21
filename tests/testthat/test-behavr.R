@@ -152,7 +152,24 @@ test_that("filtering data updates metadata", {
 
 })
 
+test_that("metadata columns can be extracted without id", {
+  met = data.table(id=1, treatment="a", sex="f", key="id")
+  dt <- toy_dam_data(metadata=met, duration=hours(1))
+  dt_bak <- data.table::copy(dt)
+  expect_equal(dt[,treatment, meta=T], met[,treatment])
+  expect_equal(dt[,.(sex, treatment), meta=T], met[,.(sex, treatment)])
+  expect_equal(dt[,.(id, treatment), meta=T], met[,.(id, treatment)])
+  expect_equal(dt[, id, meta=T], met[, id])
 
+  dt[, treatment:=NULL, meta=T]
+  expect_equal(dt[, meta=T], met[,-"treatment"])
+  expect_error(dt[, id:=NULL, meta=T], "that removes its key")
+
+  setattr(dt_bak, "metadata", NULL)
+  setattr(dt, "metadata", NULL)
+  expect_equal(dt_bak, dt)
+
+})
 
 #test_that("filtering metadata updates data", {
   # set.seed(1)

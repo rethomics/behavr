@@ -97,7 +97,6 @@ setbehavr <- function(x, metadata){
 #' @export
 "[.behavr" <- function(x, ..., meta=FALSE,verbose=FALSE){
 
-
   m <- data.table::copy(meta(x))
   old_key <- data.table::key(m)
   if(!identical(old_key, data.table::key(m)))
@@ -106,9 +105,13 @@ setbehavr <- function(x, metadata){
   if(meta==TRUE){
 
     out <- m[...]
-    if(!identical(old_key, data.table::key(out)))
-       stop("You are trying to modify metadata in a way that removes its key. This is not allowed!")
-    data.table::setattr(x,"metadata",m)
+    # if we modified inline (addresses are the same)
+    inline <- ifelse(data.table::address(out) == data.table::address(m), TRUE, FALSE)
+    if(inline){
+      if(!identical(old_key, data.table::key(out)))
+         stop("You are trying to modify metadata in a way that removes its key. This is not allowed!")
+      data.table::setattr(x,"metadata",m)
+    }
     return(out)
   }
 
