@@ -171,6 +171,26 @@ test_that("metadata columns can be extracted without id", {
 
 })
 
+
+test_that("setmeta works (issue #29)", {
+  met <- data.table::data.table(id = 1:5,
+                              condition = letters[1:5],
+                              sex = c("M", "M", "M", "F", "F"),
+                              key = "id")
+  data <- met[,
+           list(t = 1L:100L,
+                 x = rnorm(100),
+                 y = rnorm(100),
+                 eating = runif(100) > .5 ),
+                by = "id"]
+  
+  setmeta(data, met)
+  expect_true( all(c("behavr", "data.table") %in% class(data)))
+  expect_equal(data[, meta=T], met)
+
+})
+
+
 #test_that("filtering metadata updates data", {
   # set.seed(1)
   # met <- data.table::data.table(id = 1:5, condition=letters[1:5], sex=c("M","M","M","F", "F"), key="id")
