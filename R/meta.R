@@ -39,17 +39,18 @@ meta <- function(x){
 #' @rdname meta
 #' @export
 setmeta <- function(x, new){
-  check_conform(x, new)
+#  check_conform(x, new)
 
-  unique_ids <- unique(x[, data.table::key(x), with=FALSE])
-  ids_in_md <- unique(new[, data.table::key(x), with=FALSE])
-  mismatches <- unique_ids[!ids_in_md]
+# unique_ids <- unique(x[, data.table::key(x), with=FALSE])
+# ids_in_md <- unique(new[, data.table::key(x), with=FALSE])
+# mismatches <- unique_ids[!ids_in_md]
 
   # if(nrow(mismatches) > 0){
   #   message(sprintf("Implicitly removing %i individuals from data (as they are absent from it)", nrow(mismatches)))
   #   x <- .x[ids_in_md]
   #   #?data.table::setDT()
   # }
-
-  data.table::setattr(x,"metadata",new)
+  
+  setbehavr(x,new)
+ # data.table::setattr(x,"metadata",new)
 }
