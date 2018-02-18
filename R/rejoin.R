@@ -4,7 +4,7 @@
 #' When dealing with large data sets, it is preferable to keep metadata and data separate
 #' until a summary of data is computed.
 #' Indeed, joining many metavariables to
-#' very long time series may result in unnecessary -- and prohibitively -- large memory usage.
+#' very long time series may result in unnecessary -- and prohibitively -- large memory footprint.
 #' @inheritParams meta
 #' @return a [data.table]
 #' @examples

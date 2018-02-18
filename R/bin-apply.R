@@ -8,15 +8,15 @@
 #' @param y variable or expression to be aggregated
 #' @param x variable or expression to be binned
 #' @param x_bin_length length of the bins (same unit as `x`)
-#' @param wrap_x_by numeric value defining wrapping period. `NULL`, the default, means no wrapping.
+#' @param wrap_x_by numeric value defining wrapping period. `NULL`, the default, means no wrapping (see details).
 #' @param FUN  function used to aggregate (e.g. [mean], [median], [sum] and so on)
 #' @param ... additional arguments to be passed to `FUN`
 #' @details
 #' `bin_apply` expects data from a single individual, whilst
 #' `bin_apply_all` works on multiple individuals identified by a unique key.
 #' `wrapping` is typically used to compute averages across several periods.
-#' For instance,`wrap_x_by = days(1)`, means bins will aggregate values across several days.
-#' In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
+#' For instance, `wrap_x_by = days(1)`, means bins will aggregate values across several days.
+#' In this case, the resulting `x` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 #' @examples
 #' metadata <- data.frame(id = paste0("toy_experiment|",1:5))
 #' dt <- toy_activity_data(metadata, duration = days(4))
@@ -26,13 +26,13 @@
 #' # equivalent to
 #' dt_binned <- dt[, bin_apply(.SD, moving), by = "id"]
 #'
-#' # if w ewant the opposite of moving:
+#' # if we want the opposite of moving:
 #' dt_binned <- bin_apply_all(dt, !moving)
 #'
-#' # More advanced usage
+#' # More advanced use case
 #' dt <- toy_dam_data(metadata, duration = days(4))
 #'
-#' # nsum activity per 60 minutes
+#' # sum activity per 60 minutes
 #' dt_binned <- bin_apply_all(dt,
 #'                            activity,
 #'                            x = t,
@@ -40,7 +40,7 @@
 #'                            FUN = sum)
 #'
 #'
-#' # average activity. time in ZT
+#' # average activity. Time in ZT
 #' dt_binned <- bin_apply_all(dt,
 #'                            activity,
 #'                            x = t,

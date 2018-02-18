@@ -48,7 +48,7 @@ setOldClass(c("behavr", "data.table"))
 #' print(d)
 #' summary(d)
 #'
-#'#' # we can also convert data to a behavr table without copy:
+#' # we can also convert data to a behavr table without copy:
 #' setbehavr(data, met)
 #' print(data)
 #' summary(data)
@@ -170,7 +170,7 @@ is.behavr <- function(x){
 #'
 #' @name print.behavr
 #' @param x,object [behavr] table
-#' @param detailed whether summary should be consise
+#' @param detailed whether summary should be exhaustive
 #' @param ... arguments passed on to further method
 #' @seealso
 #' * [behavr] -- to generate x

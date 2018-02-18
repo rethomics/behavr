@@ -17,7 +17,7 @@ This function joins the data of a \link{behavr} table to its own metadata.
 When dealing with large data sets, it is preferable to keep metadata and data separate
 until a summary of data is computed.
 Indeed, joining many metavariables to
-very long time series may result in unnecessary -- and prohibitively -- large memory usage.
+very long time series may result in unnecessary -- and prohibitively -- large memory footprint.
 }
 \examples{
 set.seed(1)

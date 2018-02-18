@@ -2,7 +2,7 @@
 #'
 #' Bind all rows of both data and metadata from a list of [behavr] tables into a single one.
 #' It checks keys, number and names of columns are the same across all data.
-#' In addition, it forbids to bind metadata if it would result in duplicates (same id in two different metadata).
+#' In addition, it forbids to bind metadata that would result in duplicates (same id in two different metadata).
 #'
 #' @param l list of [behavr]
 #' @return a single [behavr] object
@@ -18,8 +18,8 @@
 #'                   by = "id"]
 #' d1 <- behavr(data, met)
 #'
-#' met[,id := id+5]
-#' data[,id := id+5]
+#' met[,id := id + 5]
+#' data[,id := id + 5]
 #' data.table::setkeyv(met, "id")
 #' data.table::setkeyv(data, "id")
 #'

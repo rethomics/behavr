@@ -5,17 +5,17 @@
 #'
 #' @param var the name of the variable to be extracted
 #' @return a vector of the same type as `var`, but of the same length as the number of row in the parent data.
-#' As each row of data is matched against metadata for this specific variable.
+#' Each row of data is matched against metadata for this specific variable.
 #' @details This function *can only be called within between the `[]` of a parent* [behavr] object.
 #' It is intended to facilitate operations between data and metadata.
-#' For instance, when one wants to modify a column of the data according to a metavariable.
+#' For instance, when one wants to modify a variable according to a metavariable.
 #' @examples
 #' #### First, we create some data
 #'
 #' library(data.table)
 #' set.seed(1)
 #' data <- data.table(
-#'                    id = rep(c("A", "B"), times = c(10,26)),
+#'                    id = rep(c("A", "B"), times = c(10, 26)),
 #'                    t = c(1:10, 5:30),
 #'                    x = rnorm(36), key = "id"
 #'                    )

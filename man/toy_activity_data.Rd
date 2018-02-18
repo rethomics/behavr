@@ -52,7 +52,7 @@ metadata <- data.frame(id = paste0("toy_experiment|",1:9),
                    condition = c("A", "B", "C"))
 
 metadata
-# Data that could come from loadEthoscopeData:
+# Data that could come from the scopr package:
 dt <- toy_ethoscope_data(metadata, duration = days(1))
 print(dt)
 
