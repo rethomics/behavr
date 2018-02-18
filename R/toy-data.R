@@ -40,6 +40,8 @@
 #' print(dt)
 #' @seealso
 #' * [behavr] -- to formally create a behavr object
+#' @references
+#' * The relevant [rethomic tutorial section](https://rethomics.github.io/behavr.html#playing-with-toy-data) -- explainig how to work with toy data.
 #' @export
 toy_activity_data <- function(metadata = NULL,
                               seed = 1,
@@ -165,6 +167,3 @@ sleepContiguous <- function(moving,fs,min_valid_time=5*60){
   r_sleep$values <- valid_runs & r_sleep$value
   inverse.rle(r_sleep)
 }
-
-
-
