@@ -62,7 +62,7 @@ d <- behavr(data, met)
 print(d)
 summary(d)
 
-#' # we can also convert data to a behavr table without copy:
+# we can also convert data to a behavr table without copy:
 setbehavr(data, met)
 print(data)
 summary(data)

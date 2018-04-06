@@ -14,7 +14,7 @@
 
 \item{...}{arguments passed on to further method}
 
-\item{detailed}{whether summary should be consise}
+\item{detailed}{whether summary should be exhaustive}
 }
 \description{
 Print and summarise a \link{behavr} table

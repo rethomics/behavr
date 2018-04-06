@@ -52,7 +52,7 @@ metadata <- data.frame(id = paste0("toy_experiment|",1:9),
                    condition = c("A", "B", "C"))
 
 metadata
-# Data that could come from loadEthoscopeData:
+# Data that could come from the scopr package:
 dt <- toy_ethoscope_data(metadata, duration = days(1))
 print(dt)
 
@@ -63,6 +63,11 @@ print(dt)
 # data where behaviour is annotated e.g. by a classifier
 dt <- toy_activity_data(metadata, 1.5)
 print(dt)
+}
+\references{
+\itemize{
+\item The relevant \href{https://rethomics.github.io/behavr.html#playing-with-toy-data}{rethomic tutorial section} -- explainig how to work with toy data.
+}
 }
 \seealso{
 \itemize{

@@ -19,7 +19,7 @@ bin_apply_all(data, ...)
 
 \item{x_bin_length}{length of the bins (same unit as \code{x})}
 
-\item{wrap_x_by}{numeric value defining wrapping period. \code{NULL}, the default, means no wrapping.}
+\item{wrap_x_by}{numeric value defining wrapping period. \code{NULL}, the default, means no wrapping (see details).}
 
 \item{FUN}{function used to aggregate (e.g. \link{mean}, \link{median}, \link{sum} and so on)}
 
@@ -33,12 +33,12 @@ for bins of a another variable \code{x} (typically time).
 \code{bin_apply} expects data from a single individual, whilst
 \code{bin_apply_all} works on multiple individuals identified by a unique key.
 \code{wrapping} is typically used to compute averages across several periods.
-For instance,\code{wrap_x_by = days(1)}, means bins will aggregate values across several days.
-In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
+For instance, \code{wrap_x_by = days(1)}, means bins will aggregate values across several days.
+In this case, the resulting \code{x} can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 }
 \examples{
 metadata <- data.frame(id = paste0("toy_experiment|",1:5))
-dt <- toy_activity_data(metadata, duration = days(3))
+dt <- toy_activity_data(metadata, duration = days(2))
 
 # average by 30min time bins, default
 dt_binned <- bin_apply_all(dt, moving)
@@ -49,9 +49,9 @@ dt_binned <- dt[, bin_apply(.SD, moving), by = "id"]
 dt_binned <- bin_apply_all(dt, !moving)
 
 # More advanced usage
-dt <- toy_dam_data(metadata, duration = days(3))
+dt <- toy_dam_data(metadata, duration = days(2))
 
-# nsum activity per 60 minutes
+# sum activity per 60 minutes
 dt_binned <- bin_apply_all(dt,
                            activity,
                            x = t,
@@ -59,7 +59,7 @@ dt_binned <- bin_apply_all(dt,
                            FUN = sum)
 
 
-# average activity. time in ZT
+# average activity. Time in ZT
 dt_binned <- bin_apply_all(dt,
                            activity,
                            x = t,

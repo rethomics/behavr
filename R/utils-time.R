@@ -1,10 +1,10 @@
 #@include
 #' Time conversion utilities
 #'
-#' Trivial functions to convert time to seconds -- as `behavr` uses second as a conventional unit of time.
+#' Trivial functions to convert time to seconds -- since `behavr` uses second as a conventional unit of time.
 #'
 #' @details  Most functions in the `rethomics` framework will use seconds as a unit of time.
-#' It is always preferable to call a function like `my_function(days(1.5))` rather than `my_function(60*60*24*1.5)`.
+#' It is always preferable to call a function like `my_function(days(1.5))` rather than `my_function(60 * 60 * 24 * 1.5)`.
 #'
 #' @param x numeric vector to be converted in second
 #' @return number of seconds corresponding to `x` (1d = 86400s, 1h = 3600s and 1min = 60s)
