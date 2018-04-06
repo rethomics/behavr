@@ -10,7 +10,6 @@ Depends:
     R (>= 3.00),
     data.table
 Imports:
-    hms,
     methods
 Suggests: 
     testthat,

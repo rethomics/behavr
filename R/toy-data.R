@@ -20,7 +20,7 @@
 #' * `toy_ethoscope_data` will have `xy_dist_log10x1000`, `has_interacted` and `x` (2/1s)
 #' @examples
 #' # just one animal, no metadata needed
-#' dt <- toy_ethoscope_data(duration = days(3))
+#' dt <- toy_ethoscope_data(duration = days(1))
 #'
 #' # advanced, using a metadata
 #' metadata <- data.frame(id = paste0("toy_experiment|",1:9),
@@ -32,11 +32,11 @@
 #' print(dt)
 #'
 #' # Some DAM-like data
-#' dt <- toy_dam_data(metadata, seed = 2, duration = days(3))
+#' dt <- toy_dam_data(metadata, seed = 2, duration = days(1))
 #' print(dt)
 #'
 #' # data where behaviour is annotated e.g. by a classifier
-#' dt <- toy_activity_data(metadata, 3)
+#' dt <- toy_activity_data(metadata, 1.5)
 #' print(dt)
 #' @seealso
 #' * [behavr] -- to formally create a behavr object

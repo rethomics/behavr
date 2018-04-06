@@ -19,18 +19,18 @@
 #' In this case, the resulting `x`` can be interpreted as "time relative to the onset of the day" (i.e. Zeitgeber Time).
 #' @examples
 #' metadata <- data.frame(id = paste0("toy_experiment|",1:5))
-#' dt <- toy_activity_data(metadata, duration = days(4))
+#' dt <- toy_activity_data(metadata, duration = days(3))
 #'
 #' # average by 30min time bins, default
 #' dt_binned <- bin_apply_all(dt, moving)
 #' # equivalent to
 #' dt_binned <- dt[, bin_apply(.SD, moving), by = "id"]
 #'
-#' # if w ewant the opposite of moving:
+#' # if we want the opposite of moving:
 #' dt_binned <- bin_apply_all(dt, !moving)
 #'
 #' # More advanced usage
-#' dt <- toy_dam_data(metadata, duration = days(4))
+#' dt <- toy_dam_data(metadata, duration = days(3))
 #'
 #' # nsum activity per 60 minutes
 #' dt_binned <- bin_apply_all(dt,
