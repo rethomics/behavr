@@ -18,6 +18,7 @@ matrix:
       env: R_RELEASE=true  
     - r: devel
       env: R_DEVEL=true
+      github_packages: Rdatatable/data.table
 
     
 #github_packages:
