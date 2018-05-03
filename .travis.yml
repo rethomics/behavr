@@ -18,13 +18,11 @@ matrix:
       env: R_RELEASE=true  
     - r: devel
       env: R_DEVEL=true
-      github_packages: Rdatatable/data.table
-
-    
 #github_packages:
 #    Rdatatable/data.table
 
 script:
+    - if [[ "${R_DEVEL}" ]]; then R --silent -e "devtools::install_github('Rdatatable/data.table')"; fi
     - R CMD build .
     - R CMD check *tar.gz
     - if [[ "${R_RELEASE}" ]]; then sh .publish_doc.sh; fi
