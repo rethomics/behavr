@@ -15,6 +15,16 @@ git config user.email "travis"
 
 ls 
 
+TRAVIS_EVENT_TYPE 
+
+
+if [ $TRAVIS_EVENT_TYPE == "cron" ]
+then
+  commit_message="CRON deployment on $TRAVIS_COMMIT [ci skip]"
+else
+  commit_message="Deployment triggered by $TRAVIS_COMMIT [ci skip]"
+fi
+
 cd 
 git clone -b master https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git repo.git
 cd repo.git
