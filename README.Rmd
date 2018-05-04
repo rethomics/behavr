@@ -2,7 +2,7 @@
 [![Travis-CI Build Status](https://travis-ci.org/rethomics/behavr.svg?branch=master)](https://travis-ci.org/rethomics/behavr)
 [![codecov](https://codecov.io/gh/rethomics/behavr/branch/master/graph/badge.svg)](https://codecov.io/gh/rethomics/behavr)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/behavr)](https://cran.r-project.org/package=behavr)
-
+[![CRAN log](https://cranlogs.r-pkg.org/badges/behavr)](https://www.rdocumentation.org/packages/behavr)
 
 <!-- [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/hms?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/hms)  -->
 
