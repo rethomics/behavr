@@ -2,7 +2,6 @@
 % Please edit documentation in R/behavr.R
 \name{behavr}
 \alias{behavr}
-\alias{behavr}
 \alias{setbehavr}
 \alias{is.behavr}
 \title{An S3 class, based on \link{data.table}, to store ethomics data}

@@ -5,7 +5,8 @@
 \title{Stitch behavioural data by putting together the same individuals recorded over different experiments
 on the basis of a user-defined identifier}
 \usage{
-stitch_on(x, on, time_ref = "datetime", use_time = F, time_variable = "t")
+stitch_on(x, on, time_ref = "datetime", use_time = F,
+  time_variable = "t")
 }
 \arguments{
 \item{x}{\link{behavr} object}

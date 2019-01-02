@@ -6,8 +6,8 @@
 \alias{toy_dam_data}
 \title{Generate toy activity and sleep data mimicking Drosophila behaviour in tubes}
 \usage{
-toy_activity_data(metadata = NULL, seed = 1, rate_range = 1/c(60, 10),
-  duration = days(5), sampling_period = 10, ...)
+toy_activity_data(metadata = NULL, seed = 1, rate_range = 1/c(60,
+  10), duration = days(5), sampling_period = 10, ...)
 
 toy_ethoscope_data(...)
 
