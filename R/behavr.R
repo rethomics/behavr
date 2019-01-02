@@ -137,7 +137,7 @@ setbehavr <- function(x, metadata){
   # therefore, we want to from metadata, the id that are not in data
   md <- meta(x)
   if(!inline){
-    unique_ids <- unique(out[, data.table::key(out), with=FALSE])
+    unique_ids <- unique(utils::getS3method("[","data.table")(out, j=data.table::key(out), with=FALSE))  # out is class behavr, so out[...] would recurse here
     mismatches <- md[!unique_ids]
     if(nrow(mismatches) > 0){
       if(verbose ==TRUE){
