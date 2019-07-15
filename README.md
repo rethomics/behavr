@@ -6,7 +6,7 @@
 `behavr` is part of the [rethomics framework](https://rethomics.github.io/).
 This README is a short explanation of the basics of `behavr`.
 A comprehensive tutorial is available on the [rethomics webpage](https://rethomics.github.io/behavr.html).
-We also provide a [conventional pdf documentation](behavr.pdf).
+We also provide a [conventional pdf documentation](https://github.com/rethomics/behavr/raw/master/behavr.pdf).
 
 
 ## Installation
